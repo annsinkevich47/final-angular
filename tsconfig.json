@@ -1,7 +1,6 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
+  "include" : ["./src/**/*"],
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "strict": true,
@@ -19,10 +18,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"],
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
