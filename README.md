@@ -1,5 +1,7 @@
-# FinalAngular
+# Train-A Project
 
+Welcome to our Train-A project!
+The primary goal of this project is to develop a platform for managing train trips. User roles include anonymous users, authorized users, and a resource manager with distinct responsibilities.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
 
 ## Development server
@@ -13,6 +15,11 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running ESLint
+
+Launches the ESLint for a code quality check.\
+See the section about [ESLint](https://eslint.org/) for more information.
 
 ## Running unit tests
 
