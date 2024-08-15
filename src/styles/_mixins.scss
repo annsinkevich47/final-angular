@@ -1,0 +1,35 @@
+@mixin desktop-xl {
+  @media (width >= $desktop-xl) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (width >= $desktop) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (width >= $laptop) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (width >= $tablet) {
+    @content;
+  }
+}
+
+@mixin mobile-x {
+  @media (width >= $mobile-x) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (width >= $mobile) {
+    @content;
+  }
+}
