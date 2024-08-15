@@ -26,7 +26,8 @@
     font-size: 12px;
     margin-top: 5px;
   }
-  &__save, &__update {
+  &__save,
+  &__update {
     width: fit-content;
     margin: 0 auto;
   }
@@ -56,11 +57,11 @@
   }
   input.ng-invalid.ng-touched {
     border: 1.5px solid $color-red;
-  };
+  }
   button {
     background-color: $color-blue;
     padding: 10px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
   label {
     cursor: default;
@@ -84,4 +85,3 @@
     }
   }
 }
-

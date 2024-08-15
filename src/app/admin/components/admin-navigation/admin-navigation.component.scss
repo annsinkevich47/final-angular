@@ -1,19 +1,20 @@
-@import '../../../../styles/variables';
+@import '../../../../styles.scss';
 
+.admin-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: 50vw;
+  margin: 0 auto;
+}
 .admin-navigation {
   display: flex;
   flex-direction: column;
-  gap: 5vh;
-  font-weight: 800;
-  background-color: $color-gray;
-  padding: 20px;
-  height: 100%;
   &__link {
-    color: $color-black;
+    color: $black-color;
     text-decoration: none;
-    border-bottom: 1px solid gray;
   }
   &__link.active {
-    color: $color-blue;
+    color: $blue-color;
   }
 }
