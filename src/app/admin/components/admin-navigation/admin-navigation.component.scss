@@ -1,0 +1,20 @@
+@import '../../../../styles.scss';
+
+.admin-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: 50vw;
+  margin: 0 auto;
+}
+.admin-navigation {
+  display: flex;
+  flex-direction: column;
+  &__link {
+    color: $black-color;
+    text-decoration: none;
+  }
+  &__link.active {
+    color: $blue-color;
+  }
+}
