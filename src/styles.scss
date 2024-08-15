@@ -1,6 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
-$purple-color: #3e2383;
-$blue-color: #3572ce;
-$black-color: #020403;
-$gray-color: #b7b7b7;
-$red-color: #e71135;
+@import './styles/reset';
+@import './styles/_variables.scss';
+@import './styles/_mixins.scss';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+
+  .wrapper {
+    position: relative;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+
+    @include mobile {
+      max-width: 100%;
+    }
+
+    @include mobile-x {
+      max-width: calc(100% - 40px);
+    }
+
+    @include tablet {
+      max-width: $tablet;
+    }
+
+    @include laptop {
+      max-width: $laptop;
+    }
+
+    @include desktop {
+      max-width: 1150px;
+    }
+
+    @include desktop-xl {
+      max-width: 1600px;
+    }
+  }
+}
