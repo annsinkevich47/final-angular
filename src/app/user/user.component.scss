@@ -1,22 +1,17 @@
 .wrapper {
   height: 100vh;
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 30px 1fr;
 }
 
 .main {
-  grid-column: 2/3;
+  grid-column: 1;
   grid-row: 2/3;
 }
 
-.sidebar {
-  grid-column: 1/2;
-  grid-row: 1/3;
-}
-
 .header {
-  grid-column: 2/3;
+  grid-column: 1;
   grid-row: 1/2;
 }
 
