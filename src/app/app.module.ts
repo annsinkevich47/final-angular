@@ -10,10 +10,9 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { AppEffects } from './redux/effects/app.effects';
 import { metaReducers, reducers } from './redux/reducers';
-import { UserComponent } from './user/user.component';
 
 @NgModule({
-  declarations: [AppComponent, UserComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

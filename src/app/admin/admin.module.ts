@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { HeaderComponent } from '../core/components/header/header.component';
-import { CoreModule } from '../core/core.module';
+import { HeaderComponent } from '../shared/components/header/header.component';
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
@@ -19,6 +18,6 @@ import { StationPageComponent } from './pages/station-page/station-page.componen
     AdminNavigationComponent,
     AdminComponent,
   ],
-  imports: [CommonModule, SharedModule, AdminRoutingModule, CoreModule],
+  imports: [CommonModule, SharedModule, AdminRoutingModule],
 })
 export class AdminModule {}
