@@ -7,13 +7,14 @@ import { StationPageComponent } from './pages/station-page/station-page.componen
 import { CarriagesPageComponent } from './pages/carriages-page/carriages-page.component';
 import { RoutesPageComponent } from './pages/routes-page/routes-page.component';
 import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
+import { GetCarriagesService } from './services/get-carriages.service';
 
 @NgModule({
   declarations: [
     StationPageComponent,
     CarriagesPageComponent,
     RoutesPageComponent,
-    AdminNavigationComponent
+    AdminNavigationComponent,
   ],
   imports: [CommonModule, SharedModule, AdminRoutingModule],
 })

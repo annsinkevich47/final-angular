@@ -1,1 +1,43 @@
-@import '../../components/admin-navigation/admin-navigation.component.scss'
+@import '../../components/admin-navigation/admin-navigation.component.scss';
+
+.carriages {
+  display: flex;
+  flex-direction: column;
+  &__manageCarriages {
+    display: flex;
+    gap: 10px;
+    width: fit-content;
+  }
+  &__form {
+    display: grid;
+    row-gap: 8px;
+    grid-template-columns: 30% 70%;
+    margin: 20px 0;
+    width: 70%;
+    color: $color-black;
+  }
+  &__save {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: 20px;
+  }
+  &__display {
+    display: flex;
+    column-gap: 10px;
+  }
+  &__rightSeats {
+    margin-bottom: 10px;
+  }
+  &__seat, &__leftSeats, &__rightSeats, &__seatsWrapper {
+    width: fit-content;
+  }
+  input {
+    background-color: rgb(236, 234, 234);
+    padding: 3px;
+  }
+  button {
+    background-color: $color-blue;
+    padding: 10px;
+    color: #FFFFFF;
+  }
+}
