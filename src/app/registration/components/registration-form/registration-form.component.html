@@ -4,27 +4,24 @@
     <div>
       <label for="email">Email</label>
       <input id="email" formControlName="email" type="email" />
-      <div
-        *ngIf="
-          formControls.email.invalid &&
-          (formControls.email.dirty || formControls.email.touched)
-        ">
-        <small *ngIf="formControls.email.hasError('required')">Required</small>
-        <small *ngIf="formControls.email.hasError('email')"
+      <div *ngIf="formControls.email.invalid && !emailExistsError">
+        <small *ngIf="submitted && formControls.email.hasError('required')"
+          >Required</small
+        >
+        <small *ngIf="formControls.email.hasError('pattern')"
           >Invalid email</small
         >
+      </div>
+      <div *ngIf="formControls.email.hasError('emailExists')">
+        <small>{{ emailExistsError }}</small>
       </div>
     </div>
 
     <div>
       <label for="password">Password</label>
       <input id="password" formControlName="password" type="password" />
-      <div
-        *ngIf="
-          formControls.password.invalid &&
-          (formControls.password.dirty || formControls.password.touched)
-        ">
-        <small *ngIf="formControls.password.hasError('required')"
+      <div *ngIf="formControls.password.invalid">
+        <small *ngIf="submitted && formControls.password.hasError('required')"
           >Required</small
         >
         <small *ngIf="formControls.password.hasError('minlength')"
@@ -44,7 +41,8 @@
           formControls.repeatPassword.invalid ||
           signupForm.hasError('passwordsMismatch')
         ">
-        <small *ngIf="formControls.repeatPassword.hasError('required')"
+        <small
+          *ngIf="submitted && formControls.repeatPassword.hasError('required')"
           >Required</small
         >
         <small *ngIf="signupForm.hasError('passwordsMismatch')"
@@ -53,7 +51,11 @@
       </div>
     </div>
 
-    <button type="submit" [disabled]="signupForm.invalid">Register</button>
+    <button
+      type="submit"
+      [disabled]="(signupForm.invalid && submitted) || emailExistsError">
+      Register
+    </button>
     <p>Already have an account? <a routerLink="/signin">Sign In</a></p>
   </form>
 </div>

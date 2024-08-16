@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { PasswordMatchValidator } from '../../helpers/passwordsMatch.validator';
@@ -22,9 +23,14 @@ interface ISignUpForm {
 })
 export class RegistrationFormComponent implements OnInit {
   public signupForm!: FormGroup<ISignUpForm>;
+  public emailExistsError: string = '';
+  public submitted: boolean = false;
+  private readonly regExpEmail =
+    '^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,7}$';
 
   constructor(
     private formBuilder: FormBuilder,
+    private router: Router,
     private authService: AuthService
   ) {}
 
@@ -33,7 +39,7 @@ export class RegistrationFormComponent implements OnInit {
       {
         email: this.formBuilder.control('', [
           Validators.required,
-          Validators.email,
+          Validators.pattern(this.regExpEmail),
         ]),
         password: this.formBuilder.control('', [
           Validators.required,
@@ -43,6 +49,10 @@ export class RegistrationFormComponent implements OnInit {
       },
       { validators: PasswordMatchValidator }
     );
+
+    this.formControls.email.valueChanges.subscribe(() => {
+      this.emailExistsError = '';
+    });
   }
 
   get formControls() {
@@ -50,6 +60,8 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   onSignupSubmit() {
+    this.submitted = true;
+
     if (this.signupForm.invalid) return;
 
     const email = this.formControls.email.value;
@@ -57,7 +69,20 @@ export class RegistrationFormComponent implements OnInit {
     const repeatPassword = this.formControls.repeatPassword.value;
 
     if (email && password && password === repeatPassword) {
-      this.authService.signUp(email, password).subscribe();
+      this.authService.signUp(email, password).subscribe({
+        next: () => {
+          this.emailExistsError = '';
+          this.router.navigateByUrl('/signin');
+        },
+        error: error => {
+          if (error.error.message === 'User already exists') {
+            this.emailExistsError = 'Account with this email already exists';
+            this.formControls.email.setErrors({ emailExists: true });
+          } else {
+            console.error(error);
+          }
+        },
+      });
     }
   }
 }
