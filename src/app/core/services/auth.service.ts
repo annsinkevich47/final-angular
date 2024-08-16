@@ -15,6 +15,11 @@ export class AuthService {
     private router: Router
   ) {}
 
+  public isUserExist(): boolean {
+    if (this.errorMessage === 'User already exists') return true;
+    return false;
+  }
+
   public signUp(email: string, password: string): Observable<unknown> {
     const body = { email, password };
     return this.http.post(this.signUpUrl, body).pipe(
