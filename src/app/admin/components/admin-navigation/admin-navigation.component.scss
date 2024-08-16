@@ -1,10 +1,5 @@
 @import '../../../../styles/variables';
 
-.wrapper {
-  display: grid;
-  grid-template-columns: 20% 75%;
-  gap: 5%;
-}
 .admin-navigation {
   display: flex;
   flex-direction: column;
@@ -20,11 +15,5 @@
   }
   &__link.active {
     color: $color-blue;
-  }
-}
-
-@media screen and (max-width: 768px){
-  .wrapper {
-    grid-template-columns: 35% 60%;
   }
 }
