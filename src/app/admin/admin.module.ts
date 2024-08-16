@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
-import { StationPageComponent } from './pages/station-page/station-page.component';
+import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
+import { CarriageItemComponent } from './components/carriage-item/carriage-item.component';
+import { AdminComponent } from './pages/admin.component';
 import { CarriagesPageComponent } from './pages/carriages-page/carriages-page.component';
 import { RoutesPageComponent } from './pages/routes-page/routes-page.component';
-import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
-import { GetCarriagesService } from './services/get-carriages.service';
-import { CarriageItemComponent } from './components/carriage-item/carriage-item.component';
+import { StationPageComponent } from './pages/station-page/station-page.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CarriageItemComponent } from './components/carriage-item/carriage-item.
     RoutesPageComponent,
     AdminNavigationComponent,
     CarriageItemComponent,
+    AdminComponent,
   ],
-  imports: [CommonModule, SharedModule, AdminRoutingModule],
+  imports: [CommonModule, SharedModule, AdminRoutingModule, CoreModule],
 })
 export class AdminModule {}

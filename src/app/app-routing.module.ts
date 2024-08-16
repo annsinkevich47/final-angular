@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AdminComponent } from './admin/pages/admin.component';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
 
 const routes: Routes = [
@@ -32,7 +33,14 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    component: AdminComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./admin/admin.module').then(m => m.AdminModule),
+      },
+    ],
   },
   { path: '**', component: NotFoundComponent },
 ];
