@@ -6,7 +6,7 @@ export const PasswordMatchValidator = (
   const password = control.get('password')?.value;
   const repeatPassword = control.get('repeatPassword')?.value;
 
-  const isValid = password !== repeatPassword;
+  const isValid = repeatPassword && password !== repeatPassword;
 
   return isValid ? { passwordsMismatch: true } : null;
 };

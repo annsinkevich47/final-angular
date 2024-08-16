@@ -1,61 +1,72 @@
-<div class="signup-container">
-  <h2>Sign Up</h2>
-  <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
-    <div>
+<div class="signup">
+  <h2 class="signup__title">Sign Up</h2>
+  <form
+    class="signup__form"
+    [formGroup]="signupForm"
+    (ngSubmit)="onSignupSubmit()">
+    <div class="signup__field">
       <label for="email">Email</label>
       <input id="email" formControlName="email" type="email" />
-      <div *ngIf="formControls.email.invalid && !emailExistsError">
-        <small *ngIf="submitted && formControls.email.hasError('required')"
-          >Required</small
+      <div
+        class="signup__errors"
+        *ngIf="formControls.email.invalid && !emailExistsError">
+        <span *ngIf="submitted && formControls.email.hasError('required')"
+          >Required</span
         >
-        <small *ngIf="formControls.email.hasError('pattern')"
-          >Invalid email</small
+        <span *ngIf="formControls.email.hasError('pattern')"
+          >Invalid email</span
         >
       </div>
-      <div *ngIf="formControls.email.hasError('emailExists')">
-        <small>{{ emailExistsError }}</small>
-      </div>
+      <span
+        class="signup__errors"
+        *ngIf="formControls.email.hasError('emailExists')">
+        {{ emailExistsError }}</span
+      >
     </div>
 
-    <div>
+    <div class="signup__field">
       <label for="password">Password</label>
       <input id="password" formControlName="password" type="password" />
-      <div *ngIf="formControls.password.invalid">
-        <small *ngIf="submitted && formControls.password.hasError('required')"
-          >Required</small
+      <div class="signup__errors" *ngIf="formControls.password.invalid">
+        <span *ngIf="submitted && formControls.password.hasError('required')"
+          >Required</span
         >
-        <small *ngIf="formControls.password.hasError('minlength')"
-          >Password must be at least 8 characters long</small
+        <span *ngIf="formControls.password.hasError('minlength')"
+          >Password must be at least 8 characters long</span
         >
       </div>
     </div>
 
-    <div>
+    <div class="signup__field">
       <label for="repeatPassword">Repeat Password</label>
       <input
         id="repeatPassword"
         formControlName="repeatPassword"
         type="password" />
       <div
+        class="signup__errors"
         *ngIf="
           formControls.repeatPassword.invalid ||
           signupForm.hasError('passwordsMismatch')
         ">
-        <small
+        <span
           *ngIf="submitted && formControls.repeatPassword.hasError('required')"
-          >Required</small
+          >Required</span
         >
-        <small *ngIf="signupForm.hasError('passwordsMismatch')"
-          >Passwords do not match</small
+        <span *ngIf="signupForm.hasError('passwordsMismatch')"
+          >Passwords do not match</span
         >
       </div>
     </div>
 
     <button
+      class="signup__button"
       type="submit"
       [disabled]="(signupForm.invalid && submitted) || emailExistsError">
       Register
     </button>
-    <p>Already have an account? <a routerLink="/signin">Sign In</a></p>
+    <span class="signup__already-have-account"
+      >Already have an account? <a routerLink="/signin">Sign In</a></span
+    >
   </form>
 </div>
