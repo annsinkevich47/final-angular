@@ -8,6 +8,7 @@ import { CarriagesPageComponent } from './pages/carriages-page/carriages-page.co
 import { RoutesPageComponent } from './pages/routes-page/routes-page.component';
 import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
 import { GetCarriagesService } from './services/get-carriages.service';
+import { CarriageItemComponent } from './components/carriage-item/carriage-item.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { GetCarriagesService } from './services/get-carriages.service';
     CarriagesPageComponent,
     RoutesPageComponent,
     AdminNavigationComponent,
+    CarriageItemComponent,
   ],
   imports: [CommonModule, SharedModule, AdminRoutingModule],
 })

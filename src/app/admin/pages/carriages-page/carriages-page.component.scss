@@ -3,11 +3,6 @@
 .carriages {
   display: flex;
   flex-direction: column;
-  &__manageCarriages {
-    display: flex;
-    gap: 10px;
-    width: fit-content;
-  }
   &__form {
     display: grid;
     row-gap: 8px;
@@ -16,28 +11,29 @@
     width: 70%;
     color: $color-black;
   }
-  &__save {
+  &__save, &__update {
     grid-column: 1 / -1;
     justify-self: center;
     margin-top: 20px;
   }
-  &__display {
+  &__list {
     display: flex;
-    column-gap: 10px;
-  }
-  &__rightSeats {
-    margin-bottom: 10px;
-  }
-  &__seat, &__leftSeats, &__rightSeats, &__seatsWrapper {
-    width: fit-content;
+    flex-direction: column;
+    gap: 40px;
+    color: $color-black;
+    margin-top: 30px;
   }
   input {
     background-color: rgb(236, 234, 234);
     padding: 3px;
+    cursor: text;
   }
   button {
     background-color: $color-blue;
     padding: 10px;
     color: #FFFFFF;
+  }
+  label {
+    cursor: default;
   }
 }

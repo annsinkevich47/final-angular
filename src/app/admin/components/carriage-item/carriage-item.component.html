@@ -1,0 +1,50 @@
+<div class="carriages__resultWrapper">
+  <div class="carriages__header">
+    <div class="carriages__carriageData">
+      <div class="carriages__name">{{ carriage.name }}</div>
+      <div class="carriages__seatsNumber">
+        Seats:
+        {{
+          carriage.leftSeats * carriage.rows +
+            carriage.rightSeats * carriage.rows
+        }}
+      </div>
+    </div>
+    <button class="carriages__updateCarriage">Update</button>
+  </div>
+  <div class="carriages__display">
+    <div
+      class="carriages__seatsWrapper"
+      *ngFor="let row of [].constructor(carriage.rows); let rowIndex = index">
+      <div class="carriages__rightSeats">
+        <div
+          *ngFor="
+            let seat of [].constructor(carriage.rightSeats);
+            let seatIndex = index
+          "
+          class="carriages__seat">
+          {{
+            rowIndex * (carriage.leftSeats + carriage.rightSeats) +
+              carriage.leftSeats +
+              seatIndex +
+              1
+          }}
+        </div>
+      </div>
+      <div class="carriages__leftSeats">
+        <div
+          *ngFor="
+            let seat of [].constructor(carriage.leftSeats);
+            let seatIndex = index
+          "
+          class="carriages__seat">
+          {{
+            rowIndex * (carriage.leftSeats + carriage.rightSeats) +
+              seatIndex +
+              1
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,43 +2,39 @@
   <app-admin-navigation></app-admin-navigation>
   <div class="carriages">
     <div class="carriages__manageCarriages">
-      <button class="carriages__create" (click)="toggleFormDisplay()">Create</button>
-      <button class="carriages__update" (click)="toggleFormDisplay()">Update</button>
+      <button class="carriages__create" (click)="onCreateCarriage()">
+        Create
+      </button>
     </div>
     <form *ngIf="formDisplay" class="carriages__form">
-      <label for="carriages__carriageName" class="carriages__nameLabel">Name</label>
+      <label for="carriages__carriageName" class="carriages__nameLabel"
+        >Name</label
+      >
       <input placeholder="Carriage name" id="carriages__carriageName" />
-
       <label for="carriages__rows" class="carriages__rowsLabel">Rows</label>
       <input placeholder="Count of rows" id="carriages__rows" />
-
-      <label for="carriages__leftSeatsNumber" class="carriages__leftSeatsLabel">Left Seats</label>
-      <input placeholder="Count of left seats" id="carriages__leftSeatsNumber">
-
-      <label for="carriages__rightSeatsNumber" class="carriages__rightSeatsLabel">Right Seats</label>
-      <input placeholder="Count of right seats" id="carriages__rightSeatsNumber">
-
-      <button class="carriages__save" (click)="getCarriagesArray()">Save</button>
+      <label for="carriages__leftSeatsNumber" class="carriages__leftSeatsLabel"
+        >Left Seats</label
+      >
+      <input
+        placeholder="Count of left seats"
+        id="carriages__leftSeatsNumber" />
+      <label
+        for="carriages__rightSeatsNumber"
+        class="carriages__rightSeatsLabel"
+        >Right Seats</label
+      >
+      <input
+        placeholder="Count of right seats"
+        id="carriages__rightSeatsNumber" />
+      <button *ngIf="isCreating" class="carriages__save">Save</button>
+      <button *ngIf="isUpdating" class="carriages__update">Update</button>
     </form>
     <div class="carriages__list">
-      <div class="carriages__resultWrapper" *ngFor="let carriage of carriages">
-        <div class="carriages__name">{{carriage.name}}</div>
-        <div class="carriages__seatsNumber">Seats: {{ carriage.leftSeats * carriage.rows + carriage.rightSeats * carriage.rows }}</div>
-        <div class="carriages__display">
-          <div class="carriages__seatsWrapper" *ngFor="let row of [].constructor(carriage.rows); let rowIndex = index">
-            <div class="carriages__rightSeats">
-              <div *ngFor="let seat of [].constructor(carriage.rightSeats); let seatIndex = index" class="carriages__seat">
-                {{ (rowIndex * carriage.leftSeats + carriage.rightSeats + seatIndex + 1) }}
-              </div>
-            </div>
-            <div class="carriages__leftSeats">
-              <div *ngFor="let seat of [].constructor(carriage.leftSeats); let seatIndex = index" class="carriages__seat">
-                {{ (rowIndex * carriage.leftSeats + seatIndex + 1) }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-carriage-item
+        *ngFor="let carriage of carriages"
+        [carriage]="carriage"
+        (click)="onSelectCarriage(carriage)"></app-carriage-item>
     </div>
   </div>
 </div>

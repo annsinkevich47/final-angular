@@ -1,0 +1,67 @@
+@import '../../../../styles/variables';
+
+.carriages {
+  &__resultWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    color: $color-black;
+  }
+  &__resultWrapper {
+    padding: 30px;
+    width: fit-content;
+    gap: 20px;
+    border: 1px solid $color-gray;
+    border-radius: 2%;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  &__carriageData {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: fit-content;
+  }
+  &__name {
+    font-weight: 500;
+  }
+  &__updateCarriage {
+    background-color: $color-blue;
+    padding: 10px;
+    color: #FFFFFF;
+    width: fit-content;
+  }
+  &__display {
+    display: flex;
+    column-gap: 30px;
+    width: fit-content;
+  }
+  &__seatsWrapper {
+    display: flex;
+    row-gap: 20px;
+    flex-direction: column;
+  }
+  &__rightSeats, &__leftSeats {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 5px;
+    margin-bottom: 10px;
+  }
+  &__seat, &__leftSeats, &__rightSeats, &__seatsWrapper {
+    width: fit-content;
+    height: fit-content;
+  }
+  &__seat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $color-blue;
+    color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+}
