@@ -16,6 +16,20 @@
     }
   }
 
+  &__error {
+    color: $color-red;
+    font-size: 11px;
+    margin-bottom: 5px;
+
+    @include tablet {
+      margin: 5px ;
+    }
+    
+    @include laptop {
+      margin: 5px 10px;
+    }
+  }
+
   &__input,
   &__button {
     width: 100%;
@@ -55,6 +69,7 @@
 
   &__button {
     width: 100px;
+    height: 30px;
     background: $color-blue;
     color: $color-white;
 

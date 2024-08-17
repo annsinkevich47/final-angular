@@ -1,12 +1,73 @@
-<form class="search">
-  <input class="search__input" type="text" placeholder="From" />
-  <input class="search__input" type="text" placeholder="To" />
-  <div class="search__wrapper">
+<form class="search" [formGroup]="searchForm" novalidate (ngSubmit)="search()">
+  <div class="search__input-wrap">
     <input
-      class="search__input search__input-date"
-      type="datetime-local"
-      [(ngModel)]="currentDateTime"
-      [min]="currentDateTime" />
+      name="cityFrom"
+      formControlName="cityFrom"
+      class="search__input"
+      type="text"
+      placeholder="From" />
+    <div
+      *ngIf="
+        getForm['cityFrom'].errors && (isSearch || getForm['cityFrom'].touched)
+      ">
+      <p *ngIf="getForm['cityFrom'].errors['required']" class="search__error">
+        Please enter the city name
+      </p>
+      <p
+        *ngIf="
+          !getForm['cityFrom'].errors['required'] && getForm['cityFrom'].invalid
+        "
+        class="search__error">
+        The city name is invalid
+      </p>
+    </div>
+  </div>
+  <div class="search__input-wrap">
+    <input
+      name="cityTo"
+      formControlName="cityTo"
+      class="search__input"
+      type="text"
+      placeholder="To" />
+    <div
+      *ngIf="
+        getForm['cityTo'].errors && (isSearch || getForm['cityTo'].touched)
+      ">
+      <p *ngIf="getForm['cityTo'].errors['required']" class="search__error">
+        Please enter the city name
+      </p>
+      <p
+        *ngIf="
+          !getForm['cityTo'].errors['required'] && getForm['cityTo'].invalid
+        "
+        class="search__error">
+        The city name is invalid
+      </p>
+    </div>
+  </div>
+
+  <div class="search__wrapper">
+    <div class="search__input-wrap">
+      <input
+        name="datetime"
+        formControlName="datetime"
+        class="search__input search__input-date"
+        type="datetime-local"
+        [(ngModel)]="currentDateTime"
+        [min]="minCurrentDateTime" />
+      <div *ngIf="getForm['datetime'].errors && isSearch">
+        <p *ngIf="getForm['datetime'].errors['required']" class="search__error">
+          Please enter the datetime
+        </p>
+        <p
+          *ngIf="
+            !getForm['datetime'].errors['required'] && getForm['cityTo'].invalid
+          "
+          class="search__error">
+          The datetime is invalid
+        </p>
+      </div>
+    </div>
     <button class="search__button">Search</button>
   </div>
 </form>
