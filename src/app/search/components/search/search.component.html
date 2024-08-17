@@ -1,1 +1,12 @@
-<p>search works!</p>
+<form class="search">
+  <input class="search__input" type="text" placeholder="From" />
+  <input class="search__input" type="text" placeholder="To" />
+  <div class="search__wrapper">
+    <input
+      class="search__input search__input-date"
+      type="datetime-local"
+      [(ngModel)]="currentDateTime"
+      [min]="currentDateTime" />
+    <button class="search__button">Search</button>
+  </div>
+</form>

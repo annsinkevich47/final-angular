@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { SearchService } from '../../services/search.service';
+
+// import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-home-page',
@@ -7,14 +8,14 @@ import { SearchService } from '../../services/search.service';
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
-  constructor(private locationService: SearchService) {
-    this.locationService.getGeocode('mins').subscribe(
-      (data) => {
-        console.log(data)
-        
-      },
-      (error) => {
-        console.error('Error fetching location data', error);
-      })
-  }
+  // constructor(private locationService: SearchService) {
+  //   this.locationService.getGeocode('mins').subscribe(
+  //     data => {
+  //       console.log(data);
+  //     },
+  //     error => {
+  //       console.error('Error fetching location data', error);
+  //     },
+  //   );
+  // }
 }

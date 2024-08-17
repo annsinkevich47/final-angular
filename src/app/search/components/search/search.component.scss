@@ -1,0 +1,84 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    @include mobile-x {
+      justify-content: start;
+    }
+  }
+
+  &__input,
+  &__button {
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid $color-blue;
+    background: transparentize($color-gray, 0.8);
+    border-radius: 5px;
+    color: $color-black;
+    margin: 5px 0;
+
+    &-date {
+      width: 160px;
+    }
+
+    &::placeholder {
+      color: $color-gray;
+    }
+
+    @include tablet {
+      width: 200px;
+      margin: 0 5px;
+
+      &-date {
+        width: 160px;
+      }
+    }
+
+    @include laptop {
+      width: 230px;
+      margin: 0 10px;
+
+      &-date {
+        width: 170px;
+      }
+    }
+  }
+
+  &__button {
+    width: 100px;
+    background: $color-blue;
+    color: $color-white;
+
+    @include mobile-x {
+      width: 150px;
+      margin-left: 20px;
+    }
+
+    @include tablet {
+      width: 100px;
+      margin: 0 5px;
+    }
+
+    @include laptop {
+      width: 150px;
+      margin: 0 10px;
+
+      &:hover {
+        background: transparentize($color-blue, 0.3);
+      }
+    }
+  }
+
+  @include tablet {
+    flex-direction: row;
+  }
+}
