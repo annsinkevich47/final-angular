@@ -8,5 +8,5 @@ import CarriageType from '../../models/carriage';
   styleUrl: './carriage-item.component.scss'
 })
 export class CarriageItemComponent {
-@Input() carriage!: CarriageType;
+  @Input() carriage!: CarriageType;
 }

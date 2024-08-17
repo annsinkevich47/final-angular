@@ -26,8 +26,12 @@
   input {
     background-color: rgb(236, 234, 234);
     padding: 3px;
+    border: 1.5px solid $color-gray;
     cursor: text;
   }
+  input.ng-invalid.ng-touched {
+    border: 1.5px solid $color-red;
+  };
   button {
     background-color: $color-blue;
     padding: 10px;
@@ -37,3 +41,4 @@
     cursor: default;
   }
 }
+

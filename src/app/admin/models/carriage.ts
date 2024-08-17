@@ -1,5 +1,5 @@
 export default interface CarriageType {
-  code: string;
+  code?: string;
   name: string;
   rows: number;
   leftSeats: number;

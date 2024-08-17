@@ -6,30 +6,50 @@
         Create
       </button>
     </div>
-    <form *ngIf="formDisplay" class="carriages__form">
+    <form
+      *ngIf="formDisplay"
+      class="carriages__form"
+      [formGroup]="prototypeForm">
       <label for="carriages__carriageName" class="carriages__nameLabel"
         >Name</label
       >
-      <input placeholder="Carriage name" id="carriages__carriageName" />
+      <input
+        placeholder="Enter text name"
+        id="carriages__carriageName"
+        formControlName="name" />
       <label for="carriages__rows" class="carriages__rowsLabel">Rows</label>
-      <input placeholder="Count of rows" id="carriages__rows" />
+      <input
+        placeholder="Enter number from 1 to 15"
+        id="carriages__rows"
+        formControlName="rows" />
       <label for="carriages__leftSeatsNumber" class="carriages__leftSeatsLabel"
         >Left Seats</label
       >
       <input
-        placeholder="Count of left seats"
-        id="carriages__leftSeatsNumber" />
+        placeholder="Enter number from 1 to 10"
+        id="carriages__leftSeatsNumber"
+        formControlName="leftSeats" />
       <label
         for="carriages__rightSeatsNumber"
         class="carriages__rightSeatsLabel"
         >Right Seats</label
       >
       <input
-        placeholder="Count of right seats"
-        id="carriages__rightSeatsNumber" />
-      <button *ngIf="isCreating" class="carriages__save">Save</button>
+        placeholder="Enter number from 1 to 10"
+        id="carriages__rightSeatsNumber"
+        formControlName="rightSeats" />
+      <button
+        *ngIf="isCreating"
+        class="carriages__save"
+        (click)="onSave()"
+        [disabled]="prototypeForm.invalid">
+        Save
+      </button>
       <button *ngIf="isUpdating" class="carriages__update">Update</button>
     </form>
+    <!-- <div class="carriages__prototype" *ngIf="createPrototype">
+      <app-carriage-item [carriage]="selectedCarriage"></app-carriage-item>
+    </div> -->
     <div class="carriages__list">
       <app-carriage-item
         *ngFor="let carriage of carriages"
