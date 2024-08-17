@@ -1,0 +1,28 @@
+<div class="login">
+  <h2 class="login__title">Sign In</h2>
+  <form
+    class="login__form"
+    [formGroup]="loginForm"
+    (ngSubmit)="onLoginSubmit()">
+    <div class="login__field">
+      <label for="email">Email</label>
+      <input type="email" formControlName="email" id="email" />
+      <!-- <div *ngIf="emailError">{{ emailError }}</div> -->
+    </div>
+
+    <div class="login__field">
+      <label for="password">Password</label>
+      <input type="password" formControlName="password" id="password" />
+      <!-- <div *ngIf="passwordError" class="error">{{ passwordError }}</div> -->
+    </div>
+
+    <button class="login__button" type="submit">
+      <!-- <button type="submit" [disabled]="!loginForm.valid || isSubmitting"> -->
+      Sign In
+    </button>
+    <!-- <div *ngIf="formError" class="error">{{ formError }}</div> -->
+    <span class="login__no-account"
+      >Don't have an account? <a routerLink="/signup">Sign Up</a></span
+    >
+  </form>
+</div>

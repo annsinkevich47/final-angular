@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../../../core/services/auth.service';
+import { ApiService } from '../../../core/services/api.service';
 import { PasswordMatchValidator } from '../../helpers/passwordsMatch.validator';
 
 interface ISignUpForm {
@@ -31,7 +31,7 @@ export class RegistrationFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private apiService: ApiService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class RegistrationFormComponent implements OnInit {
     return this.signupForm.controls;
   }
 
-  onSignupSubmit() {
+  public onSignupSubmit(): void {
     this.submitted = true;
 
     if (this.signupForm.invalid) return;
@@ -69,7 +69,7 @@ export class RegistrationFormComponent implements OnInit {
     const repeatPassword = this.formControls.repeatPassword.value;
 
     if (email && password && password === repeatPassword) {
-      this.authService.signUp(email, password).subscribe({
+      this.apiService.signUp(email, password).subscribe({
         next: () => {
           this.emailExistsError = '';
           this.router.navigateByUrl('/signin');
