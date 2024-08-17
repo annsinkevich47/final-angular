@@ -39,12 +39,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentDateTime = this.getActualTime();
-    this.minCurrentDateTime = this.currentDateTime;
+    this.minCurrentDateTime = this.getMinDateTime();
     this.searchForm.get('datetime')?.patchValue(this.currentDateTime);
-
-    setInterval(() => {
-      this.minCurrentDateTime = this.getActualTime();
-    }, 10000);
 
     this.subscriptionFrom = this.setSubscriptionCityFind('cityFrom');
     this.subscriptionTo = this.setSubscriptionCityFind('cityTo', false);
@@ -90,12 +86,22 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  getMinDateTime() {
+    const now = new Date();
+    now.setHours(3, 0, 0, 0);
+    return now.toISOString().slice(0, 16);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
   pastDateValidator(
     control: AbstractControl,
   ): { [key: string]: boolean } | null {
     const currentDateTime = new Date();
+    currentDateTime.setHours(3, 0, 0, 0);
     currentDateTime.setMinutes(currentDateTime.getMinutes() - 1);
+
     const inputDateTime = new Date(control.value);
+    inputDateTime.setHours(3, 0, 0, 0);
     return inputDateTime < currentDateTime ? { pastDate: true } : null;
   }
 
