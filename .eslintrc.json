@@ -1,18 +1,12 @@
 {
   "root": true,
-  "plugins": [
-    "unused-imports",
-    "simple-import-sort",
-    "prettier"
-  ],
+  "plugins": ["unused-imports", "simple-import-sort", "prettier"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "extends": [
         "airbnb-base",
         "airbnb-typescript/base",
@@ -26,10 +20,8 @@
         "import/first": "error",
         "import/newline-after-import": "error",
         "import/no-duplicates": "error",
-        "max-len": [
-          "error",
-          120
-        ],
+        "class-methods-use-this": "off",
+        "max-len": ["error", 120],
         "no-console": "off",
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
@@ -72,24 +64,14 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "excludedFiles": [
-        "*inline-template-*.component.html"
-      ],
-      "extends": [
-        "plugin:prettier/recommended"
-      ],
+      "files": ["*.html"],
+      "excludedFiles": ["*inline-template-*.component.html"],
+      "extends": ["plugin:prettier/recommended"],
       "rules": {
         "prettier/prettier": [
           "error",
@@ -100,12 +82,8 @@
       }
     },
     {
-      "files": [
-        "*.ts"
-      ],
-      "extends": [
-        "plugin:@ngrx/all"
-      ]
+      "files": ["*.ts"],
+      "extends": ["plugin:@ngrx/all"]
     }
   ]
 }

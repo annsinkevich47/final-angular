@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ApiService } from '../../../core/services/api.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { ISignInResponse } from '../../../shared/models/auth-response.model';
 
 interface ILoginForm {
@@ -21,7 +22,8 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -50,9 +52,8 @@ export class LoginFormComponent implements OnInit {
     if (email && password) {
       this.apiService.signIn(email, password).subscribe({
         next: (response: ISignInResponse) => {
-          console.log(response);
-          localStorage.setItem('token', String(response.token));
-          this.router.navigateByUrl('');
+          this.authService.login(response.token);
+          this.router.navigateByUrl('/');
         },
         error: error => {
           console.error(error);
