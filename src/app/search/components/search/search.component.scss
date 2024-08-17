@@ -73,6 +73,11 @@
     background: $color-blue;
     color: $color-white;
 
+    &-inactive {
+      background: transparentize($color-blue, 0.3);
+      pointer-events: none;
+    }
+
     @include mobile-x {
       width: 150px;
       margin-left: 20px;
