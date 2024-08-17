@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import CarriageType from '../../models/carriage';
 import { CreateCarriageService } from '../../services/create-carriage.service';
 import { GetCarriagesService } from '../../services/get-carriages.service';
+import { UpdateCarriagesService } from '../../services/update-carriages.service';
 
 @Component({
   selector: 'app-carriages-page',
@@ -29,6 +30,7 @@ export class CarriagesPageComponent implements OnInit {
   constructor(
     private getCarriagesService: GetCarriagesService,
     private createCarriagesService: CreateCarriageService,
+    private updateCarriagesService: UpdateCarriagesService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -41,7 +43,7 @@ export class CarriagesPageComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
-          Validators.max(10),
+          Validators.max(15),
         ],
       ],
       leftSeats: [
@@ -98,9 +100,42 @@ export class CarriagesPageComponent implements OnInit {
     }
   }
 
+  public onUpdate() {
+    if (this.prototypeForm.valid && this.isUpdating) {
+      const updatedCarriage: CarriageType = {
+        ...this.selectedCarriage,
+        name: this.prototypeForm.value.name,
+        rows: Number(this.prototypeForm.value.rows),
+        leftSeats: Number(this.prototypeForm.value.leftSeats),
+        rightSeats: Number(this.prototypeForm.value.rightSeats),
+      };
+
+      const index = this.carriages.findIndex(
+        carriage => carriage.code === updatedCarriage.code
+      );
+
+      if (index > -1) {
+        this.carriages[index] = updatedCarriage;
+      }
+
+      this.updateCarriagesService.updateCarriage(updatedCarriage).subscribe({
+        next: response => {
+          console.log('Carriage updated:', response);
+          this.resetForm();
+        },
+        error: err => {
+          console.error('Error: carriage not updated', err);
+        },
+      });
+
+      this.resetForm();
+    }
+  }
+
   private resetForm() {
     this.prototypeForm.reset();
     this.isCreating = false;
+    this.isUpdating = false;
     this.formDisplay = false;
   }
 
@@ -121,6 +156,13 @@ export class CarriagesPageComponent implements OnInit {
     this.selectedCarriage = { ...carriage };
 
     console.log(this.selectedCarriage);
+
+    this.prototypeForm.patchValue({
+      name: this.selectedCarriage.name,
+      rows: this.selectedCarriage.rows,
+      leftSeats: this.selectedCarriage.leftSeats,
+      rightSeats: this.selectedCarriage.rightSeats,
+    });
   }
 
   public toggleFormDisplay() {

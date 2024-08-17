@@ -1,5 +1,4 @@
 <div class="wrapper">
-  <app-admin-navigation></app-admin-navigation>
   <div class="carriages">
     <div class="carriages__manageCarriages">
       <button class="carriages__create" (click)="onCreateCarriage()">
@@ -45,7 +44,13 @@
         [disabled]="prototypeForm.invalid">
         Save
       </button>
-      <button *ngIf="isUpdating" class="carriages__update">Update</button>
+      <button
+        *ngIf="isUpdating"
+        class="carriages__update"
+        (click)="onUpdate()"
+        [disabled]="prototypeForm.invalid">
+        Update
+      </button>
     </form>
     <!-- <div class="carriages__prototype" *ngIf="createPrototype">
       <app-carriage-item [carriage]="selectedCarriage"></app-carriage-item>
@@ -54,7 +59,7 @@
       <app-carriage-item
         *ngFor="let carriage of carriages"
         [carriage]="carriage"
-        (click)="onSelectCarriage(carriage)"></app-carriage-item>
+        (updateCarriage)="onSelectCarriage(carriage)"></app-carriage-item>
     </div>
   </div>
 </div>
