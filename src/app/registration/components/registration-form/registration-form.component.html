@@ -62,7 +62,7 @@
     <button
       class="signup__button"
       type="submit"
-      [disabled]="(signupForm.invalid && submitted) || emailExistsError">
+      [disabled]="signupForm.invalid || emailExistsError">
       Register
     </button>
     <span class="signup__already-have-account"
