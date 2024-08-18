@@ -1,0 +1,22 @@
+.wrapper {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 30px 1fr;
+}
+
+.main {
+  grid-column: 1;
+  grid-row: 2/3;
+}
+
+.header {
+  grid-column: 1;
+  grid-row: 1/2;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    grid-template-columns: 30% 1fr;
+  }
+}
