@@ -1,9 +1,6 @@
 <div class="signup">
   <h2 class="signup__title">Sign Up</h2>
-  <form
-    class="signup__form"
-    [formGroup]="signupForm"
-    (ngSubmit)="onSignupSubmit()">
+  <form class="signup__form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="signup__field">
       <label for="email">Email</label>
       <input id="email" formControlName="email" type="email" />
@@ -46,7 +43,7 @@
         class="signup__errors"
         *ngIf="
           formControls.repeatPassword.invalid ||
-          signupForm.hasError('passwordsMismatch')
+          form.hasError('passwordsMismatch')
         ">
         <span
           *ngIf="
@@ -54,7 +51,7 @@
           "
           >Required</span
         >
-        <span *ngIf="signupForm.hasError('passwordsMismatch')"
+        <span *ngIf="form.hasError('passwordsMismatch')"
           >Passwords do not match</span
         >
       </div>
@@ -63,7 +60,7 @@
     <button
       class="signup__button"
       type="submit"
-      [disabled]="signupForm.invalid || emailExistsError">
+      [disabled]="form.invalid || emailExistsError">
       Register
     </button>
     <span class="signup__already-have-account"

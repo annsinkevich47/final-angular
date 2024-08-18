@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { SignService } from '../../../core/services/sign.service';
 import { PasswordMatchValidator } from '../../helpers/passwordsMatch.validator';
+import {
+  BaseFormComponent,
+  FormControls,
+} from '../base-form/base-form.component';
 
-interface ISignUpForm {
+interface ISignUpForm extends FormControls {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
   repeatPassword: FormControl<string | null>;
@@ -21,20 +20,21 @@ interface ISignUpForm {
   templateUrl: './registration-form.component.html',
   styleUrl: './registration-form.component.scss',
 })
-export class RegistrationFormComponent implements OnInit {
-  public signupForm!: FormGroup<ISignUpForm>;
-  public emailExistsError: string = '';
-  public isSubmittedForm: boolean = false;
-  private readonly regExpEmail = '^[\\w\\d_]+@[\\w\\d_]+\\.\\w{2,7}$';
-
+export class RegistrationFormComponent extends BaseFormComponent<ISignUpForm> {
   constructor(
-    private formBuilder: FormBuilder,
     private router: Router,
-    private signService: SignService
-  ) {}
+    private signService: SignService,
+    private formBuilder: FormBuilder
+  ) {
+    super();
+  }
 
-  ngOnInit(): void {
-    this.signupForm = this.formBuilder.group<ISignUpForm>(
+  get formControls() {
+    return this.form.controls;
+  }
+
+  protected initializeForm(): void {
+    this.form = this.formBuilder.group<ISignUpForm>(
       {
         email: this.formBuilder.control('', [
           Validators.required,
@@ -49,37 +49,19 @@ export class RegistrationFormComponent implements OnInit {
       { validators: PasswordMatchValidator }
     );
 
-    this.formControls.email.valueChanges.subscribe(() => {
-      this.emailExistsError = '';
-    });
-
-    this.formControls.password.valueChanges.subscribe(value => {
+    this.form.controls.repeatPassword.valueChanges.subscribe(value => {
       if (value) {
-        this.formControls.password.setValue(value.trim(), { emitEvent: false });
-      }
-    });
-
-    this.formControls.repeatPassword.valueChanges.subscribe(value => {
-      if (value) {
-        this.formControls.repeatPassword.setValue(value.trim(), {
+        this.form.controls.repeatPassword.setValue(value.trim(), {
           emitEvent: false,
         });
       }
     });
   }
 
-  get formControls() {
-    return this.signupForm.controls;
-  }
-
-  public onSignupSubmit(): void {
-    this.isSubmittedForm = true;
-
-    if (this.signupForm.invalid) return;
-
-    const email = this.formControls.email.value;
-    const password = this.formControls.password.value?.trim();
-    const repeatPassword = this.formControls.repeatPassword.value?.trim();
+  protected handleSubmit(): void {
+    const email = this.form.controls.email.value;
+    const password = this.form.controls.password.value?.trim();
+    const repeatPassword = this.form.controls.repeatPassword.value?.trim();
 
     if (email && password && password === repeatPassword) {
       this.signService.signUp(email, password).subscribe({

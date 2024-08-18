@@ -1,9 +1,6 @@
 <div class="login">
   <h2 class="login__title">Sign In</h2>
-  <form
-    class="login__form"
-    [formGroup]="loginForm"
-    (ngSubmit)="onLoginSubmit()">
+  <form class="login__form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="login__field">
       <label for="email">Email</label>
       <input type="email" formControlName="email" id="email" />
@@ -44,7 +41,7 @@
     <button
       class="login__button"
       type="submit"
-      [disabled]="loginForm.invalid || incorrectEmailOrPassError">
+      [disabled]="form.invalid || incorrectEmailOrPassError">
       Sign In
     </button>
     <span class="login__no-account"

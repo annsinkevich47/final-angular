@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { SignService } from '../../../core/services/sign.service';
 import { ISignInResponse } from '../../../shared/models/auth-response.model';
+import {
+  BaseFormComponent,
+  FormControls,
+} from '../base-form/base-form.component';
 
-interface ILoginForm {
+interface ILoginForm extends FormControls {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
 }
@@ -21,21 +20,22 @@ interface ILoginForm {
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })
-export class LoginFormComponent implements OnInit {
-  public loginForm!: FormGroup<ILoginForm>;
-  public incorrectEmailOrPassError: string = '';
-  public isSubmittedForm: boolean = false;
-  private readonly regExpEmail = '^[\\w\\d_]+@[\\w\\d_]+\\.\\w{2,7}$';
-
+export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private signService: SignService,
     private authService: AuthService
-  ) {}
+  ) {
+    super();
+  }
 
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group<ILoginForm>({
+  get formControls() {
+    return this.form.controls;
+  }
+
+  protected initializeForm(): void {
+    this.form = this.formBuilder.group<ILoginForm>({
       email: this.formBuilder.control('', [
         Validators.required,
         Validators.pattern(this.regExpEmail),
@@ -45,31 +45,9 @@ export class LoginFormComponent implements OnInit {
         Validators.minLength(8),
       ]),
     });
-
-    this.formControls.email.valueChanges.subscribe(() => {
-      this.incorrectEmailOrPassError = '';
-    });
-
-    this.formControls.password.valueChanges.subscribe(() => {
-      this.incorrectEmailOrPassError = '';
-    });
-
-    this.formControls.password.valueChanges.subscribe(value => {
-      if (value) {
-        this.formControls.password.setValue(value.trim(), { emitEvent: false });
-      }
-    });
   }
 
-  get formControls() {
-    return this.loginForm.controls;
-  }
-
-  public onLoginSubmit(): void {
-    this.isSubmittedForm = true;
-
-    if (this.loginForm.invalid) return;
-
+  protected handleSubmit(): void {
     const email = this.formControls.email.value;
     const password = this.formControls.password.value;
 
