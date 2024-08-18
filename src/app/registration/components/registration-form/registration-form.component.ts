@@ -52,6 +52,20 @@ export class RegistrationFormComponent implements OnInit {
     this.formControls.email.valueChanges.subscribe(() => {
       this.emailExistsError = '';
     });
+
+    this.formControls.password.valueChanges.subscribe(value => {
+      if (value) {
+        this.formControls.password.setValue(value.trim(), { emitEvent: false });
+      }
+    });
+
+    this.formControls.repeatPassword.valueChanges.subscribe(value => {
+      if (value) {
+        this.formControls.repeatPassword.setValue(value.trim(), {
+          emitEvent: false,
+        });
+      }
+    });
   }
 
   get formControls() {
@@ -64,8 +78,8 @@ export class RegistrationFormComponent implements OnInit {
     if (this.signupForm.invalid) return;
 
     const email = this.formControls.email.value;
-    const password = this.formControls.password.value;
-    const repeatPassword = this.formControls.repeatPassword.value;
+    const password = this.formControls.password.value?.trim();
+    const repeatPassword = this.formControls.repeatPassword.value?.trim();
 
     if (email && password && password === repeatPassword) {
       this.apiService.signUp(email, password).subscribe({

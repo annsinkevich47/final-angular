@@ -53,6 +53,12 @@ export class LoginFormComponent implements OnInit {
     this.formControls.password.valueChanges.subscribe(() => {
       this.incorrectEmailOrPassError = '';
     });
+
+    this.formControls.password.valueChanges.subscribe(value => {
+      if (value) {
+        this.formControls.password.setValue(value.trim(), { emitEvent: false });
+      }
+    });
   }
 
   get formControls() {
@@ -74,7 +80,6 @@ export class LoginFormComponent implements OnInit {
           this.router.navigateByUrl('/');
         },
         error: error => {
-          console.error(error);
           if (error.error.message === 'User is not found') {
             this.incorrectEmailOrPassError = 'Incorrect email or password';
           } else {
