@@ -31,6 +31,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public minCurrentDateTime: string | undefined;
   private subscriptionFrom: Subscription | undefined;
   private subscriptionTo: Subscription | undefined;
+  private readonly numberError = 999;
 
   public citiesFrom: ICity[] = [];
   public citiesTo: ICity[] = [];
@@ -104,38 +105,37 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    if (!this.searchForm.invalid) {
-      // const cityFrom: ICity[] = this.citiesFrom.filter(city => {
-      //   return city.name === this.searchForm.get('cityFrom')?.value;
-      // });
-      // const citiesTo: ICity[] = this.citiesTo.filter(city => {
-      //   return city.name === this.searchForm.get('cityTo')?.value;
-      // });
+    // if (!this.searchForm.invalid) {
+    //   const cityFrom: ICity[] = this.citiesFrom.filter(city => {
+    //     return city.name === this.searchForm.get('cityFrom')?.value;
+    //   });
+    //   const citiesTo: ICity[] = this.citiesTo.filter(city => {
+    //     return city.name === this.searchForm.get('cityTo')?.value;
+    //   });
 
-      // if (cityFrom.length === 0 || citiesTo.length === 0) {
-      //   return;
-      // }
+    const dateObject: Date = new Date(this.searchForm.get('datetime')?.value);
+    const timestamp: number = dateObject.getTime();
+    //   const requestSearch: IRequestSearch = {
+    //     fromLatitude:
+    //       cityFrom.length === 0 ? this.numberError : cityFrom[0].latitude,
+    //     fromLongitude:
+    //       cityFrom.length === 0 ? this.numberError : cityFrom[0].longitude,
+    //     toLatitude:
+    //       citiesTo.length === 0 ? this.numberError : citiesTo[0].latitude,
+    //     toLongitude:
+    //       citiesTo.length === 0 ? this.numberError : citiesTo[0].longitude,
+    //     time: timestamp,
+    //   };
+    const requestSearch: IRequestSearch = {
+      fromLatitude: 53.5747,
+      fromLongitude: 7.7808,
+      toLatitude: 50.72,
+      toLongitude: -1.88,
+      time: timestamp,
+    };
 
-      const dateObject: Date = new Date(this.searchForm.get('datetime')?.value);
-      const timestamp: number = dateObject.getTime();
-      // const requestSearch: IRequestSearch = {
-      //   fromLatitude: cityFrom[0].latitude,
-      //   fromLongitude: cityFrom[0].longitude,
-      //   toLatitude: citiesTo[0].latitude,
-      //   toLongitude: citiesTo[0].longitude,
-      //   time: timestamp,
-      // };
-      const requestSearch: IRequestSearch = {
-        fromLatitude: 53.5747,
-        fromLongitude: 7.7808,
-        toLatitude: 50.72,
-        toLongitude: -1.88,
-        time: timestamp,
-      };
+    console.log(requestSearch);
 
-      console.log(requestSearch);
-
-      this.searchService.setSchedule(requestSearch);
-    }
+    this.searchService.setSchedule(requestSearch);
   }
 }

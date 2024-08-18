@@ -62,14 +62,15 @@ export class ResultComponent implements OnInit, OnDestroy {
       0,
       0,
     );
-
-    this.tripDataFiltered = list.filter(item => {
-      const stationFromTime = new Date(item.stationFrom.time).getTime();
-      return (
-        startOfDay.getTime() <= stationFromTime &&
-        stationFromTime <= endOfDay.getTime()
-      );
-    });
+    this.tripDataFiltered = list
+      ? list.filter(item => {
+          const stationFromTime = new Date(item.stationFrom.time).getTime();
+          return (
+            startOfDay.getTime() <= stationFromTime &&
+            stationFromTime <= endOfDay.getTime()
+          );
+        })
+      : [];
   }
 
   ngOnDestroy(): void {

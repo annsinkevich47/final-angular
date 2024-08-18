@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { catchError, Observable, of, Subject } from 'rxjs';
 
 import { env } from '../../../environments/environment';
 import { getDaydate, getTimeFromDateString } from '../consts/consts';
@@ -62,8 +62,20 @@ export class SearchService {
         // },
         params,
       })
-      .subscribe((data: ITrip) => {
+      .pipe(
+        catchError(error => {
+          console.error('Ошибка при выполнении запроса:', error);
+          return of(null);
+        }),
+      )
+      .subscribe((data: ITrip | null) => {
         console.log(data);
+        if (!data) {
+          this.tripCardsData$.next([]);
+          this.actualDate$.next('');
+
+          return;
+        }
         const arrayDateStart: string[] = [];
         const arrayResult: ICardResult[] = [];
         const idStationFrom = data.from.stationId;
