@@ -8,7 +8,7 @@
       <label for="email">Email</label>
       <input type="email" formControlName="email" id="email" />
       <div
-        class="signup__errors"
+        class="login__errors"
         *ngIf="formControls.email.invalid && !incorrectEmailOrPassError">
         <span *ngIf="isSubmittedForm && formControls.email.hasError('required')"
           >Required</span
@@ -26,7 +26,7 @@
       <label for="password">Password</label>
       <input type="password" formControlName="password" id="password" />
       <div
-        class="signup__errors"
+        class="login__errors"
         *ngIf="formControls.password.invalid && !incorrectEmailOrPassError">
         <span
           *ngIf="isSubmittedForm && formControls.password.hasError('required')"
