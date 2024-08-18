@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ApiService } from '../../../core/services/api.service';
@@ -18,6 +23,9 @@ interface ILoginForm {
 })
 export class LoginFormComponent implements OnInit {
   public loginForm!: FormGroup<ILoginForm>;
+  public incorrectEmailOrPassError: string = '';
+  public isSubmittedForm: boolean = false;
+  private readonly regExpEmail = '^[\\w\\d_]+@[\\w\\d_]+\\.\\w{2,7}$';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,13 +37,21 @@ export class LoginFormComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group<ILoginForm>({
       email: this.formBuilder.control('', [
-        // Validators.required,
-        // Validators.pattern(this.regExpEmail),
+        Validators.required,
+        Validators.pattern(this.regExpEmail),
       ]),
       password: this.formBuilder.control('', [
-        // Validators.required,
-        // Validators.minLength(8),
+        Validators.required,
+        Validators.minLength(8),
       ]),
+    });
+
+    this.formControls.email.valueChanges.subscribe(() => {
+      this.incorrectEmailOrPassError = '';
+    });
+
+    this.formControls.password.valueChanges.subscribe(() => {
+      this.incorrectEmailOrPassError = '';
     });
   }
 
@@ -44,6 +60,8 @@ export class LoginFormComponent implements OnInit {
   }
 
   public onLoginSubmit(): void {
+    this.isSubmittedForm = true;
+
     if (this.loginForm.invalid) return;
 
     const email = this.formControls.email.value;
@@ -57,12 +75,11 @@ export class LoginFormComponent implements OnInit {
         },
         error: error => {
           console.error(error);
-          // if (error.error.message === 'User already exists') {
-          // this.emailExistsError = 'Account with this email already exists';
-          // this.formControls.email.setErrors({ emailExists: true });
-          // } else {
-          //   console.error(error);
-          // }
+          if (error.error.message === 'User is not found') {
+            this.incorrectEmailOrPassError = 'Incorrect email or password';
+          } else {
+            console.error(error);
+          }
         },
       });
     }

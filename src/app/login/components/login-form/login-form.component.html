@@ -7,20 +7,46 @@
     <div class="login__field">
       <label for="email">Email</label>
       <input type="email" formControlName="email" id="email" />
-      <!-- <div *ngIf="emailError">{{ emailError }}</div> -->
+      <div
+        class="signup__errors"
+        *ngIf="formControls.email.invalid && !incorrectEmailOrPassError">
+        <span *ngIf="isSubmittedForm && formControls.email.hasError('required')"
+          >Required</span
+        >
+        <span *ngIf="formControls.email.hasError('pattern')"
+          >Incorrect email</span
+        >
+      </div>
+      <span class="login__errors" *ngIf="incorrectEmailOrPassError">
+        {{ incorrectEmailOrPassError }}</span
+      >
     </div>
 
     <div class="login__field">
       <label for="password">Password</label>
       <input type="password" formControlName="password" id="password" />
-      <!-- <div *ngIf="passwordError" class="error">{{ passwordError }}</div> -->
+      <div
+        class="signup__errors"
+        *ngIf="formControls.password.invalid && !incorrectEmailOrPassError">
+        <span
+          *ngIf="isSubmittedForm && formControls.password.hasError('required')"
+          >Required</span
+        >
+        <span *ngIf="formControls.password.hasError('minlength')"
+          >Password must be at least 8 characters long</span
+        >
+      </div>
+      <span class="login__errors" *ngIf="incorrectEmailOrPassError">
+        {{ incorrectEmailOrPassError }}</span
+      >
     </div>
 
-    <button class="login__button" type="submit">
-      <!-- <button type="submit" [disabled]="!loginForm.valid || isSubmitting"> -->
+    <button
+      class="login__button"
+      type="submit"
+      [disabled]="loginForm.invalid || incorrectEmailOrPassError">
       Sign In
     </button>
-    <!-- <div *ngIf="formError" class="error">{{ formError }}</div> -->
     <span class="login__no-account"
       >Don't have an account? <a routerLink="/signup">Sign Up</a></span
     >

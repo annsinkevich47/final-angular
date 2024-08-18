@@ -24,9 +24,8 @@ interface ISignUpForm {
 export class RegistrationFormComponent implements OnInit {
   public signupForm!: FormGroup<ISignUpForm>;
   public emailExistsError: string = '';
-  public submitted: boolean = false;
-  private readonly regExpEmail =
-    '^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,7}$';
+  public isSubmittedForm: boolean = false;
+  private readonly regExpEmail = '^[\\w\\d_]+@[\\w\\d_]+\\.\\w{2,7}$';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,7 +59,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   public onSignupSubmit(): void {
-    this.submitted = true;
+    this.isSubmittedForm = true;
 
     if (this.signupForm.invalid) return;
 
@@ -71,13 +70,11 @@ export class RegistrationFormComponent implements OnInit {
     if (email && password && password === repeatPassword) {
       this.apiService.signUp(email, password).subscribe({
         next: () => {
-          this.emailExistsError = '';
           this.router.navigateByUrl('/signin');
         },
         error: error => {
           if (error.error.message === 'User already exists') {
             this.emailExistsError = 'Account with this email already exists';
-            this.formControls.email.setErrors({ emailExists: true });
           } else {
             console.error(error);
           }

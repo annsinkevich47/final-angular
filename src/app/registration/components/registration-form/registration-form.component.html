@@ -10,16 +10,14 @@
       <div
         class="signup__errors"
         *ngIf="formControls.email.invalid && !emailExistsError">
-        <span *ngIf="submitted && formControls.email.hasError('required')"
+        <span *ngIf="isSubmittedForm && formControls.email.hasError('required')"
           >Required</span
         >
         <span *ngIf="formControls.email.hasError('pattern')"
           >Invalid email</span
         >
       </div>
-      <span
-        class="signup__errors"
-        *ngIf="formControls.email.hasError('emailExists')">
+      <span class="signup__errors" *ngIf="emailExistsError">
         {{ emailExistsError }}</span
       >
     </div>
@@ -28,7 +26,8 @@
       <label for="password">Password</label>
       <input id="password" formControlName="password" type="password" />
       <div class="signup__errors" *ngIf="formControls.password.invalid">
-        <span *ngIf="submitted && formControls.password.hasError('required')"
+        <span
+          *ngIf="isSubmittedForm && formControls.password.hasError('required')"
           >Required</span
         >
         <span *ngIf="formControls.password.hasError('minlength')"
@@ -50,7 +49,9 @@
           signupForm.hasError('passwordsMismatch')
         ">
         <span
-          *ngIf="submitted && formControls.repeatPassword.hasError('required')"
+          *ngIf="
+            isSubmittedForm && formControls.repeatPassword.hasError('required')
+          "
           >Required</span
         >
         <span *ngIf="signupForm.hasError('passwordsMismatch')"
