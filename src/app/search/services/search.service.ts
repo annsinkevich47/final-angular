@@ -4,7 +4,13 @@ import { Observable, Subject } from 'rxjs';
 
 import { env } from '../../../environments/environment';
 import { getDaydate, getTimeFromDateString } from '../consts/consts';
-import { ICardResult, ICity, IRequestSearch, ITrip } from '../models/models';
+import {
+  ICardResult,
+  ICity,
+  IRequestSearch,
+  IStationObj,
+  ITrip,
+} from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +20,11 @@ export class SearchService {
   public tripCardsData$ = new Subject<ICardResult[]>();
   public dateFilter$ = new Subject<string[]>();
   public actualDate$ = new Subject<string>();
+  public stations: IStationObj[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.getStations();
+  }
 
   getCities(address: string): Observable<ICity[]> {
     const params = new HttpParams().set('name', address).set('limit', 10);
@@ -31,7 +40,6 @@ export class SearchService {
   // }
 
   setSchedule(requestSearch: IRequestSearch) {
-    // this.getStations();
     const params = new HttpParams()
       .set('fromLatitude', requestSearch.fromLatitude)
       .set('fromLongitude', requestSearch.fromLongitude)
@@ -63,6 +71,8 @@ export class SearchService {
         data.routes.forEach(route => {
           let indexPathFrom: number = -1;
           let indexPathTo: number = -1;
+          const indexStartStation = route.path[0];
+          const indexEndStation = route.path[route.path.length - 1];
           for (let index = 0; index < route.path.length; index += 1) {
             if (route.path[index] === idStationFrom) {
               indexPathFrom = index;
@@ -105,6 +115,8 @@ export class SearchService {
                     timeDay: getTimeFromDateString(timeEnd),
                   },
                   timePath: this.calculateTimeDifference(timeStart, timeEnd),
+                  stationStart: this.stations[indexStartStation].city,
+                  stationEnd: this.stations[indexEndStation].city,
                 };
                 arrayResult.push(cardStation);
               });
@@ -136,9 +148,12 @@ export class SearchService {
   }
 
   getStations() {
-    this.http.get<ITrip>(`${env.API_URL_STATION}`).subscribe((data: ITrip) => {
-      console.log(data);
-    });
+    this.http
+      .get<IStationObj[]>(`${env.API_URL_STATION}`)
+      .subscribe((data: IStationObj[]) => {
+        console.log(data);
+        this.stations = [...data];
+      });
   }
 
   setActualDate(date: string) {

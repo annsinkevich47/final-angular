@@ -43,12 +43,16 @@
     margin-bottom: 10px;
   }
 
-  &__main-info {
+  &__main-wrap {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     padding-bottom: 5px;
+  }
+
+  &__main-info {
+    width: 100%;
 
     @include tablet {
       width: 50%;
@@ -57,6 +61,18 @@
     @include laptop {
       width: 30%;
     }
+  }
+
+  &__stations-wrap {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    border: 1px solid $color-blue;
+    background: transparentize($color-gray, 0.8);
+    width: 150px;
+    padding: 2px 5px;
+    margin: 10px 0; 
+    font-size: 12px;
   }
 
   &__time-wrap {

@@ -71,8 +71,23 @@ export interface IStationResult {
   timeDay: string;
 }
 
+interface IConnection {
+  id: number;
+  distance: number;
+}
+
+export interface IStationObj {
+  id: number;
+  city: string;
+  latitude: number;
+  longitude: number;
+  connectedTo: IConnection[];
+}
+
 export interface ICardResult {
   stationFrom: IStationResult;
   stationTo: IStationResult;
   timePath: string;
+  stationStart: string;
+  stationEnd: string;
 }
