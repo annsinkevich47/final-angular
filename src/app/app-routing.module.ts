@@ -17,7 +17,7 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () =>
       import('./registration/registration.module').then(
-        m => m.RegistrationModule
+        m => m.RegistrationModule,
       ),
   },
   {

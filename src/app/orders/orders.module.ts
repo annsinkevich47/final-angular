@@ -6,9 +6,7 @@ import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
 
 @NgModule({
-  declarations: [
-    OrdersPageComponent
-  ],
+  declarations: [OrdersPageComponent],
   imports: [CommonModule, SharedModule, OrdersRoutingModule],
 })
 export class OrdersModule {}

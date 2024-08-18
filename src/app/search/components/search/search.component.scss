@@ -27,9 +27,9 @@
     margin-bottom: 5px;
 
     @include tablet {
-      margin: 5px ;
+      margin: 5px;
     }
-    
+
     @include laptop {
       margin: 5px 10px;
     }
