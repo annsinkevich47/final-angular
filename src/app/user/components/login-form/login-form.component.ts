@@ -42,7 +42,7 @@ export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
       ]),
       password: this.formBuilder.control('', [
         Validators.required,
-        Validators.minLength(8),
+        // Validators.minLength(8),
       ]),
     });
   }

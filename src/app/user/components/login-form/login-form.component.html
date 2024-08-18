@@ -10,7 +10,7 @@
         <span *ngIf="isSubmittedForm && formControls.email.hasError('required')"
           >Required</span
         >
-        <span *ngIf="formControls.email.hasError('pattern')"
+        <span *ngIf="isSubmittedForm && formControls.email.hasError('pattern')"
           >Incorrect email</span
         >
       </div>
@@ -28,9 +28,6 @@
         <span
           *ngIf="isSubmittedForm && formControls.password.hasError('required')"
           >Required</span
-        >
-        <span *ngIf="formControls.password.hasError('minlength')"
-          >Password must be at least 8 characters long</span
         >
       </div>
       <span class="login__errors" *ngIf="incorrectEmailOrPassError">

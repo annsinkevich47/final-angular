@@ -10,8 +10,8 @@
         <span *ngIf="isSubmittedForm && formControls.email.hasError('required')"
           >Required</span
         >
-        <span *ngIf="formControls.email.hasError('pattern')"
-          >Invalid email</span
+        <span *ngIf="isSubmittedForm && formControls.email.hasError('pattern')"
+          >Incorrect email</span
         >
       </div>
       <span class="signup__errors" *ngIf="emailExistsError">
@@ -27,7 +27,8 @@
           *ngIf="isSubmittedForm && formControls.password.hasError('required')"
           >Required</span
         >
-        <span *ngIf="formControls.password.hasError('minlength')"
+        <span
+          *ngIf="isSubmittedForm && formControls.password.hasError('minlength')"
           >Password must be at least 8 characters long</span
         >
       </div>
@@ -45,12 +46,6 @@
           formControls.repeatPassword.invalid ||
           form.hasError('passwordsMismatch')
         ">
-        <span
-          *ngIf="
-            isSubmittedForm && formControls.repeatPassword.hasError('required')
-          "
-          >Required</span
-        >
         <span *ngIf="form.hasError('passwordsMismatch')"
           >Passwords do not match</span
         >
