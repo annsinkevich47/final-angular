@@ -1,1 +1,10 @@
-<p>result works!</p>
+<div class="results">
+  <div class="results__not-found" *ngIf="tripData?.routes?.length === 0">
+    <p class="results__title">No direct trains found</p>
+    <p class="results__desc">
+      No seats on direct trains are available right now, but there's always
+      hope<br />Try again later or travel with a transfer
+    </p>
+  </div>
+  <div class="results__list">lol</div>
+</div>

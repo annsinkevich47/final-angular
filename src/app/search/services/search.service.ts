@@ -9,7 +9,8 @@ import { ICity, IRequestSearch, ITrip } from '../models/models';
   providedIn: 'root',
 })
 export class SearchService {
-  private arrayCities: ICity[] = [];
+  // private arrayCities: ICity[] = [];
+  public tripData$ = new Subject<ITrip>();
   public dateFilter$ = new Subject<string[]>();
   constructor(private http: HttpClient) {}
 
@@ -22,9 +23,9 @@ export class SearchService {
     });
   }
 
-  saveCities(arrayCities: ICity[]) {
-    this.arrayCities = [...arrayCities];
-  }
+  // saveCities(arrayCities: ICity[]) {
+  //   this.arrayCities = [...arrayCities];
+  // }
 
   setSchedule(requestSearch: IRequestSearch) {
     // this.getStations();
@@ -70,7 +71,7 @@ export class SearchService {
             }
           }
         });
-
+        this.tripData$.next(data);
         this.dateFilter$.next(arrayDateStart);
       });
   }

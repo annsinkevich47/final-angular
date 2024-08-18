@@ -57,7 +57,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       )
       .subscribe(query => {
         this.searchService.getCities(query).subscribe((cities: ICity[]) => {
-          this.searchService.saveCities(cities);
+          // this.searchService.saveCities(cities);
           if (isFrom) {
             this.citiesFrom = [...cities];
           } else {
