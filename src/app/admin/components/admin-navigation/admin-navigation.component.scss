@@ -1,0 +1,19 @@
+@import '../../../../styles/variables';
+
+.admin-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+  font-weight: 800;
+  background-color: $color-gray;
+  padding: 20px;
+  height: 100%;
+  &__link {
+    color: $color-black;
+    text-decoration: none;
+    border-bottom: 1px solid gray;
+  }
+  &__link.active {
+    color: $color-blue;
+  }
+}

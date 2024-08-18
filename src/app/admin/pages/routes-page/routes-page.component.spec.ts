@@ -8,8 +8,9 @@ describe('RoutesPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RoutesPageComponent],
-    }).compileComponents();
+      declarations: [RoutesPageComponent]
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(RoutesPageComponent);
     component = fixture.componentInstance;

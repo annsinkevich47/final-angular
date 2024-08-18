@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CarriagesPageComponent } from './carriages-page.component';
+import { TripPageComponent } from './trip-page.component';
 
-describe('CarriagesPageComponent', () => {
-  let component: CarriagesPageComponent;
-  let fixture: ComponentFixture<CarriagesPageComponent>;
+describe('TripPageComponent', () => {
+  let component: TripPageComponent;
+  let fixture: ComponentFixture<TripPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CarriagesPageComponent]
+      declarations: [TripPageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CarriagesPageComponent);
+    fixture = TestBed.createComponent(TripPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
