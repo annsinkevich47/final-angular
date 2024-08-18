@@ -1,10 +1,31 @@
 <div class="results">
-  <div class="results__not-found" *ngIf="tripData?.routes?.length === 0">
+  <div class="results__not-found" *ngIf="tripDataFiltered?.length === 0">
     <p class="results__title">No direct trains found</p>
     <p class="results__desc">
       No seats on direct trains are available right now, but there's always
       hope<br />Try again later or travel with a transfer
     </p>
   </div>
-  <div class="results__list">lol</div>
+  <div class="results__list">
+    <div class="results__card-trip" *ngFor="let card of tripDataFiltered">
+      <div class="results__main-info">
+        <div class="results__station">
+          <p class="results__station-day">{{ card.stationFrom.timeDay }}</p>
+          <p class="results__station-date">{{ card.stationFrom.date }}</p>
+
+          <p class="results__station-name">{{ card.stationFrom.name }}</p>
+        </div>
+        <div class="results__time-wrap">
+          <p class="results__time-label">Time trip</p>
+          <p class="results__time">{{ card.timePath }}</p>
+        </div>
+
+        <div class="results__station">
+          <p class="results__station-day">{{ card.stationTo.timeDay }}</p>
+          <p class="results__station-date">{{ card.stationTo.date }}</p>
+          <p class="results__station-name">{{ card.stationTo.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

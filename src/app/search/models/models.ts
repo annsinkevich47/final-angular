@@ -20,43 +20,59 @@ export interface IRequestSearch {
   time?: number;
 }
 
-interface Geolocation {
+interface IGeolocation {
   latitude: number;
   longitude: number;
 }
 
-interface Station {
+interface IStation {
   stationId: number;
   city: string;
-  geolocation: Geolocation;
+  geolocation: IGeolocation;
 }
 
-interface Route {
+interface IRoute {
   id: number;
   path: number[];
   carriages: string[];
-  schedule: Schedule[];
+  schedule: ISchedule[];
 }
 
-interface Schedule {
+interface ISchedule {
   rideId: number;
-  segments: Segment[];
+  segments: ISegment[];
 }
 
-interface Segment {
+interface ISegment {
   time: string[];
   price: { [key: string]: number };
   occupiedSeats: number[];
 }
 
 export interface ITrip {
-  from: Station;
-  to: Station;
-  routes: Route[];
+  from: IStation;
+  to: IStation;
+  routes: IRoute[];
 }
 
 export interface ICardFilter {
   id: number;
   date: string;
   dayName: string;
+  dateBase: string;
+}
+
+export interface IStationResult {
+  id: number;
+  name: string;
+  date: string;
+  day: string;
+  time: string;
+  timeDay: string;
+}
+
+export interface ICardResult {
+  stationFrom: IStationResult;
+  stationTo: IStationResult;
+  timePath: string;
 }

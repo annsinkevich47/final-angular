@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { getDaydate } from '../../consts/consts';
 import { ICardFilter } from '../../models/models';
 import { SearchService } from '../../services/search.service';
 
@@ -14,15 +15,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   public itemsPerPage = 4;
   public idActiveCard = 0;
   public subscriptionFilter: Subscription | undefined;
-  private readonly daysOfWeek = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
 
   public cards: ICardFilter[] = [];
 
@@ -31,8 +23,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptionFilter = this.searchService.dateFilter$.subscribe(
       value => {
-        console.log(value);
-
         this.generateCards(value);
       },
     );
@@ -42,32 +32,17 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.subscriptionFilter?.unsubscribe();
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getUniqueDates(dates: string[]) {
-    const uniqueDays = new Set();
-
-    return dates
-      .filter(date => {
-        const day = date.split('T')[0];
-        if (!uniqueDays.has(day)) {
-          uniqueDays.add(day);
-          return true;
-        }
-        return false;
-      })
-      .sort();
-  }
-
   generateCards(arrayDate: string[]) {
-    const copyArrayDate = this.getUniqueDates(arrayDate);
     this.cards.length = 0;
-    for (let index = 0; index < copyArrayDate.length; index += 1) {
-      const date = new Date(copyArrayDate[index]);
-      const options = { month: 'long', day: 'numeric' } as const;
-      const formattedDate = date.toLocaleDateString('en-EN', options);
-      const dayName = this.daysOfWeek[date.getDay()];
+    for (let index = 0; index < arrayDate.length; index += 1) {
+      const { date, dayName } = getDaydate(arrayDate[index]);
 
-      this.cards.push({ date: formattedDate, dayName, id: index });
+      this.cards.push({
+        date,
+        dayName,
+        id: index,
+        dateBase: arrayDate[index],
+      });
     }
   }
 
@@ -88,7 +63,8 @@ export class FilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  setActiveCard(id: number) {
+  setActiveCard(id: number, dateBase: string) {
     this.idActiveCard = id;
+    this.searchService.setActualDate(dateBase);
   }
 }

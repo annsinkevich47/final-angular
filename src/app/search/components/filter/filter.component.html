@@ -23,7 +23,7 @@
     <div
       class="slider__card"
       *ngFor="let card of visibleCards"
-      (click)="setActiveCard(card.id)"
+      (click)="setActiveCard(card.id, card.dateBase)"
       [ngClass]="{
         'slider__card--is-active': card.id === idActiveCard,
       }">
