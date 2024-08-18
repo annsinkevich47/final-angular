@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { debounceTime, filter, Subscription } from 'rxjs';
 
-import { ICity } from '../../models/models';
+import { ICity, IRequestSearch } from '../../models/models';
 import { SearchService } from '../../services/search.service';
 
 @Component({
@@ -52,18 +52,16 @@ export class SearchComponent implements OnInit, OnDestroy {
       ?.valueChanges.pipe(
         debounceTime(500),
         filter(value => {
-          console.log(value);
-
           return value.length >= 3;
         }),
       )
       .subscribe(query => {
-        this.searchService.getCities(query).subscribe((data: ICity[]) => {
-          console.log(data);
+        this.searchService.getCities(query).subscribe((cities: ICity[]) => {
+          this.searchService.saveCities(cities);
           if (isFrom) {
-            this.citiesFrom = [...data];
+            this.citiesFrom = [...cities];
           } else {
-            this.citiesTo = [...data];
+            this.citiesTo = [...cities];
           }
         });
       });
@@ -107,7 +105,37 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   search() {
     if (!this.searchForm.invalid) {
-      console.log('Valid');
+      // const cityFrom: ICity[] = this.citiesFrom.filter(city => {
+      //   return city.name === this.searchForm.get('cityFrom')?.value;
+      // });
+      // const citiesTo: ICity[] = this.citiesTo.filter(city => {
+      //   return city.name === this.searchForm.get('cityTo')?.value;
+      // });
+
+      // if (cityFrom.length === 0 || citiesTo.length === 0) {
+      //   return;
+      // }
+
+      const dateObject: Date = new Date(this.searchForm.get('datetime')?.value);
+      const timestamp: number = dateObject.getTime();
+      // const requestSearch: IRequestSearch = {
+      //   fromLatitude: cityFrom[0].latitude,
+      //   fromLongitude: cityFrom[0].longitude,
+      //   toLatitude: citiesTo[0].latitude,
+      //   toLongitude: citiesTo[0].longitude,
+      //   time: timestamp,
+      // };
+      const requestSearch: IRequestSearch = {
+        fromLatitude: 53.5747,
+        fromLongitude: 7.7808,
+        toLatitude: 50.72,
+        toLongitude: -1.88,
+        time: timestamp,
+      };
+
+      console.log(requestSearch);
+
+      this.searchService.setSchedule(requestSearch);
     }
   }
 }

@@ -1,0 +1,109 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__cards-wrap {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-around;
+  }
+
+  &__card {
+    border: 1px solid $color-blue;
+    background: transparentize($color-gray, 0.8);
+    padding: 2px 4px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+
+    &--is-active {
+      background: $color-blue;
+      color: $color-white;
+    }
+
+    &-date {
+      font-size: 10px;
+      font-weight: 600;
+
+      @include tablet {
+        font-size: 12px;
+      }
+
+      @include laptop {
+        font-size: 14px;
+      }
+    }
+
+    &-dayname {
+      font-size: 10px;
+
+      @include tablet {
+        font-size: 12px;
+      }
+    }
+
+    @include mobile-x {
+      width: 120px;
+    }
+
+    @include tablet {
+      width: 100px;
+      padding: 5px 10px;
+      margin: 8px;
+    }
+
+    @include laptop {
+      width: 120px;
+
+      &:hover {
+        background: $color-blue;
+        color: $color-white;
+      }
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    padding: 5px;
+    border: 1px solid $color-blue;
+    background: transparentize($color-gray, 0.8);
+    border-radius: 50%;
+    margin: 0 4px;
+
+    &-inactive {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    @include tablet {
+      width: 30px;
+      height: 30px;
+    }
+
+    @include laptop {
+      &:hover {
+        background: $color-blue;
+
+        path {
+          fill: $color-white;
+        }
+      }
+    }
+  }
+}
+
+
+
+// button {
+//   margin: 5px;
+// }
