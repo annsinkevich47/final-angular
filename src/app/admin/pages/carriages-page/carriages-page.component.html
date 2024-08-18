@@ -18,7 +18,7 @@
         formControlName="name" />
       <label for="carriages__rows" class="carriages__rowsLabel">Rows</label>
       <input
-        placeholder="Enter number from 1 to 15"
+        placeholder="Enter number from 1 to 20"
         id="carriages__rows"
         formControlName="rows" />
       <label for="carriages__leftSeatsNumber" class="carriages__leftSeatsLabel"
@@ -52,9 +52,10 @@
         Update
       </button>
     </form>
-    <!-- <div class="carriages__prototype" *ngIf="createPrototype">
+    <div class="carriages__prototype" *ngIf="createPrototype">
+      <div class="carriages__prototype-name">Carriage Prototype</div>
       <app-carriage-item [carriage]="selectedCarriage"></app-carriage-item>
-    </div> -->
+    </div>
     <div class="carriages__list">
       <app-carriage-item
         *ngFor="let carriage of carriages"

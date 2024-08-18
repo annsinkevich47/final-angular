@@ -43,7 +43,7 @@ export class CarriagesPageComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
-          Validators.max(15),
+          Validators.max(20),
         ],
       ],
       leftSeats: [
@@ -63,6 +63,21 @@ export class CarriagesPageComponent implements OnInit {
         ],
       ],
     });
+
+    this.prototypeForm.valueChanges.subscribe(() => {
+      this.updatePrototype();
+    });
+  }
+
+  private updatePrototype() {
+    this.selectedCarriage = {
+      ...this.selectedCarriage,
+      name: this.prototypeForm.value.name,
+      rows: Number(this.prototypeForm.value.rows),
+      leftSeats: Number(this.prototypeForm.value.leftSeats),
+      rightSeats: Number(this.prototypeForm.value.rightSeats),
+    };
+    this.createPrototype = true;
   }
 
   public getCarriagesArray() {
@@ -97,11 +112,12 @@ export class CarriagesPageComponent implements OnInit {
           console.error('Error: carriage not created', err);
         },
       });
+      this.resetForm();
     }
   }
 
   public onUpdate() {
-    if (this.prototypeForm.valid && this.isUpdating) {
+    if (this.isUpdating) {
       const updatedCarriage: CarriageType = {
         ...this.selectedCarriage,
         name: this.prototypeForm.value.name,
@@ -137,6 +153,7 @@ export class CarriagesPageComponent implements OnInit {
     this.isCreating = false;
     this.isUpdating = false;
     this.formDisplay = false;
+    this.createPrototype = false;
   }
 
   public onCreateCarriage() {
@@ -163,6 +180,8 @@ export class CarriagesPageComponent implements OnInit {
       leftSeats: this.selectedCarriage.leftSeats,
       rightSeats: this.selectedCarriage.rightSeats,
     });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   public toggleFormDisplay() {

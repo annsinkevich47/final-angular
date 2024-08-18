@@ -17,6 +17,17 @@
     justify-self: center;
     margin-top: 20px;
   }
+  &__prototype {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border: 2px solid $color-purple;
+    width: fit-content;
+    padding: 20px;
+  }
+  &__prototype-item {
+    font-weight: 600;
+  }
   &__list {
     display: flex;
     flex-direction: column;
