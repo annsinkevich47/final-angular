@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { SignService } from '../../../core/services/sign.service';
 import { PasswordMatchValidator } from '../../helpers/passwordsMatch.validator';
+import { SignService } from '../../services/sign.service';
 import {
   BaseFormComponent,
   FormControls,
