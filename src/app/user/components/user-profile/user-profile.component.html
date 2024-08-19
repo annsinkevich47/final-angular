@@ -2,12 +2,14 @@
   <h2 class="profile__title">Profile</h2>
 
   <button>Change Password</button>
+  <!-- <button (click)="openPasswordModal()">Change Password</button> -->
 
   <div class="profile__field field">
     <span class="field__title">Name</span>
-    <span class="field__name" *ngIf="currentUser$ | async as currentUser">
+    <span class="field__name" *ngIf="!currentUser"> Loading... </span>
+    <span class="field__name" *ngIf="currentUser">
       <ng-container *ngIf="!isEditingName; else editNameTemplate">
-        {{ currentUser.name }}
+        {{ currentUser.name ?? 'User' }}
         <button (click)="toggleEditName()">
           <svg
             width="100"
@@ -22,8 +24,8 @@
               fill="#3572ce" />
           </svg></button></ng-container
       ><ng-template #editNameTemplate>
-        <input type="text" />
-        <button>
+        <input type="text" [formControl]="editNameInput" />
+        <button (click)="saveName()">
           <svg
             width="100px"
             height="100px"
@@ -67,7 +69,8 @@
 
   <div class="profile__field field">
     <span class="field__title">Email</span>
-    <span class="field__email" *ngIf="currentUser$ | async as currentUser">
+    <span class="field__email" *ngIf="!currentUser"> Loading... </span>
+    <span class="field__email" *ngIf="currentUser">
       <ng-container *ngIf="!isEditingEmail; else editEmailTemplate">
         {{ currentUser.email }}
         <button (click)="toggleEditEmail()">
@@ -84,8 +87,8 @@
               fill="#3572ce" />
           </svg></button></ng-container
       ><ng-template #editEmailTemplate>
-        <input type="email" />
-        <button>
+        <input type="email" [formControl]="editEmailInput" />
+        <button (click)="saveEmail()">
           <svg
             width="100px"
             height="100px"
@@ -135,6 +138,12 @@
       <button class="modal__button--cancel">Cancel</button>
     </div>
   </div>
+  <!-- <div *ngIf="passwordModalOpen">
+    <input [(ngModel)]="newPassword" placeholder="New Password" />
+    <button (click)="changePassword()">Save</button>
+    <button (click)="passwordModalOpen = false">Cancel</button>
+  </div> -->
 
+  <!-- <button (click)="logout()">Logout</button> -->
   <button class="profile__logout">Logout</button>
 </div>
