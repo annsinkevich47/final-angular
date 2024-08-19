@@ -43,7 +43,7 @@ export class CarriagesPageComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
-          Validators.max(20),
+          Validators.max(17),
         ],
       ],
       leftSeats: [
@@ -69,15 +69,33 @@ export class CarriagesPageComponent implements OnInit {
     });
   }
 
+  getErrorMessage(formControlName: string): string {
+    const control = this.prototypeForm.get(formControlName);
+    if (control && control.touched && control.invalid) {
+      if (control.hasError('required')) {
+        return 'Field is required';
+      }
+      if (control.hasError('pattern')) {
+        return 'Please enter number';
+      }
+      if (control.hasError('max')) {
+        return 'Incorrect number';
+      }
+    }
+    return '';
+  }
+
   private updatePrototype() {
-    this.selectedCarriage = {
-      ...this.selectedCarriage,
-      name: this.prototypeForm.value.name,
-      rows: Number(this.prototypeForm.value.rows),
-      leftSeats: Number(this.prototypeForm.value.leftSeats),
-      rightSeats: Number(this.prototypeForm.value.rightSeats),
-    };
-    this.createPrototype = true;
+    if(this.prototypeForm.valid) {
+      this.selectedCarriage = {
+        ...this.selectedCarriage,
+        name: this.prototypeForm.value.name,
+        rows: Number(this.prototypeForm.value.rows),
+        leftSeats: Number(this.prototypeForm.value.leftSeats),
+        rightSeats: Number(this.prototypeForm.value.rightSeats),
+      };
+      this.createPrototype = true;
+    }
   }
 
   public getCarriagesArray() {
@@ -117,7 +135,7 @@ export class CarriagesPageComponent implements OnInit {
   }
 
   public onUpdate() {
-    if (this.isUpdating) {
+    if (this.isUpdating && this.prototypeForm.valid) {
       const updatedCarriage: CarriageType = {
         ...this.selectedCarriage,
         name: this.prototypeForm.value.name,
