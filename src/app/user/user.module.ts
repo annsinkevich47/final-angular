@@ -12,6 +12,7 @@ import { RegistrationPageComponent } from './pages/registration-page/registratio
 import { TripPageComponent } from './pages/trip-page/trip-page.component';
 import { UserComponent } from './pages/user.component';
 import { UserRoutingModule } from './user-routing.module';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { UserRoutingModule } from './user-routing.module';
     ProfilePageComponent,
     UserComponent,
     TripPageComponent,
+    UserProfileComponent,
   ],
   imports: [CommonModule, SharedModule, UserRoutingModule],
 })
