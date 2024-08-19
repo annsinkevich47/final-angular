@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdminComponent } from './admin/pages/admin.component';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
-import { UserComponent } from './user/user.component';
+import { UserComponent } from './user/pages/user.component';
 
 const routes: Routes = [
   {
@@ -13,29 +13,7 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./search/search.module').then(m => m.SearchModule),
-      },
-      {
-        path: 'signin',
-        loadChildren: () =>
-          import('./login/login.module').then(m => m.LoginModule),
-      },
-      {
-        path: 'signup',
-        loadChildren: () =>
-          import('./registration/registration.module').then(
-            m => m.RegistrationModule
-          ),
-      },
-      {
-        path: 'profile',
-        loadChildren: () =>
-          import('./profile/profile.module').then(m => m.ProfileModule),
-      },
-      {
-        path: 'orders',
-        loadChildren: () =>
-          import('./orders/orders.module').then(m => m.OrdersModule),
+          import('./user/user.module').then(m => m.UserModule),
       },
     ],
   },

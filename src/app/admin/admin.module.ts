@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { HeaderComponent } from '../shared/components/header/header.component';
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
