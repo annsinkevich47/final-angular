@@ -10,10 +10,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AppEffects } from './redux/effects/app.effects';
 import { metaReducers, reducers } from './redux/reducers';
+import { UserModule } from './user/user.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    UserModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -24,7 +27,9 @@ import { metaReducers, reducers } from './redux/reducers';
     EffectsModule.forRoot([AppEffects, CarriageEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
