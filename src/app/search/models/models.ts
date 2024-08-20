@@ -31,7 +31,7 @@ interface IStation {
   geolocation: IGeolocation;
 }
 
-interface IRoute {
+export interface IRoute {
   id: number;
   path: number[];
   carriages: string[];

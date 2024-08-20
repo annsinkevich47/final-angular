@@ -8,6 +8,7 @@ import {
   ICardResult,
   ICity,
   IRequestSearch,
+  IRoute,
   IStationObj,
   ITrip,
 } from '../models/models';
@@ -16,7 +17,6 @@ import {
   providedIn: 'root',
 })
 export class SearchService {
-  // private arrayCities: ICity[] = [];
   public tripCardsData$ = new Subject<ICardResult[]>();
   public dateFilter$ = new Subject<string[]>();
   public actualDate$ = new Subject<string>();
@@ -35,11 +35,119 @@ export class SearchService {
     });
   }
 
-  // saveCities(arrayCities: ICity[]) {
-  //   this.arrayCities = [...arrayCities];
-  // }
-
   setSchedule(requestSearch: IRequestSearch) {
+    const params = this.createParams(requestSearch);
+    console.log(params);
+    this.http
+      .get<ITrip>(`${env.API_URL_SEARCH}`, {
+        params,
+      })
+      .pipe(
+        catchError(error => {
+          console.error('Error executing the request:', error);
+          return of(null);
+        }),
+      )
+      .subscribe((data: ITrip | null) => {
+        console.log(data);
+        if (!data) {
+          this.tripCardsData$.next([]);
+          this.actualDate$.next('');
+          return;
+        }
+
+        this.getInfoFromApi(data);
+      });
+  }
+
+  getInfoFromApi(data: ITrip) {
+    const arrayDateStart: string[] = [];
+    let arrayResult: ICardResult[] = [];
+    const idStationFrom = data.from.stationId;
+    const idStationTo = data.to.stationId;
+    data.routes.forEach(route => {
+      let indexPathFrom: number = -1;
+      let indexPathTo: number = -1;
+      const indexStartStation = route.path[0];
+      const indexEndStation = route.path[route.path.length - 1];
+      for (let index = 0; index < route.path.length; index += 1) {
+        if (route.path[index] === idStationFrom) {
+          indexPathFrom = index;
+
+          if (indexPathFrom !== -1) {
+            const copyIndex = indexPathFrom;
+            route.schedule.forEach(schedule => {
+              arrayDateStart.push(schedule.segments[copyIndex].time[0]);
+            });
+          }
+        }
+        if (route.path[index] === idStationTo) {
+          indexPathTo = index;
+        }
+        if (indexPathFrom !== -1 && indexPathTo !== -1) {
+          console.log(indexPathFrom, indexPathTo);
+          const copyIndexFrom = indexPathFrom;
+          const copyIndexTo = indexPathTo;
+
+          arrayResult = [
+            ...arrayResult,
+            ...this.createArrayTripCards(
+              route,
+              data,
+              indexStartStation,
+              indexEndStation,
+              copyIndexFrom,
+              copyIndexTo,
+            ),
+          ];
+          index = route.path.length;
+        }
+      }
+    });
+    this.saveResults(arrayResult, arrayDateStart);
+  }
+
+  saveResults(arrayResult: ICardResult[], arrayDateStart: string[]) {
+    this.tripCardsData$.next(arrayResult);
+    const sortedDates = this.getUniqueDates(arrayDateStart);
+    this.actualDate$.next(sortedDates[0]);
+    this.dateFilter$.next(sortedDates);
+  }
+
+  createArrayTripCards(
+    route: IRoute,
+    data: ITrip,
+    indexStartStation: number,
+    indexEndStation: number,
+    copyIndexFrom: number,
+    copyIndexTo: number,
+  ) {
+    const arrayResult: ICardResult[] = [];
+
+    route.schedule.forEach(schedule => {
+      const timeStart = schedule.segments[copyIndexFrom].time[0];
+      const timeEnd = schedule.segments[copyIndexTo - 1].time[1];
+      const dateDataFrom = getDaydate(timeStart);
+      const dateDataTo = getDaydate(timeEnd);
+      arrayResult.push(
+        this.createCardStation(
+          data,
+          dateDataFrom,
+          dateDataTo,
+          timeStart,
+          timeEnd,
+          indexStartStation,
+          indexEndStation,
+        ),
+      );
+    });
+    console.log(arrayResult);
+
+    return arrayResult;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  createParams(requestSearch: IRequestSearch) {
     const params = new HttpParams()
       .set('fromLatitude', requestSearch.fromLatitude)
       .set('fromLongitude', requestSearch.fromLongitude)
@@ -54,93 +162,40 @@ export class SearchService {
     //     .set('toLongitude', requestSearch.toLongitude)
     //     .set('time', requestSearch.time);
     // }
-    console.log(params);
-    this.http
-      .get<ITrip>(`${env.API_URL_SEARCH}`, {
-        // headers: {
-        //   Authorization: `Bearer ${key}`,
-        // },
-        params,
-      })
-      .pipe(
-        catchError(error => {
-          console.error('Ошибка при выполнении запроса:', error);
-          return of(null);
-        }),
-      )
-      .subscribe((data: ITrip | null) => {
-        console.log(data);
-        if (!data) {
-          this.tripCardsData$.next([]);
-          this.actualDate$.next('');
+    return params;
+  }
 
-          return;
-        }
-        const arrayDateStart: string[] = [];
-        const arrayResult: ICardResult[] = [];
-        const idStationFrom = data.from.stationId;
-        const idStationTo = data.to.stationId;
-        data.routes.forEach(route => {
-          let indexPathFrom: number = -1;
-          let indexPathTo: number = -1;
-          const indexStartStation = route.path[0];
-          const indexEndStation = route.path[route.path.length - 1];
-          for (let index = 0; index < route.path.length; index += 1) {
-            if (route.path[index] === idStationFrom) {
-              indexPathFrom = index;
-
-              if (indexPathFrom !== -1) {
-                const copyIndex = indexPathFrom;
-                route.schedule.forEach(schedule => {
-                  arrayDateStart.push(schedule.segments[copyIndex].time[0]);
-                });
-              }
-            }
-            if (route.path[index] === idStationTo) {
-              indexPathTo = index;
-            }
-            if (indexPathFrom !== -1 && indexPathTo !== -1) {
-              console.log(indexPathFrom, indexPathTo);
-              const copyIndexFrom = indexPathFrom;
-              const copyIndexTo = indexPathTo;
-
-              route.schedule.forEach(schedule => {
-                const timeStart = schedule.segments[copyIndexFrom].time[0];
-                const timeEnd = schedule.segments[copyIndexTo - 1].time[1];
-                const dateDataFrom = getDaydate(timeStart);
-                const dateDataTo = getDaydate(timeEnd);
-                const cardStation: ICardResult = {
-                  stationFrom: {
-                    id: data.from.stationId,
-                    name: data.from.city,
-                    date: dateDataFrom.date,
-                    day: dateDataFrom.dayName,
-                    time: timeStart,
-                    timeDay: getTimeFromDateString(timeStart),
-                  },
-                  stationTo: {
-                    id: data.to.stationId,
-                    name: data.to.city,
-                    date: dateDataTo.date,
-                    day: dateDataTo.dayName,
-                    time: timeEnd,
-                    timeDay: getTimeFromDateString(timeEnd),
-                  },
-                  timePath: this.calculateTimeDifference(timeStart, timeEnd),
-                  stationStart: this.stations[indexStartStation].city,
-                  stationEnd: this.stations[indexEndStation].city,
-                };
-                arrayResult.push(cardStation);
-              });
-              index = route.path.length;
-            }
-          }
-        });
-        this.tripCardsData$.next(arrayResult);
-        const sortedDates = this.getUniqueDates(arrayDateStart);
-        this.actualDate$.next(sortedDates[0]);
-        this.dateFilter$.next(sortedDates);
-      });
+  createCardStation(
+    data: ITrip,
+    dateDataFrom: { date: string; dayName: string },
+    dateDataTo: { date: string; dayName: string },
+    timeStart: string,
+    timeEnd: string,
+    indexStartStation: number,
+    indexEndStation: number,
+  ) {
+    const cardStation: ICardResult = {
+      stationFrom: {
+        id: data.from.stationId,
+        name: data.from.city,
+        date: dateDataFrom.date,
+        day: dateDataFrom.dayName,
+        time: timeStart,
+        timeDay: getTimeFromDateString(timeStart),
+      },
+      stationTo: {
+        id: data.to.stationId,
+        name: data.to.city,
+        date: dateDataTo.date,
+        day: dateDataTo.dayName,
+        time: timeEnd,
+        timeDay: getTimeFromDateString(timeEnd),
+      },
+      timePath: this.calculateTimeDifference(timeStart, timeEnd),
+      stationStart: this.stations[indexStartStation].city,
+      stationEnd: this.stations[indexEndStation].city,
+    };
+    return cardStation;
   }
 
   // eslint-disable-next-line class-methods-use-this
