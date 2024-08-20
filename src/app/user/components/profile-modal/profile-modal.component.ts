@@ -23,7 +23,8 @@ export class ProfileModalComponent {
     if (!password) return;
 
     this.profileService.changePassword(password).subscribe(() => {
-      this.isPasswordModalOpen = false;
+      this.editPasswordInput.setValue('');
+      this.close();
     });
   }
 
