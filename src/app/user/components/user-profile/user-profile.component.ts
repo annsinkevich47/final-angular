@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
+import { AuthService } from '../../../core/services/auth.service';
 import { IProfile } from '../../../shared/models/profile-response.module';
 import { ProfileService } from '../../services/profile.service';
 
@@ -16,7 +18,11 @@ export class UserProfileComponent implements OnInit {
   public editNameInput = new FormControl<string | null>('');
   public editEmailInput = new FormControl<string | null>('');
 
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private router: Router,
+    private profileService: ProfileService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.profileService.getUserInfo().subscribe(user => {
@@ -34,7 +40,7 @@ export class UserProfileComponent implements OnInit {
     this.isEditingEmail = !this.isEditingEmail;
   }
 
-  saveName() {
+  public saveName(): void {
     const name = this.editNameInput.value?.trim();
     const { email } = this.currentUser;
 
@@ -46,7 +52,7 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  saveEmail() {
+  public saveEmail(): void {
     const { name } = this.currentUser;
     const email = this.editEmailInput.value?.trim();
 
@@ -56,5 +62,10 @@ export class UserProfileComponent implements OnInit {
       this.currentUser.email = email;
       this.isEditingEmail = false;
     });
+  }
+
+  public logout(): void {
+    this.authService.logout();
+    this.router.navigateByUrl('/');
   }
 }

@@ -138,12 +138,6 @@
       <button class="modal__button--cancel">Cancel</button>
     </div>
   </div>
-  <!-- <div *ngIf="passwordModalOpen">
-    <input [(ngModel)]="newPassword" placeholder="New Password" />
-    <button (click)="changePassword()">Save</button>
-    <button (click)="passwordModalOpen = false">Cancel</button>
-  </div> -->
 
-  <!-- <button (click)="logout()">Logout</button> -->
-  <button class="profile__logout">Logout</button>
+  <button class="profile__logout" (click)="logout()">Logout</button>
 </div>
