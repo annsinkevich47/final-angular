@@ -16,10 +16,8 @@ export class UserProfileComponent implements OnInit {
   public isEditingName: boolean = false;
   public isEditingEmail: boolean = false;
   public isPasswordModalOpen: boolean = false;
-  public isHoveredPassword: boolean = false;
   public editNameInput = new FormControl<string | null>('');
   public editEmailInput = new FormControl<string | null>('');
-  public editPasswordInput = new FormControl<string | null>('');
   public emailError: string = '';
   private isSubmitted: boolean = false;
   private regExpEmail: RegExp = /^[\w\d_]+@[\w\d_]+\.\w{2,7}$/;
@@ -98,16 +96,6 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  public changePassword(): void {
-    const password = this.editPasswordInput.value?.trim();
-
-    if (!password) return;
-
-    this.profileService.changePassword(password).subscribe(() => {
-      this.isPasswordModalOpen = false;
-    });
-  }
-
   public isEmailValid(): boolean {
     const email = this.editEmailInput.value?.trim();
 
@@ -118,12 +106,6 @@ export class UserProfileComponent implements OnInit {
     const name = this.editNameInput.value?.trim();
 
     return name ? name.length > 0 : false;
-  }
-
-  public isPassLengthValid(): boolean {
-    const password = this.editPasswordInput.value?.trim();
-
-    return password ? password.length >= 8 : false;
   }
 
   public logout(): void {
