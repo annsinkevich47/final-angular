@@ -18,8 +18,8 @@ export class UserProfileComponent implements OnInit {
   public isPasswordModalOpen: boolean = false;
   public editNameInput = new FormControl<string | null>('');
   public editEmailInput = new FormControl<string | null>('');
+  public nameError: string = '';
   public emailError: string = '';
-  private isSubmitted: boolean = false;
   private regExpEmail: RegExp = /^[\w\d_]+@[\w\d_]+\.\w{2,7}$/;
 
   constructor(
@@ -33,6 +33,10 @@ export class UserProfileComponent implements OnInit {
       this.currentUser = user;
       this.editNameInput.setValue(this.currentUser.name ?? 'User');
       this.editEmailInput.setValue(this.currentUser.email);
+
+      this.editNameInput.valueChanges.subscribe(value => {
+        this.validateName(value);
+      });
 
       this.editEmailInput.valueChanges.subscribe(value => {
         this.validateEmail(value);
@@ -66,8 +70,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   public saveEmail(): void {
-    this.isSubmitted = true;
-
     const { name } = this.currentUser;
     const email = this.editEmailInput.value?.trim();
 
@@ -117,15 +119,23 @@ export class UserProfileComponent implements OnInit {
 
   private validateEmail(email: string | null): void {
     switch (true) {
-      case email && !this.regExpEmail.test(email.trim()) && this.isSubmitted:
+      case email && !this.regExpEmail.test(email.trim()):
         this.emailError = 'Incorrect email';
         break;
-      case !email && this.isSubmitted:
+      case !email:
         this.emailError = 'Required';
         break;
       default:
         this.emailError = '';
         break;
+    }
+  }
+
+  private validateName(name: string | null): void {
+    if (!name?.trim()) {
+      this.nameError = 'Required';
+    } else {
+      this.nameError = '';
     }
   }
 }
