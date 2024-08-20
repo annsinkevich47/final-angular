@@ -3,7 +3,7 @@
 .profile {
   max-width: 500px;
   margin: 50px auto 0;
-  padding: 40px 30px 30px;
+  padding: 40px 30px;
   box-shadow: 0 0 95px 0px rgba(0, 0, 0, 0.35);
   border-radius: 10px;
   display: flex;
@@ -33,7 +33,7 @@
   }
 
   &__logout {
-    align-self: center;
+    align-self: flex-start;
     color: #ffffff;
     background-color: $color-red;
     padding: 10px 20px;
@@ -56,9 +56,41 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
+    position: relative;
+
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  input {
+    border: 1px solid $color-gray;
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 170px;
+
+    &:focus {
+      border: 1px solid $color-black;
+    }
   }
 
   button {
     background-color: transparent;
+
+    &:disabled {
+      opacity: 0.7;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    top: 36px;
+    color: $color-red;
+    font-size: 14px;
   }
 }

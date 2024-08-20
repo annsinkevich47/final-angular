@@ -10,7 +10,7 @@
     <span class="field__content" *ngIf="!currentUser"> Loading... </span>
     <span class="field__content" *ngIf="currentUser">
       <ng-container *ngIf="!isEditingName; else editNameTemplate">
-        {{ currentUser.name ?? 'User' }}
+        <span>{{ currentUser.name ?? 'User' }}</span>
         <button (click)="toggleEditName()">
           <svg
             width="30"
@@ -73,7 +73,7 @@
     <span class="field__content" *ngIf="!currentUser"> Loading... </span>
     <span class="field__content" *ngIf="currentUser">
       <ng-container *ngIf="!isEditingEmail; else editEmailTemplate">
-        {{ currentUser.email }}
+        <span>{{ currentUser.email }}</span>
         <button (click)="toggleEditEmail()">
           <svg
             width="30"
