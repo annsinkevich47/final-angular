@@ -13,6 +13,7 @@ import {
 export class ProfileService {
   private readonly infoUrl = '/api/profile';
   private readonly logoutUrl = '/api/logout';
+  private readonly updatePasswordUrl = '/api/profile/password';
 
   constructor(private http: HttpClient) {}
 
@@ -29,6 +30,12 @@ export class ProfileService {
     const body = { name, email };
 
     return this.http.put<IProfileResponse>(this.infoUrl, body);
+  }
+
+  public changePassword(newPassword: string) {
+    return this.http
+      .put(this.updatePasswordUrl, { password: newPassword })
+      .pipe(catchError(this.handleError));
   }
 
   public logout(): Observable<ILogoutResponse> {

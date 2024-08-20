@@ -1,8 +1,7 @@
 <div class="profile">
   <h2 class="profile__title">Profile</h2>
 
-  <button>Change Password</button>
-  <!-- <button (click)="openPasswordModal()">Change Password</button> -->
+  <button (click)="openPasswordModal()">Change Password</button>
 
   <div class="profile__field field">
     <span class="field__title">Name</span>
@@ -133,19 +132,23 @@
     </span>
   </div>
 
-  <div class="profile__modal modal">
-    <label for="newPassword">Change Password</label>
-    <input type="text" id="newPassword" />
-    <div class="modal__button">
-      <button class="modal__button--save">Save</button>
-      <button class="modal__button--cancel">Cancel</button>
-    </div>
+  <div class="profile__modal modal" *ngIf="isPasswordModalOpen">
+    <h3 class="modal__title">Change Password</h3>
+    <label for="newPassword">New Password</label>
+    <input
+      type="{{ isHoveredPassword ? 'text' : 'password' }}"
+      placeholder="Enter at least 8 characters"
+      id="newPassword"
+      [formControl]="editPasswordInput"
+      (mouseenter)="isHoveredPassword = true"
+      (mouseleave)="isHoveredPassword = false" />
+    <button
+      class="modal__button"
+      (click)="changePassword()"
+      [disabled]="!isPassLengthValid()">
+      Save
+    </button>
   </div>
-  <!-- <div *ngIf="passwordModalOpen">
-    <input [(ngModel)]="newPassword" placeholder="New Password" />
-    <button (click)="changePassword()">Save</button>
-    <button (click)="passwordModalOpen = false">Cancel</button>
-  </div> -->
 
   <button class="profile__logout" (click)="logout()">Logout</button>
 </div>
