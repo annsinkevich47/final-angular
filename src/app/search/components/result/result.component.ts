@@ -21,13 +21,9 @@ export class ResultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptionActualDate = this.searchService.actualDate$.subscribe(
       date => {
-        console.log(date);
-
         this.actualDate = date;
 
         if (this.tripData) {
-          console.log(this.tripData);
-
           const copyFilterData = [...this.tripData];
           this.filterData(copyFilterData);
         }
@@ -35,7 +31,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
     this.subscriptionTrip = this.searchService.tripCardsData$.subscribe(
       list => {
-        console.log(list);
         this.tripData = list;
       },
     );

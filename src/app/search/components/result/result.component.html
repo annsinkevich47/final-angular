@@ -32,6 +32,22 @@
           <p class="results__transfer">to: {{ card.stationEnd }}</p>
         </div>
       </div>
+      <div class="results__info">
+        <div
+          class="results__info-block-wrap"
+          *ngFor="let occupiedSeat of card.occupiedSeats; let i = index">
+          <div class="results__info-block" *ngIf="occupiedSeat > 0">
+            <span class="results__class">{{ i + 1 }} class</span>
+            <span class="results__seats">{{ occupiedSeat }}</span>
+            <span class="results__price">0$</span>
+          </div>
+          <div class="results__info-block" *ngIf="occupiedSeat === -1">
+            <span class="results__class">{{ i + 1 }} class</span>
+            <span class="results__seats">All</span>
+            <span class="results__price">0$</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -90,4 +90,5 @@ export interface ICardResult {
   timePath: string;
   stationStart: string;
   stationEnd: string;
+  occupiedSeats: number[];
 }

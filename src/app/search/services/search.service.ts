@@ -129,6 +129,12 @@ export class SearchService {
       const timeEnd = schedule.segments[copyIndexTo - 1].time[1];
       const dateDataFrom = getDaydate(timeStart);
       const dateDataTo = getDaydate(timeEnd);
+      let occupiedSeats: number[] = [];
+      if (schedule.segments[copyIndexFrom].occupiedSeats.length === 0) {
+        occupiedSeats = [-1, -1, -1, -1, -1, -1];
+      } else {
+        occupiedSeats = [...schedule.segments[copyIndexFrom].occupiedSeats];
+      }
       arrayResult.push(
         this.createCardStation(
           data,
@@ -138,11 +144,10 @@ export class SearchService {
           timeEnd,
           indexStartStation,
           indexEndStation,
+          occupiedSeats,
         ),
       );
     });
-    console.log(arrayResult);
-
     return arrayResult;
   }
 
@@ -173,6 +178,7 @@ export class SearchService {
     timeEnd: string,
     indexStartStation: number,
     indexEndStation: number,
+    occupiedSeats: number[],
   ) {
     const cardStation: ICardResult = {
       stationFrom: {
@@ -194,6 +200,7 @@ export class SearchService {
       timePath: this.calculateTimeDifference(timeStart, timeEnd),
       stationStart: this.stations[indexStartStation].city,
       stationEnd: this.stations[indexEndStation].city,
+      occupiedSeats,
     };
     return cardStation;
   }
