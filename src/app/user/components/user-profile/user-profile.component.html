@@ -25,7 +25,7 @@
           </svg></button></ng-container
       ><ng-template #editNameTemplate>
         <input type="text" [formControl]="editNameInput" />
-        <button (click)="saveName()">
+        <button (click)="saveName()" [disabled]="!isNameValid()">
           <svg
             width="100px"
             height="100px"
@@ -88,7 +88,9 @@
           </svg></button></ng-container
       ><ng-template #editEmailTemplate>
         <input type="email" [formControl]="editEmailInput" />
-        <button (click)="saveEmail()">
+        <button
+          (click)="saveEmail()"
+          [disabled]="!!emailError || !isEmailValid()">
           <svg
             width="100px"
             height="100px"
@@ -126,6 +128,7 @@
             </g>
           </svg>
         </button>
+        <span *ngIf="emailError" class="field__error">{{ emailError }}</span>
       </ng-template>
     </span>
   </div>

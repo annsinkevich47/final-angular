@@ -21,15 +21,11 @@ export class ProfileService {
   public updateUserInfo(name: string, email: string): Observable<IProfile> {
     const body = { name, email };
 
-    return this.http
-      .put<IProfile>(this.infoUrl, body)
-      .pipe(catchError(this.handleError));
+    return this.http.put<IProfile>(this.infoUrl, body);
   }
 
   private handleError(error: HttpErrorResponse) {
-    // проверить этот метод, что возвращает
     return throwError(() => {
-      console.log(error.error.message);
       return error.error.message || 'Server error';
     });
   }
