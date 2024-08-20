@@ -15,11 +15,7 @@ export class GetCarriagesService {
   public getCarriages(): Observable<{ items: CarriageType[] }> {
     localStorage.setItem('authToken', 'token');
     return this.http
-      .get<CarriageType[]>(this.apiUrl, {
-        headers: {
-          Authorization: `Bearer rgQeD8jYiSvV13yiBZ0om6ovHHL5ZtrwPLkUZI2QSh2a`,
-        },
-      })
+      .get<CarriageType[]>(this.apiUrl)
       .pipe(map((carriages: CarriageType[]) => ({ items: carriages })));
   }
 }

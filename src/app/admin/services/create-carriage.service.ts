@@ -14,10 +14,6 @@ export class CreateCarriageService {
 
   public createCarriage(carriage: CarriageType): Observable<CarriageType> {
 
-    return this.http.post<CarriageType>(this.apiUrl, carriage, {
-      headers: {
-        // eslint-disable-next-line max-len
-        Authorization: `Bearer 4b90e1913c1672e92729902151179fde68145bfe6dc7f0d2f96cb787b50b6781b77c3e1f07bfb25ca3dd667889ef45b517b269499cf11edc35ec7ea4db494643`,
-    }});
+    return this.http.post<CarriageType>(this.apiUrl, carriage);
   }
 }

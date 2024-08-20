@@ -86,7 +86,7 @@ export class CarriagesPageComponent implements OnInit {
   }
 
   private updatePrototype() {
-    if(this.prototypeForm.valid) {
+    if (this.prototypeForm.valid) {
       this.selectedCarriage = {
         ...this.selectedCarriage,
         name: this.prototypeForm.value.name,
@@ -119,7 +119,6 @@ export class CarriagesPageComponent implements OnInit {
         rightSeats: Number(rightSeats),
       };
       this.carriages.unshift(newCarriage);
-      console.log(newCarriage);
       this.createCarriagesService.createCarriage(newCarriage).subscribe({
         next: response => {
           console.log('Carriage created:', response);
@@ -189,8 +188,6 @@ export class CarriagesPageComponent implements OnInit {
     this.isCreating = false;
     this.isUpdating = true;
     this.selectedCarriage = { ...carriage };
-
-    console.log(this.selectedCarriage);
 
     this.prototypeForm.patchValue({
       name: this.selectedCarriage.name,
