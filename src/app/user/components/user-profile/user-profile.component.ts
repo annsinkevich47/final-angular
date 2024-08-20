@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
-import { IProfile } from '../../../shared/models/profile-response.module';
+import { IProfileResponse } from '../../../shared/models/profile-response.module';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { ProfileService } from '../../services/profile.service';
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
-  public currentUser!: IProfile;
+  public currentUser!: IProfileResponse;
   public isEditingName: boolean = false;
   public isEditingEmail: boolean = false;
   public editNameInput = new FormControl<string | null>('');
@@ -54,8 +54,6 @@ export class UserProfileComponent implements OnInit {
 
     if (!name || !email) return;
 
-    // if (!this.isNameValid(name)) return;
-
     this.profileService.updateUserInfo(name, email).subscribe(() => {
       this.currentUser.name = name;
       this.isEditingName = false;
@@ -85,6 +83,7 @@ export class UserProfileComponent implements OnInit {
       error: error => {
         if (error.error.message === 'Email already exists') {
           this.emailError = error.error.message;
+          console.log(error.error.message);
         } else {
           console.error(error);
         }
@@ -105,8 +104,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   public logout(): void {
-    this.authService.logout();
-    this.router.navigateByUrl('/');
+    this.profileService.logout().subscribe(() => {
+      this.authService.logout();
+      this.router.navigateByUrl('/');
+    });
   }
 
   private validateEmail(email: string | null): void {
