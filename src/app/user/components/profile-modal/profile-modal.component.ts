@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { ProfileService } from '../../services/profile.service';
@@ -13,6 +13,7 @@ export class ProfileModalComponent {
   public editPasswordInput = new FormControl<string | null>('');
 
   @Input() public isPasswordModalOpen: boolean = false;
+  @Output() public closeModal = new EventEmitter<void>();
 
   constructor(private profileService: ProfileService) {}
 
@@ -30,5 +31,9 @@ export class ProfileModalComponent {
     const password = this.editPasswordInput.value?.trim();
 
     return password ? password.length >= 8 : false;
+  }
+
+  public close(): void {
+    this.closeModal.emit();
   }
 }
