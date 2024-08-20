@@ -28,7 +28,7 @@ export class UserProfileComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.profileService.getUserInfo().subscribe(user => {
       this.currentUser = user;
       this.editNameInput.setValue(this.currentUser.name ?? 'User');

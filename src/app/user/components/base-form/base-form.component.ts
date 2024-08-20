@@ -19,7 +19,7 @@ export abstract class BaseFormComponent<T extends FormControls>
   public incorrectEmailOrPassError: string = '';
   protected readonly regExpEmail = '^[\\w\\d_]+@[\\w\\d_]+\\.\\w{2,7}$';
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initializeForm();
     this.setupValueChangeListeners();
   }
