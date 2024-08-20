@@ -1,0 +1,48 @@
+<div class="login">
+  <h2 class="login__title">Sign In</h2>
+  <form class="login__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="login__field">
+      <label for="email">Email</label>
+      <input type="email" formControlName="email" id="email" />
+      <div
+        class="login__errors"
+        *ngIf="formControls.email.invalid && !incorrectEmailOrPassError">
+        <span *ngIf="isSubmittedForm && formControls.email.hasError('required')"
+          >Required</span
+        >
+        <span *ngIf="isSubmittedForm && formControls.email.hasError('pattern')"
+          >Incorrect email</span
+        >
+      </div>
+      <span class="login__errors" *ngIf="incorrectEmailOrPassError">
+        {{ incorrectEmailOrPassError }}</span
+      >
+    </div>
+
+    <div class="login__field">
+      <label for="password">Password</label>
+      <input type="password" formControlName="password" id="password" />
+      <div
+        class="login__errors"
+        *ngIf="formControls.password.invalid && !incorrectEmailOrPassError">
+        <span
+          *ngIf="isSubmittedForm && formControls.password.hasError('required')"
+          >Required</span
+        >
+      </div>
+      <span class="login__errors" *ngIf="incorrectEmailOrPassError">
+        {{ incorrectEmailOrPassError }}</span
+      >
+    </div>
+
+    <button
+      class="login__button"
+      type="submit"
+      [disabled]="form.invalid || incorrectEmailOrPassError">
+      Sign In
+    </button>
+    <span class="login__no-account"
+      >Don't have an account? <a routerLink="/signup">Sign Up</a></span
+    >
+  </form>
+</div>
