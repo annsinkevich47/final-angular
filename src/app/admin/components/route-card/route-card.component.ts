@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteRouteModalComponent } from '../../../shared/components/delete-route-modal/delete-route-modal.component';
-import { RouteType } from '../../types/routeType';
+import { RouteType } from '../../../shared/models/routes-response.model';
 
 @Component({
   selector: 'app-route-card',

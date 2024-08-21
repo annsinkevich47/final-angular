@@ -1,1 +1,15 @@
-<p>route-edit works!</p>
+<form [formGroup]="stationForm">
+  <ng-container formArrayName="stations" *ngIf="availableStations.length">
+    <div *ngFor="let station of stations.controls; let i = index">
+      <mat-form-field appearance="fill">
+        <mat-label>Station {{ i + 1 }}</mat-label>
+        <mat-select [formControlName]="i">
+          <mat-option *ngFor="let station of availableStations" [value]="station.id"
+            (onSelectionChange)="onStationChange(i, station.id)">
+            {{ station.city }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </ng-container>
+</form>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RoutesService } from '../../services/routes.service';
-import { RouteType } from '../../types/routeType';
+import { RouteType } from '../../../shared/models/routes-response.model';
+import { RoutesService } from '../../services/route.service';
 
 @Component({
   selector: 'app-routes-page',
@@ -16,7 +16,9 @@ export class RoutesPageComponent implements OnInit {
   constructor(private routesService: RoutesService) {}
 
   ngOnInit(): void {
-    this.routesService.getRoutes().subscribe(data => (this.routes = data));
+    this.routesService.getRoutes().subscribe(data => {
+      this.routes = data;
+    });
   }
 
   createCard() {

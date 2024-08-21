@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RouteType } from '../types/routeType';
+import { RouteType } from '../../shared/models/routes-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +16,6 @@ export class RoutesService {
 
   deleteRoute(id: number): Observable<object> {
     const url = `${this.baseUrl}/${id}`;
-    return this.http.delete(url, {
-      headers: {
-        Authorization: `Bearer rgQeD8jYiSvV13yiBZ0om6ovHHl5ZtrwPLkUZI2QSh2a`,
-      },
-    });
+    return this.http.delete(url);
   }
 }
