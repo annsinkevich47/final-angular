@@ -24,11 +24,6 @@ export class RouteEditComponent implements OnInit {
       stations: this.fb.array([]),
     });
   }
-
-  logToConsole(value: any) {
-    console.log(value);
-  }
-
   ngOnInit(): void {
     this.stationService.getStations().subscribe((data: any) => {
       this.availableStations = [...data];

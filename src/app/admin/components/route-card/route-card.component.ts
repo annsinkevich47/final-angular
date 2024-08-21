@@ -22,15 +22,18 @@ export class RouteCardComponent implements OnInit {
   }
 
   getPathNames() {
-    return this.route.path
-      .map(id => {
-        const station = this.stations.find(station => station.id === id);
-        if (station) {
-          return station.city;
-        }
-        return null;
-      })
-      .filter(station => station !== null) as string[];
+    if (this.stations) {
+      return this.route.path
+        .map(id => {
+          const station = this.stations.find(station => station.id === id);
+          if (station) {
+            return station.city;
+          }
+          return null;
+        })
+        .filter(station => station !== null) as string[];
+    }
+    return this.route.path;
   }
 
   openDialog(): void {

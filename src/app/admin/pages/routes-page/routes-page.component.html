@@ -4,7 +4,10 @@
   } @else {
   <button mat-raised-button (click)="createCard()">Create</button>
   }
+  @if (routes) {
+
   @for (route of routes; track $index) {
   <app-route-card [route]="route"></app-route-card>
+  }
   }
 </div>
