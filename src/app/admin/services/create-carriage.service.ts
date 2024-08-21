@@ -13,7 +13,7 @@ export class CreateCarriageService {
   constructor(private http: HttpClient) {}
 
   public createCarriage(carriage: CarriageType): Observable<CarriageType> {
-
+    console.log(carriage);
     return this.http.post<CarriageType>(this.apiUrl, carriage);
   }
 }

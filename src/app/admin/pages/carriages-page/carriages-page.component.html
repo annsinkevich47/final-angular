@@ -1,9 +1,7 @@
 <div class="wrapper">
   <div class="carriages">
     <div class="carriages__manageCarriages">
-      <button class="carriages__create" (click)="onCreateCarriage()">
-        Create
-      </button>
+      <button class="carriages__create">Create</button>
     </div>
     <form
       *ngIf="formDisplay"
@@ -81,14 +79,14 @@
       <button
         *ngIf="isCreating"
         class="carriages__save"
-        (click)="onSave()"
+        (click)="onSubmit()"
         [disabled]="prototypeForm.invalid">
         Save
       </button>
       <button
         *ngIf="isUpdating"
         class="carriages__update"
-        (click)="onUpdate()"
+        (click)="onSubmit()"
         [disabled]="prototypeForm.invalid">
         Update
       </button>
