@@ -4,7 +4,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Station {{ i + 1 }}</mat-label>
         <mat-select [formControlName]="i">
-          <mat-option *ngFor="let station of availableStations" [value]="station.id" asdf
+          <mat-option *ngFor="let station of availableStations" [value]="station.id"
             (onSelectionChange)="onStationChange(i, station.id)">
             {{ station.city }}
           </mat-option>
