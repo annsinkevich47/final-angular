@@ -26,7 +26,6 @@ export class AuthGuard implements CanActivate {
 
     switch (state.url) {
       case '/signin':
-        return isLoggedIn ? this.router.createUrlTree(['/']) : true;
       case '/signup':
         return isLoggedIn ? this.router.createUrlTree(['/']) : true;
       default:
