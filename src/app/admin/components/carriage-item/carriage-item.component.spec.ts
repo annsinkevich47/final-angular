@@ -8,9 +8,8 @@ describe('CarriageItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CarriageItemComponent]
-    })
-    .compileComponents();
+      declarations: [CarriageItemComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CarriageItemComponent);
     component = fixture.componentInstance;

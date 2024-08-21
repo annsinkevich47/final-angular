@@ -13,7 +13,6 @@ import {
 export class SignService {
   private readonly signUpUrl = '/api/signup';
   private readonly signInUrl = '/api/signin';
-  public errorMessage: string = '';
 
   constructor(private http: HttpClient) {}
 

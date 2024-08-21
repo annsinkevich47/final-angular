@@ -1,0 +1,97 @@
+@import "../../../../styles/_variables.scss";
+
+.profile {
+  max-width: 500px;
+  margin: 50px auto 0;
+  padding: 40px 30px;
+  box-shadow: 0 0 95px 0px rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  &__change-pass,
+  &__logout {
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+
+    &:hover {
+      box-shadow: inset 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  &__change-pass {
+    background-color: $color-blue;
+    align-self: flex-end;
+    margin-bottom: 30px;
+  }
+
+  &__logout {
+    align-self: flex-start;
+    color: #ffffff;
+    background-color: $color-red;
+    padding: 10px 20px;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 18px;
+  margin-bottom: 25px;
+
+  &__title {
+    color: $color-blue;
+    font-weight: 600;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  input {
+    border: 1px solid $color-gray;
+    font-size: 18px;
+    padding: 8px 10px;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 170px;
+
+    &:focus {
+      border: 1px solid $color-black;
+    }
+  }
+
+  button {
+    background-color: transparent;
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: auto;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    top: 40px;
+    color: $color-red;
+    font-size: 14px;
+  }
+}

@@ -1,11 +1,11 @@
-import { Component, EventEmitter,Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import CarriageType from '../../models/carriage';
 
 @Component({
   selector: 'app-carriage-item',
   templateUrl: './carriage-item.component.html',
-  styleUrls: ['./carriage-item.component.scss']
+  styleUrls: ['./carriage-item.component.scss'],
 })
 export class CarriageItemComponent {
   @Input() carriage!: CarriageType;
