@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Station } from '../../../shared/models/stations-response.model';
-import { getStationsFromId } from '../../../shared/utils/getStationsFromId';
+import {
+  ConnectedStations,
+  Station,
+} from '../../../shared/models/stations-response.model';
 import { StationService } from '../../services/station.service';
 
 @Component({
@@ -52,9 +54,21 @@ export class RouteEditComponent implements OnInit {
       this.selectedStations = [...this.selectedStations, ...filteredStation];
       const connectedStations = filteredStation[0].connectedTo;
       this.availableStations = [
-        ...getStationsFromId(connectedStations, this.availableStations),
+        ...this.getStationsFromId(connectedStations, this.availableStations),
         ...this.selectedStations,
       ];
     }
+  }
+
+  getStationsFromId(connectedTo: ConnectedStations[], stations: Station[]) {
+    return connectedTo
+      .map(connection => {
+        const station = stations.find(station => station.id === connection.id);
+        if (station) {
+          return station;
+        }
+        return null;
+      })
+      .filter(station => station !== null) as Station[];
   }
 }
