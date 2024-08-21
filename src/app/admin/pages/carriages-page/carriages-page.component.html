@@ -1,7 +1,9 @@
 <div class="wrapper">
   <div class="carriages">
     <div class="carriages__manageCarriages">
-      <button class="carriages__create">Create</button>
+      <button class="carriages__create" (click)="onCreateCarriage()">
+        Create
+      </button>
     </div>
     <form
       *ngIf="formDisplay"

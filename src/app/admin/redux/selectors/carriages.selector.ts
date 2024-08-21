@@ -1,9 +1,9 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { CarriageState } from "../reducers/carriages.reducer";
+import { CarriageState } from '../reducers/carriages.reducer';
 
-
-export const selectCarriageState = createFeatureSelector<CarriageState>('carriage');
+export const selectCarriageState =
+  createFeatureSelector<CarriageState>('carriage');
 
 export const selectAllCarriages = createSelector(
   selectCarriageState,

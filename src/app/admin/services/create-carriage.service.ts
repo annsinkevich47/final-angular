@@ -5,15 +5,14 @@ import { Observable } from 'rxjs';
 import CarriageType from '../models/carriage';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CreateCarriageService {
-  apiUrl = '/api/carriage';
+  private apiUrl = '/api/carriage';
 
   constructor(private http: HttpClient) {}
 
   public createCarriage(carriage: CarriageType): Observable<CarriageType> {
-    console.log(carriage);
     return this.http.post<CarriageType>(this.apiUrl, carriage);
   }
 }

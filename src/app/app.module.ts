@@ -6,12 +6,11 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { CarriageEffects } from './admin/redux/effects/carriages.effects';
-import { carriageReducer } from './admin/redux/reducers/carriages.reducer';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AppEffects } from './redux/effects/app.effects';
-// import { metaReducers, reducers } from './redux/reducers';
+import { metaReducers, reducers } from './redux/reducers';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +19,9 @@ import { AppEffects } from './redux/effects/app.effects';
     BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,
-    StoreModule.forRoot({ carriage: carriageReducer }),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+    }),
     EffectsModule.forRoot([AppEffects, CarriageEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],

@@ -17,7 +17,7 @@ import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
   styleUrls: ['./carriages-page.component.scss'],
 })
 export class CarriagesPageComponent implements OnInit {
-  public carriages$: Observable<CarriageType[]>;
+  public carriages$!: Observable<CarriageType[]>;
   public carriages: CarriageType[] = [];
   public prototypeForm!: FormGroup;
   public formDisplay: boolean = false;
@@ -36,11 +36,10 @@ export class CarriagesPageComponent implements OnInit {
   constructor(
     private store: Store,
     private formBuilder: FormBuilder
-  ) {
-    this.carriages$ = this.store.select(selectAllCarriages);
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.carriages$ = this.store.select(selectAllCarriages);
     this.store.dispatch(loadCarriages());
     this.carriages$.subscribe(carriages => {
       this.carriages = carriages;
@@ -78,36 +77,24 @@ export class CarriagesPageComponent implements OnInit {
     });
   }
 
-  getErrorMessage(formControlName: string): string {
+  public getErrorMessage(formControlName: string): string {
     const control = this.prototypeForm.get(formControlName);
     if (control && control.touched && control.invalid) {
-      if (control.hasError('required')) {
-        return 'Field is required';
-      }
-      if (control.hasError('pattern')) {
-        return 'Please enter number';
-      }
-      if (control.hasError('max')) {
-        return 'Incorrect number';
+      switch (true) {
+        case control.hasError('required'):
+          return 'Field is required';
+        case control.hasError('pattern'):
+          return 'Please enter a number';
+        case control.hasError('max'):
+          return 'Incorrect number';
+        default:
+          return '';
       }
     }
     return '';
   }
 
-  private updatePrototype() {
-    if (this.prototypeForm.valid) {
-      this.selectedCarriage = {
-        ...this.selectedCarriage,
-        name: this.prototypeForm.value.name,
-        rows: Number(this.prototypeForm.value.rows),
-        leftSeats: Number(this.prototypeForm.value.leftSeats),
-        rightSeats: Number(this.prototypeForm.value.rightSeats),
-      };
-      this.createPrototype = true;
-    }
-  }
-
-  public onSubmit() {
+  public onSubmit(): void {
     if (this.prototypeForm.valid) {
       const { name, rows, leftSeats, rightSeats } = this.prototypeForm.value;
       const newCarriage: CarriageType = {
@@ -122,7 +109,7 @@ export class CarriagesPageComponent implements OnInit {
         rows: Number(rows),
         leftSeats: Number(leftSeats),
         rightSeats: Number(rightSeats),
-    };
+      };
       if (this.isCreating) {
         this.store.dispatch(createCarriage({ carriage: newCarriageCreate }));
       } else {
@@ -134,15 +121,7 @@ export class CarriagesPageComponent implements OnInit {
     }
   }
 
-  private resetForm() {
-    this.prototypeForm.reset();
-    this.isCreating = false;
-    this.isUpdating = false;
-    this.formDisplay = false;
-    this.createPrototype = false;
-  }
-
-  public onCreateCarriage() {
+  public onCreateCarriage(): void {
     if (this.formDisplay && !this.isUpdating) {
       this.formDisplay = false;
       return;
@@ -152,7 +131,7 @@ export class CarriagesPageComponent implements OnInit {
     this.isUpdating = false;
   }
 
-  public onSelectCarriage(carriage: CarriageType) {
+  public onSelectCarriage(carriage: CarriageType): void {
     this.formDisplay = true;
     this.isCreating = false;
     this.isUpdating = true;
@@ -168,7 +147,23 @@ export class CarriagesPageComponent implements OnInit {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  public toggleFormDisplay() {
-    this.formDisplay = !this.formDisplay;
+  private resetForm(): void {
+    this.prototypeForm.reset();
+    this.isCreating = false;
+    this.isUpdating = false;
+    this.formDisplay = false;
+    this.createPrototype = false;
+  }
+  private updatePrototype(): void {
+    if (this.prototypeForm.valid) {
+      this.selectedCarriage = {
+        ...this.selectedCarriage,
+        name: this.prototypeForm.value.name,
+        rows: Number(this.prototypeForm.value.rows),
+        leftSeats: Number(this.prototypeForm.value.leftSeats),
+        rightSeats: Number(this.prototypeForm.value.rightSeats),
+      };
+      this.createPrototype = true;
+    }
   }
 }
