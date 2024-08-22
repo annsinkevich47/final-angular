@@ -14,7 +14,7 @@ import { StationService } from '../../services/station.service';
 export class RouteEditComponent implements OnInit {
   stationForm: FormGroup;
   availableStations: Station[] = [];
-  selectedStations: Station[] = [];
+  selectedStationsList: Station[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -43,15 +43,22 @@ export class RouteEditComponent implements OnInit {
   onStationChange(index: number, id: number): void {
     if (index === this.stations.length - 1) {
       this.addStation();
-      const filteredStation = this.availableStations.filter(
+      const selectedStation = this.availableStations.filter(
         station => station.id === id
       );
-      this.selectedStations = [...this.selectedStations, ...filteredStation];
-      const connectedStations = filteredStation[0].connectedTo;
+      this.selectedStationsList = [
+        ...this.selectedStationsList,
+        ...selectedStation,
+      ];
+      const connectedStations = selectedStation[0].connectedTo;
       this.availableStations = [
         ...this.getStationsFromId(connectedStations, this.availableStations),
-        ...this.selectedStations,
-      ];
+        ...this.selectedStationsList,
+      ].filter(
+        // filter duplicates
+        (item, index, self) =>
+          index === self.findIndex(station => station.id === item.id)
+      );
     }
   }
 

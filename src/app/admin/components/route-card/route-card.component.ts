@@ -17,22 +17,20 @@ export class RouteCardComponent implements OnInit {
 
   constructor(private stationService: StationService) {}
 
-  ngOnInit(): void {
-    this.stationService.getStations().subscribe(data => (this.stations = data));
-  }
+  ngOnInit(): void {}
 
   getPathNames() {
-    if (this.stations) {
-      return this.route.path
-        .map(id => {
-          const station = this.stations.find(station => station.id === id);
-          if (station) {
-            return station.city;
-          }
-          return null;
-        })
-        .filter(station => station !== null) as string[];
-    }
+    // if (this.stations) {
+    //   return this.route.path
+    //     .map(id => {
+    //       const station = this.stations.find(station => station.id === id);
+    //       if (station) {
+    //         return station.city;
+    //       }
+    //       return null;
+    //     })
+    //     .filter(station => station !== null) as string[];
+    // }
     return this.route.path;
   }
 
