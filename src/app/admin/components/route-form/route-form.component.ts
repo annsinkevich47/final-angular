@@ -12,11 +12,11 @@ import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
 
 @Component({
-  selector: 'app-route-edit',
-  templateUrl: './route-edit.component.html',
-  styleUrl: './route-edit.component.scss',
+  selector: 'app-route-form',
+  templateUrl: './route-form.component.html',
+  styleUrl: './route-form.component.scss',
 })
-export class RouteEditComponent implements OnInit {
+export class RouteFormComponent {
   private stations$: Observable<Station[]>;
   private carriages$!: Observable<CarriageType[]>;
   public stationForm: FormGroup;

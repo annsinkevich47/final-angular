@@ -11,13 +11,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
+import { CarriageItemComponent } from './components/carriage-item/carriage-item.component';
 import { RouteCardComponent } from './components/route-card/route-card.component';
-import { RouteEditComponent } from './components/route-edit/route-edit.component';
+import { RouteFormComponent } from './components/route-form/route-form.component';
 import { AdminComponent } from './pages/admin.component';
 import { CarriagesPageComponent } from './pages/carriages-page/carriages-page.component';
 import { RoutesPageComponent } from './pages/routes-page/routes-page.component';
 import { StationPageComponent } from './pages/station-page/station-page.component';
-import { CarriageItemComponent } from './components/carriage-item/carriage-item.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { CarriageItemComponent } from './components/carriage-item/carriage-item.
     CarriageItemComponent,
     AdminComponent,
     RouteCardComponent,
-    RouteEditComponent,
+    RouteFormComponent,
   ],
   imports: [
     CommonModule,
