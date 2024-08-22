@@ -12,6 +12,7 @@ import { AppEffects } from './redux/effects/app.effects';
 import { metaReducers, reducers } from './redux/reducers';
 import { UserModule } from './user/user.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { StationEffects } from './admin/redux/effects/stations.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,12 +25,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),
-    EffectsModule.forRoot([AppEffects, CarriageEffects]),
+    EffectsModule.forRoot([AppEffects, CarriageEffects, StationEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [
-    provideAnimationsAsync()
-  ],
+  providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
