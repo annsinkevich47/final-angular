@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
-import { SignService } from '../../../core/services/sign.service';
 import { ISignInResponse } from '../../../shared/models/auth-response.model';
+import { SignService } from '../../services/sign.service';
 import {
   BaseFormComponent,
   FormControls,
