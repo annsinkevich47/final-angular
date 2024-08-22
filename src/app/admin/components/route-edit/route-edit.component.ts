@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import {
   ConnectedStations,
   Station,
 } from '../../../shared/models/stations-response.model';
-import { StationService } from '../../services/station.service';
+import { loadStations } from '../../redux/actions/stations.actions';
+import { selectAllStations } from '../../redux/selectors/stations.selector';
 
 @Component({
   selector: 'app-route-edit',
@@ -12,21 +15,23 @@ import { StationService } from '../../services/station.service';
   styleUrl: './route-edit.component.scss',
 })
 export class RouteEditComponent implements OnInit {
+  private stations$: Observable<Station[]>;
   stationForm: FormGroup;
   availableStations: Station[] = [];
   selectedStationsList: Station[] = [];
 
   constructor(
-    private fb: FormBuilder,
-    private stationService: StationService
+    private store: Store,
+    private fb: FormBuilder
   ) {
     this.stationForm = this.fb.group({
       stations: this.fb.array([]),
     });
   }
   ngOnInit(): void {
-    this.stationService.getStations().subscribe((data: any) => {
-      this.availableStations = [...data];
+    this.stations$ = this.store.select(selectAllStations);
+    this.stations$.subscribe(stations => {
+      this.availableStations = stations;
     });
     this.addStation();
   }
