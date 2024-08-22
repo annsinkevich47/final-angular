@@ -1,0 +1,12 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  gap: 40px;
+}
+
+.select {
+  display: flex;
+  flex-direction: column;
+}

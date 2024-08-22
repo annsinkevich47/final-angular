@@ -6,7 +6,9 @@ import {
   ConnectedStations,
   Station,
 } from '../../../shared/models/stations-response.model';
-import { loadStations } from '../../redux/actions/stations.actions';
+import CarriageType from '../../models/carriage';
+import { loadCarriages } from '../../redux/actions/carriages.actions';
+import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
 
 @Component({
@@ -16,9 +18,11 @@ import { selectAllStations } from '../../redux/selectors/stations.selector';
 })
 export class RouteEditComponent implements OnInit {
   private stations$: Observable<Station[]>;
-  stationForm: FormGroup;
-  availableStations: Station[] = [];
-  selectedStationsList: Station[] = [];
+  private carriages$!: Observable<CarriageType[]>;
+  public stationForm: FormGroup;
+  public availableCarriages: CarriageType[] = [];
+  public availableStations: Station[] = [];
+  public selectedStationsList: Station[] = [];
 
   constructor(
     private store: Store,
@@ -26,6 +30,7 @@ export class RouteEditComponent implements OnInit {
   ) {
     this.stationForm = this.fb.group({
       stations: this.fb.array([]),
+      carriages: this.fb.array([]),
     });
   }
   ngOnInit(): void {
@@ -33,16 +38,30 @@ export class RouteEditComponent implements OnInit {
     this.stations$.subscribe(stations => {
       this.availableStations = stations;
     });
+    this.carriages$ = this.store.select(selectAllCarriages);
+    this.store.dispatch(loadCarriages());
+    this.carriages$.subscribe(carriages => {
+      this.availableCarriages = carriages;
+    });
     this.addStation();
+    this.addCarriages();
   }
 
   get stations(): FormArray {
     return this.stationForm.get('stations') as FormArray;
   }
+  get carriages(): FormArray {
+    return this.stationForm.get('carriages') as FormArray;
+  }
 
   addStation(): void {
     const stationControl = this.fb.control('');
     this.stations.push(stationControl);
+  }
+
+  addCarriages(): void {
+    const stationControl = this.fb.control('');
+    this.carriages.push(stationControl);
   }
 
   onStationChange(index: number, id: number): void {
@@ -64,6 +83,12 @@ export class RouteEditComponent implements OnInit {
         (item, index, self) =>
           index === self.findIndex(station => station.id === item.id)
       );
+    }
+  }
+
+  onCarriageChange(index: number) {
+    if (index === this.carriages.length - 1) {
+      this.addCarriages();
     }
   }
 
