@@ -8,7 +8,7 @@ import CarriageType from '../models/carriage';
   providedIn: 'root',
 })
 export class CreateCarriageService {
-  apiUrl = '/api/carriage';
+  private apiUrl = '/api/carriage';
 
   constructor(private http: HttpClient) {}
 

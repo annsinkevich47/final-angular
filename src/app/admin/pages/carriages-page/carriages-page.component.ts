@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import CarriageType from '../../models/carriage';
-import { CreateCarriageService } from '../../services/create-carriage.service';
-import { GetCarriagesService } from '../../services/get-carriages.service';
-import { UpdateCarriagesService } from '../../services/update-carriages.service';
+import {
+  createCarriage,
+  loadCarriages,
+  updateCarriage,
+} from '../../redux/actions/carriages.actions';
+import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
 
 @Component({
   selector: 'app-carriages-page',
@@ -12,6 +17,7 @@ import { UpdateCarriagesService } from '../../services/update-carriages.service'
   styleUrls: ['./carriages-page.component.scss'],
 })
 export class CarriagesPageComponent implements OnInit {
+  public carriages$!: Observable<CarriageType[]>;
   public carriages: CarriageType[] = [];
   public prototypeForm!: FormGroup;
   public formDisplay: boolean = false;
@@ -28,14 +34,16 @@ export class CarriagesPageComponent implements OnInit {
   };
 
   constructor(
-    private getCarriagesService: GetCarriagesService,
-    private createCarriagesService: CreateCarriageService,
-    private updateCarriagesService: UpdateCarriagesService,
+    private store: Store,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.getCarriagesArray();
+    this.carriages$ = this.store.select(selectAllCarriages);
+    this.store.dispatch(loadCarriages());
+    this.carriages$.subscribe(carriages => {
+      this.carriages = carriages;
+    });
     this.prototypeForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       rows: [
@@ -69,111 +77,51 @@ export class CarriagesPageComponent implements OnInit {
     });
   }
 
-  getErrorMessage(formControlName: string): string {
+  public getErrorMessage(formControlName: string): string {
     const control = this.prototypeForm.get(formControlName);
     if (control && control.touched && control.invalid) {
-      if (control.hasError('required')) {
-        return 'Field is required';
-      }
-      if (control.hasError('pattern')) {
-        return 'Please enter number';
-      }
-      if (control.hasError('max')) {
-        return 'Incorrect number';
+      switch (true) {
+        case control.hasError('required'):
+          return 'Field is required';
+        case control.hasError('pattern'):
+          return 'Please enter a number';
+        case control.hasError('max'):
+          return 'Incorrect number';
+        default:
+          return '';
       }
     }
     return '';
   }
 
-  private updatePrototype() {
-    if (this.prototypeForm.valid) {
-      this.selectedCarriage = {
-        ...this.selectedCarriage,
-        name: this.prototypeForm.value.name,
-        rows: Number(this.prototypeForm.value.rows),
-        leftSeats: Number(this.prototypeForm.value.leftSeats),
-        rightSeats: Number(this.prototypeForm.value.rightSeats),
-      };
-      this.createPrototype = true;
-    }
-  }
-
-  public getCarriagesArray() {
-    this.getCarriagesService.getCarriages().subscribe({
-      next: data => {
-        this.carriages = data.items;
-      },
-      error: err => {
-        console.error('Error: carriages not received', err);
-      },
-    });
-  }
-
-  public onSave() {
+  public onSubmit(): void {
     if (this.prototypeForm.valid) {
       const { name, rows, leftSeats, rightSeats } = this.prototypeForm.value;
       const newCarriage: CarriageType = {
+        ...this.selectedCarriage,
         name,
         rows: Number(rows),
         leftSeats: Number(leftSeats),
         rightSeats: Number(rightSeats),
       };
-      this.carriages.unshift(newCarriage);
-      this.createCarriagesService.createCarriage(newCarriage).subscribe({
-        next: response => {
-          console.log('Carriage created:', response);
-          this.createPrototype = true;
-          this.resetForm();
-        },
-        error: err => {
-          console.error('Error: carriage not created', err);
-        },
-      });
-      this.resetForm();
-    }
-  }
-
-  public onUpdate() {
-    if (this.isUpdating && this.prototypeForm.valid) {
-      const updatedCarriage: CarriageType = {
-        ...this.selectedCarriage,
-        name: this.prototypeForm.value.name,
-        rows: Number(this.prototypeForm.value.rows),
-        leftSeats: Number(this.prototypeForm.value.leftSeats),
-        rightSeats: Number(this.prototypeForm.value.rightSeats),
+      const newCarriageCreate: Omit<CarriageType, 'code'> = {
+        name,
+        rows: Number(rows),
+        leftSeats: Number(leftSeats),
+        rightSeats: Number(rightSeats),
       };
-
-      const index = this.carriages.findIndex(
-        carriage => carriage.code === updatedCarriage.code
-      );
-
-      if (index > -1) {
-        this.carriages[index] = updatedCarriage;
+      if (this.isCreating) {
+        this.store.dispatch(createCarriage({ carriage: newCarriageCreate }));
+      } else {
+        this.store.dispatch(updateCarriage({ carriage: newCarriage }));
+        this.resetForm();
       }
-
-      this.updateCarriagesService.updateCarriage(updatedCarriage).subscribe({
-        next: response => {
-          console.log('Carriage updated:', response);
-          this.resetForm();
-        },
-        error: err => {
-          console.error('Error: carriage not updated', err);
-        },
-      });
-
-      this.resetForm();
+      this.formDisplay = false;
+      this.createPrototype = false;
     }
   }
 
-  private resetForm() {
-    this.prototypeForm.reset();
-    this.isCreating = false;
-    this.isUpdating = false;
-    this.formDisplay = false;
-    this.createPrototype = false;
-  }
-
-  public onCreateCarriage() {
+  public onCreateCarriage(): void {
     if (this.formDisplay && !this.isUpdating) {
       this.formDisplay = false;
       return;
@@ -183,7 +131,7 @@ export class CarriagesPageComponent implements OnInit {
     this.isUpdating = false;
   }
 
-  public onSelectCarriage(carriage: CarriageType) {
+  public onSelectCarriage(carriage: CarriageType): void {
     this.formDisplay = true;
     this.isCreating = false;
     this.isUpdating = true;
@@ -199,7 +147,23 @@ export class CarriagesPageComponent implements OnInit {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  public toggleFormDisplay() {
-    this.formDisplay = !this.formDisplay;
+  private resetForm(): void {
+    this.prototypeForm.reset();
+    this.isCreating = false;
+    this.isUpdating = false;
+    this.formDisplay = false;
+    this.createPrototype = false;
+  }
+  private updatePrototype(): void {
+    if (this.prototypeForm.valid) {
+      this.selectedCarriage = {
+        ...this.selectedCarriage,
+        name: this.prototypeForm.value.name,
+        rows: Number(this.prototypeForm.value.rows),
+        leftSeats: Number(this.prototypeForm.value.leftSeats),
+        rightSeats: Number(this.prototypeForm.value.rightSeats),
+      };
+      this.createPrototype = true;
+    }
   }
 }

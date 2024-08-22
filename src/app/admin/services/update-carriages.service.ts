@@ -12,7 +12,7 @@ export class UpdateCarriagesService {
 
   constructor(private http: HttpClient) {}
 
-  updateCarriage(carriage: CarriageType): Observable<CarriageType> {
+  public updateCarriage(carriage: CarriageType): Observable<CarriageType> {
     const url = `${this.apiUrl}/${carriage.code}`;
 
     return this.http.put<CarriageType>(url, carriage);

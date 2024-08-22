@@ -81,14 +81,14 @@
       <button
         *ngIf="isCreating"
         class="carriages__save"
-        (click)="onSave()"
+        (click)="onSubmit()"
         [disabled]="prototypeForm.invalid">
         Save
       </button>
       <button
         *ngIf="isUpdating"
         class="carriages__update"
-        (click)="onUpdate()"
+        (click)="onSubmit()"
         [disabled]="prototypeForm.invalid">
         Update
       </button>

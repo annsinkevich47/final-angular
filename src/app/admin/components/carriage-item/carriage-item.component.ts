@@ -11,7 +11,7 @@ export class CarriageItemComponent {
   @Input() carriage!: CarriageType;
   @Output() updateCarriage = new EventEmitter<CarriageType>();
 
-  onUpdateCarriage() {
+  public onUpdateCarriage(): void {
     this.updateCarriage.emit(this.carriage);
   }
 }

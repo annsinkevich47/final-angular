@@ -8,12 +8,11 @@ import CarriageType from '../models/carriage';
   providedIn: 'root',
 })
 export class GetCarriagesService {
-  apiUrl = '/api/carriage';
+  private apiUrl = '/api/carriage';
 
   constructor(private http: HttpClient) {}
 
   public getCarriages(): Observable<{ items: CarriageType[] }> {
-    localStorage.setItem('authToken', 'token');
     return this.http
       .get<CarriageType[]>(this.apiUrl)
       .pipe(map((carriages: CarriageType[]) => ({ items: carriages })));
