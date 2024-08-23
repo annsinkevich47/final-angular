@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GetStationsService } from '../../services/get-stations.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import StationType from '../../models/stations';
 
@@ -11,7 +11,7 @@ import StationType from '../../models/stations';
 })
 export class StationPageComponent implements OnInit {
   public stationsObserve$!: Observable<StationType[]>;
-  public stations: StationType[] | [] = [];
+  public stationList: StationType[] | [] = [];
   public formStations!: FormGroup;
   public connectedStations = [
     'London',
@@ -26,14 +26,33 @@ export class StationPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.stationsObserve$ = this.getStations
-      .getStations()
-      .pipe(map(data => data.items));
+    this.stationsObserve$ = this.getStations.getStations().pipe(
+      map(data => {
+        this.stationList = data.items;
+        return data.items;
+      })
+    );
     this.formStations = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      latitude: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      longitude: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      connect: [''],
+      name: ['', [Validators.required, Validators.pattern('^[A-Za-zs]+$')]],
+      latitude: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.max(90),
+          Validators.min(-90),
+        ],
+      ],
+      longitude: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.max(180),
+          Validators.min(-180),
+        ],
+      ],
+      // connect: [this.formBuilder.array([])],
     });
   }
 
@@ -46,5 +65,31 @@ export class StationPageComponent implements OnInit {
         console.error('Error: stations not received', err);
       },
     });
+  }
+
+  public getCityNameById(id: number): string {
+    const station = this.stationList.find(station => station.id === id);
+    return station ? station.city : 'Unknown';
+  }
+
+  public getErrorMessage(formControlName: string): string {
+    const control = this.formStations.get(formControlName);
+    if (control && control.touched && control.invalid) {
+      switch (true) {
+        case control.hasError('required'):
+          console.log('g');
+          return 'Field is required';
+        case control.hasError('pattern'):
+          console.log('h');
+          return 'Please enter a number';
+        case control.hasError('max'):
+          return 'Number is too big';
+        case control.hasError('min'):
+          return 'Number is too small';
+        default:
+          return '';
+      }
+    }
+    return '';
   }
 }

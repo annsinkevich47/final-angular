@@ -7,33 +7,48 @@
           >City Name</label
         >
         <input type="text" id="cityNameInput" formControlName="name" />
+        <div class="stations__error" *ngIf="formStations.get('name')?.touched">
+          {{ getErrorMessage('name') }}
+        </div>
       </div>
       <div class="stations__formWrapper">
         <label for="latitudeInput" class="stations__latitudeLabel"
           >Latitude</label
         >
-        <input type="number" id="latitudeInput" formControlName="latitude" />
+        <input id="latitudeInput" formControlName="latitude" />
+        <div
+          class="stations__error"
+          *ngIf="formStations.get('latitude')?.touched">
+          {{ getErrorMessage('latitude') }}
+        </div>
       </div>
       <div class="stations__formWrapper">
         <label for="longitudeInput" class="stations__longitudeLabel"
           >Longitude</label
         >
-        <input type="number" id="longitudeInput" formControlName="longitude" />
+        <input id="longitudeInput" formControlName="longitude" />
+        <div
+          class="stations__error"
+          *ngIf="formStations.get('longitude')?.touched">
+          {{ getErrorMessage('longitude') }}
+        </div>
       </div>
       <div class="stations__formWrapper">
-        <label for="longitudeInput" class="stations__connectedLabel"
+        <label for="stations__selectStation" class="stations__connectedLabel"
           >Connected</label
         >
         <select name="stations__selectStation" id="stations__selectStation">
+          <option value="">Select a station</option>
           <option
             *ngFor="let connectStation of connectedStations"
-            value="{connectStation}"
+            value="connectStation"
             class="stations__optionStation">
             {{ connectStation }}
           </option>
         </select>
       </div>
-      <button class="stations__submit" (click)="getAllStations()" type="submit">
+
+      <button class="stations__submit" (click)="getAllStations()" type="button">
         Save
       </button>
     </form>
@@ -52,10 +67,12 @@
         <div
           class="stations__connectedItem"
           *ngFor="let stationConnect of station.connectedTo">
-          {{ stationConnect.id }},
+          {{ getCityNameById(stationConnect.id) }},
         </div>
       </div>
-      <button class="stations__delete">Del</button>
+      <button class="stations__delete" [disabled]="formStations.invalid">
+        <img src="delete.svg" alt="delete-icon" />
+      </button>
     </div>
   </div>
 </div>
