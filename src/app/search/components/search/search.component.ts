@@ -38,7 +38,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   constructor(private searchService: SearchService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.currentDateTime = this.getActualTime();
     this.minCurrentDateTime = this.getMinDateTime();
     this.searchForm.get('datetime')?.patchValue(this.currentDateTime);
@@ -47,7 +47,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.subscriptionTo = this.setSubscriptionCityFind('cityTo', false);
   }
 
-  setSubscriptionCityFind(name: string, isFrom: boolean = true) {
+  private setSubscriptionCityFind(name: string, isFrom: boolean = true) {
     return this.searchForm
       .get(name)
       ?.valueChanges.pipe(
@@ -68,7 +68,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subscriptionFrom?.unsubscribe();
     this.subscriptionTo?.unsubscribe();
   }
@@ -77,19 +77,19 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.searchForm.controls;
   }
 
-  getActualTime() {
+  private getActualTime() {
     const now = new Date();
     now.setHours(now.getHours() + 3);
     return now.toISOString().slice(0, 16);
   }
 
-  getMinDateTime() {
+  private getMinDateTime() {
     const now = new Date();
     now.setHours(3, 0, 0, 0);
     return now.toISOString().slice(0, 16);
   }
 
-  pastDateValidator(
+  private pastDateValidator(
     control: AbstractControl,
   ): { [key: string]: boolean } | null {
     const currentDateTime = new Date();
@@ -101,7 +101,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     return inputDateTime < currentDateTime ? { pastDate: true } : null;
   }
 
-  search() {
+  public search() {
     // if (!this.searchForm.invalid) {
     //   const cityFrom: ICity[] = this.citiesFrom.filter(city => {
     //     return city.name === this.searchForm.get('cityFrom')?.value;

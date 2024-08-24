@@ -28,7 +28,7 @@ export class SearchService {
     this.getStations();
   }
 
-  getCities(address: string): Observable<ICity[]> {
+  public getCities(address: string): Observable<ICity[]> {
     const params = new HttpParams().set('name', address).set('limit', 10);
 
     return this.http.get<ICity[]>(`${env.API_URL_CITIES}`, {
@@ -37,7 +37,7 @@ export class SearchService {
     });
   }
 
-  setSchedule(requestSearch: IRequestSearch) {
+  public setSchedule(requestSearch: IRequestSearch) {
     const params = this.createParams(requestSearch);
     console.log(params);
     this.http
@@ -62,7 +62,7 @@ export class SearchService {
       });
   }
 
-  getInfoFromApi(data: ITrip) {
+  private getInfoFromApi(data: ITrip) {
     const arrayDateStart: string[] = [];
     let arrayResult: ICardResult[] = [];
     const idStationFrom = data.from.stationId;
@@ -111,14 +111,14 @@ export class SearchService {
     this.saveResults(arrayResult, arrayDateStart);
   }
 
-  saveResults(arrayResult: ICardResult[], arrayDateStart: string[]) {
+  private saveResults(arrayResult: ICardResult[], arrayDateStart: string[]) {
     this.tripCardsData$.next(arrayResult);
     const sortedDates = this.getUniqueDates(arrayDateStart);
     this.actualDate$.next(sortedDates[0]);
     this.dateFilter$.next(sortedDates);
   }
 
-  createArrayTripCards(
+  private createArrayTripCards(
     route: IRoute,
     data: ITrip,
     indexStartStation: number,
@@ -156,7 +156,7 @@ export class SearchService {
     return arrayResult;
   }
 
-  createParams(requestSearch: IRequestSearch) {
+  private createParams(requestSearch: IRequestSearch) {
     const params = new HttpParams()
       .set('fromLatitude', requestSearch.fromLatitude)
       .set('fromLongitude', requestSearch.fromLongitude)
@@ -174,7 +174,7 @@ export class SearchService {
     return params;
   }
 
-  getArrayPrices(schedule: ISchedule, indexFrom: number, indexTo: number) {
+  private getArrayPrices(schedule: ISchedule, indexFrom: number, indexTo: number) {
     const arrauPrices: number[] = [0, 0, 0, 0, 0, 0];
 
     for (let index = indexFrom; index < indexTo; index += 1) {
@@ -188,7 +188,7 @@ export class SearchService {
     return arrauPrices;
   }
 
-  createCardStation(
+  private createCardStation(
     data: ITrip,
     dateDataFrom: { date: string; dayName: string },
     dateDataTo: { date: string; dayName: string },
@@ -225,7 +225,7 @@ export class SearchService {
     return cardStation;
   }
 
-  getUniqueDates(dates: string[]) {
+  private getUniqueDates(dates: string[]) {
     const uniqueDays = new Set();
 
     return dates
@@ -240,7 +240,7 @@ export class SearchService {
       .sort();
   }
 
-  getStations() {
+  private getStations() {
     this.http
       .get<IStationObj[]>(`${env.API_URL_STATION}`)
       .subscribe((data: IStationObj[]) => {
@@ -249,11 +249,11 @@ export class SearchService {
       });
   }
 
-  setActualDate(date: string) {
+  public setActualDate(date: string) {
     this.actualDate$.next(date);
   }
 
-  calculateTimeDifference(startDateStr: string, endDateStr: string): string {
+  private calculateTimeDifference(startDateStr: string, endDateStr: string): string {
     const millisecondsInSecond = 1000;
     const secondsInMinute = 60;
     const minutesinHour = 60;

@@ -20,7 +20,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   constructor(private readonly searchService: SearchService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscriptionFilter = this.searchService.dateFilter$.subscribe(
       value => {
         this.generateCards(value);
@@ -28,11 +28,11 @@ export class FilterComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscriptionFilter?.unsubscribe();
   }
 
-  generateCards(arrayDate: string[]) {
+  private generateCards(arrayDate: string[]) {
     this.cards.length = 0;
     for (let index = 0; index < arrayDate.length; index += 1) {
       const { date, dayName } = getDaydate(arrayDate[index]);
@@ -51,19 +51,19 @@ export class FilterComponent implements OnInit, OnDestroy {
     return this.cards.slice(start, start + this.itemsPerPage);
   }
 
-  nextCards() {
+  public nextCards() {
     if ((this.currentIndex + 1) * this.itemsPerPage < this.cards.length) {
       this.currentIndex += 1;
     }
   }
 
-  prevCards() {
+  public prevCards() {
     if (this.currentIndex > 0) {
       this.currentIndex -= 1;
     }
   }
 
-  setActiveCard(id: number, dateBase: string) {
+  public setActiveCard(id: number, dateBase: string) {
     this.idActiveCard = id;
     this.searchService.setActualDate(dateBase);
   }

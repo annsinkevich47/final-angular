@@ -18,7 +18,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   constructor(private searchService: SearchService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscriptionActualDate = this.searchService.actualDate$.subscribe(
       date => {
         this.actualDate = date;
@@ -36,7 +36,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
   }
 
-  filterData(list: ICardResult[]) {
+  private filterData(list: ICardResult[]) {
     const now = new Date(this.actualDate);
     const endOfDay = new Date(
       now.getFullYear(),
@@ -68,12 +68,12 @@ export class ResultComponent implements OnInit, OnDestroy {
       : [];
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscriptionTrip?.unsubscribe();
     this.subscriptionActualDate?.unsubscribe();
   }
 
-  openPopup() {
+  public openPopup() {
     console.log('popup');
   }
 }
