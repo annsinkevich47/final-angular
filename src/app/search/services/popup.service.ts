@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
+import { IScheduleTrip } from '../models/models';
+
 @Injectable({
   providedIn: 'root',
 })
 export class PopupService {
-  private popupSubject = new Subject<{ isOpen: boolean; data?: string }>();
-  public popupState$ = this.popupSubject.asObservable();
+  public isOpen$ = new Subject<boolean>();
+  public scheduleTrip$ = new Subject<IScheduleTrip[]>();
 
-  public open(data: string): void {
-    this.popupSubject.next({ isOpen: true, data });
+  public open(scheduleTrip: IScheduleTrip[]): void {
+    this.isOpen$.next(true);
+    this.scheduleTrip$.next(scheduleTrip);
   }
 
   public close(): void {
-    this.popupSubject.next({ isOpen: false });
+    this.isOpen$.next(false);
+    setTimeout(() => {
+      this.scheduleTrip$.next([]);
+    }, 350);
   }
 }

@@ -4,8 +4,6 @@
     class="popup__backdrop"
     (click)="closePopup()"></div>
   <div class="popup__content" [ngClass]="{ 'is-open': isOpen }">
-    <h2 class="popup__title">Name</h2>
-    <div class="popup__list-stations"></div>
     <button class="popup__close" (click)="closePopup()">
       <svg
         fill="#020403"
@@ -22,5 +20,20 @@
      489.292,457.678 277.331,245.004 489.292,32.337 " />
       </svg>
     </button>
+    <h2 class="popup__title">Name</h2>
+    <div class="popup__list-stations">
+      <div class="popup__time-wrap popup__wrapper">
+        <span class="popup__time-label popup__label">Time</span>
+        <span class="popup__station-label popup__label">Station</span>
+        <span class="popup__stop-label popup__label">Stop</span>
+      </div>
+      <div
+        class="popup__station-wrap popup__wrapper"
+        *ngFor="let schedule of scheduleTrip">
+        <span class="popup__time-value">{{ schedule.time }}</span>
+        <span class="popup__station-value">{{ schedule.nameStation }}</span>
+        <span class="popup__stop-value">{{ schedule.duration }}</span>
+      </div>
+    </div>
   </div>
 </div>

@@ -32,7 +32,9 @@
             <p class="results__transfer-label">From: {{ card.stationStart }}</p>
             <p class="results__transfer">to: {{ card.stationEnd }}</p>
           </div>
-          <button class="results__route" (click)="openPopup()">Route</button>
+          <button class="results__route" (click)="openPopup(card.schedules)">
+            Route
+          </button>
         </div>
       </div>
       <div class="results__info">

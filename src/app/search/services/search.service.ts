@@ -11,6 +11,7 @@ import {
   IRequestSearch,
   IRoute,
   ISchedule,
+  IScheduleTrip,
   IStationObj,
   ITrip,
 } from '../models/models';
@@ -76,7 +77,6 @@ export class SearchService {
         switch (route.path[index]) {
           case idStationFrom:
             indexPathFrom = index;
-
             if (indexPathFrom !== -1) {
               const copyIndex = indexPathFrom;
               route.schedule.forEach(schedule => {
@@ -123,6 +123,124 @@ export class SearchService {
     this.dateFilter$.next(sortedDates);
   }
 
+  private getTime(dateString: string): string {
+    const dateObject: Date = new Date(dateString);
+
+    const hours: number = dateObject.getHours();
+    const minutes: number = dateObject.getMinutes();
+
+    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+  }
+
+  private getDuration(dateStringStart: string, dateStringEnd: string): string {
+    const millisecondsInSecond = 1000;
+    const secondsInMinute = 60;
+    const date1: Date = new Date(dateStringStart);
+    const date2: Date = new Date(dateStringEnd);
+
+    const differenceInMilliseconds: number = date1.getTime() - date2.getTime();
+
+    const differenceInMinutes: number = Math.floor(
+      differenceInMilliseconds / (millisecondsInSecond * secondsInMinute),
+    );
+    const hours: number = Math.floor(differenceInMinutes / secondsInMinute);
+    const minutes: number = differenceInMinutes % secondsInMinute;
+
+    return `${hours}h ${minutes}m`;
+  }
+
+  private getArrayTimeSchedule(
+    schedule: ISchedule,
+    copyIndexFrom: number,
+    copyIndexTo: number,
+  ): { arrayTime: string[]; arrayDuration: string[] } {
+    const arrayTime: string[] = [];
+    const arrayDuration: string[] = [];
+    for (
+      let indexSegment = copyIndexFrom;
+      indexSegment < copyIndexTo;
+      indexSegment += 1
+    ) {
+      if (indexSegment + 1 === copyIndexTo) {
+        arrayTime.push(
+          // eslint-disable-next-line max-len
+          `${this.getTime(schedule.segments[indexSegment - 1].time[1])} - ${this.getTime(schedule.segments[indexSegment].time[0])}`,
+        );
+        arrayTime.push(this.getTime(schedule.segments[indexSegment].time[1]));
+        arrayDuration.push(
+          this.getDuration(
+            schedule.segments[indexSegment - 1].time[1],
+            schedule.segments[indexSegment].time[0],
+          ),
+        );
+        arrayDuration.push('last station');
+      } else if (indexSegment !== copyIndexFrom) {
+        arrayTime.push(
+          // eslint-disable-next-line max-len
+          `${this.getTime(schedule.segments[indexSegment].time[1])} - ${this.getTime(schedule.segments[indexSegment].time[0])}`,
+        );
+        arrayDuration.push(
+          this.getDuration(
+            schedule.segments[indexSegment].time[1],
+            schedule.segments[indexSegment].time[0],
+          ),
+        );
+      } else {
+        arrayTime.push(this.getTime(schedule.segments[indexSegment].time[0]));
+        arrayDuration.push('first station');
+      }
+    }
+    return { arrayTime, arrayDuration };
+  }
+
+  private createSchedules(
+    route: IRoute,
+    schedule: ISchedule,
+    copyIndexFrom: number,
+    copyIndexTo: number,
+  ): IScheduleTrip[] {
+    const arrayIndexesStation: number[] = [];
+    const arrayStations: string[] = [];
+    let arrayTime: string[] = [];
+    let arrayDuration: string[] = [];
+    const scheduleTrips: IScheduleTrip[] = [];
+
+    for (let index = copyIndexFrom; index <= copyIndexTo; index += 1) {
+      arrayIndexesStation.push(route.path[index]);
+    }
+
+    let index = 0;
+    for (
+      let indexStation = 0;
+      indexStation < this.stations.length;
+      indexStation += 1
+    ) {
+      if (this.stations[indexStation].id === arrayIndexesStation[index]) {
+        arrayStations.push(this.stations[indexStation].city);
+        indexStation = -1;
+        index += 1;
+      }
+    }
+
+    const dataArrayTime = this.getArrayTimeSchedule(
+      schedule,
+      copyIndexFrom,
+      copyIndexTo,
+    );
+    arrayTime = [...dataArrayTime.arrayTime];
+    arrayDuration = [...dataArrayTime.arrayDuration];
+
+    arrayTime.forEach((time, indexTime) => {
+      scheduleTrips.push({
+        time,
+        nameStation: arrayStations[indexTime],
+        duration: arrayDuration[indexTime],
+      });
+    });
+
+    return scheduleTrips;
+  }
+
   private createArrayTripCards(
     route: IRoute,
     data: ITrip,
@@ -155,6 +273,7 @@ export class SearchService {
           indexEndStation,
           occupiedSeats,
           this.getArrayPrices(schedule, copyIndexFrom, copyIndexTo),
+          this.createSchedules(route, schedule, copyIndexFrom, copyIndexTo),
         ),
       );
     });
@@ -207,6 +326,7 @@ export class SearchService {
     indexEndStation: number,
     occupiedSeats: number[],
     prices: number[],
+    schedules: IScheduleTrip[],
   ): ICardResult {
     const cardStation: ICardResult = {
       stationFrom: {
@@ -230,6 +350,7 @@ export class SearchService {
       stationEnd: this.stations[indexEndStation].city,
       occupiedSeats,
       prices,
+      schedules,
     };
     return cardStation;
   }
@@ -268,7 +389,7 @@ export class SearchService {
   ): string {
     const millisecondsInSecond = 1000;
     const secondsInMinute = 60;
-    const minutesinHour = 60;
+    const minutesInHour = 60;
     const hoursInDay = 24;
 
     const startDate = new Date(startDateStr);
@@ -280,15 +401,15 @@ export class SearchService {
     );
 
     const days = Math.floor(
-      differenceInSeconds / (hoursInDay * secondsInMinute * minutesinHour),
+      differenceInSeconds / (hoursInDay * secondsInMinute * minutesInHour),
     );
     const hours = Math.floor(
-      ((differenceInSeconds % (hoursInDay * secondsInMinute * minutesinHour)) /
-        secondsInMinute) *
-        minutesinHour,
+      (differenceInSeconds % (hoursInDay * secondsInMinute * minutesInHour)) /
+        (secondsInMinute * minutesInHour),
     );
+
     const minutes = Math.floor(
-      (differenceInSeconds % (secondsInMinute * minutesinHour)) /
+      (differenceInSeconds % (secondsInMinute * minutesInHour)) /
         secondsInMinute,
     );
 

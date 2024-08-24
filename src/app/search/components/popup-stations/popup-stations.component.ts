@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { IScheduleTrip } from '../../models/models';
 import { PopupService } from '../../services/popup.service';
 
 @Component({
@@ -10,22 +11,26 @@ import { PopupService } from '../../services/popup.service';
 })
 export class PopupStationsComponent implements OnInit, OnDestroy {
   public isOpen = false;
-  public data: string = '';
-  private subscriptionData: Subscription | undefined;
+  public scheduleTrip: IScheduleTrip[] = [];
+  private subscriptionIsOpen: Subscription | undefined;
+  private subscriptionScheduleTrip: Subscription | undefined;
 
   constructor(private popupService: PopupService) {}
 
   public ngOnInit(): void {
-    this.subscriptionData = this.popupService.popupState$.subscribe(state => {
-      console.log(state);
-
-      this.isOpen = state.isOpen;
-      this.data = state.data ? state.data : '';
+    this.subscriptionIsOpen = this.popupService.isOpen$.subscribe(value => {
+      this.isOpen = value;
     });
+    this.subscriptionScheduleTrip = this.popupService.scheduleTrip$.subscribe(
+      array => {
+        this.scheduleTrip = array;
+      },
+    );
   }
 
   public ngOnDestroy(): void {
-    this.subscriptionData?.unsubscribe();
+    this.subscriptionIsOpen?.unsubscribe();
+    this.subscriptionScheduleTrip?.unsubscribe();
   }
 
   public closePopup(): void {

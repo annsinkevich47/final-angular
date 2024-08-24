@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { ICardResult } from '../../models/models';
+import { ICardResult, IScheduleTrip } from '../../models/models';
 import { PopupService } from '../../services/popup.service';
 import { SearchService } from '../../services/search.service';
 
@@ -77,10 +77,10 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.subscriptionActualDate?.unsubscribe();
   }
 
-  public openPopup(): void {
+  public openPopup(scheduleTrip: IScheduleTrip[]): void {
     const dataToSend: string = 'Привет из родительского компонента!';
     console.log(dataToSend);
 
-    this.popupService.open(dataToSend);
+    this.popupService.open(scheduleTrip);
   }
 }
