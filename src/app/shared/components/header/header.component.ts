@@ -19,6 +19,6 @@ export class HeaderComponent {
 
   public get userName(): string {
     const userData = this.authService.getUserData();
-    return userData ? (userData.name ?? 'User') : '';
+    return userData ? (`Welcome, ${userData.name}` ?? 'Welcome, User') : '';
   }
 }
