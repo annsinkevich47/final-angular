@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RoutesService } from '../../../admin/services/route.service';
+import { Store } from '@ngrx/store';
+import { deleteRoute } from '../../../admin/redux/actions/routes.actions';
 
 @Component({
   selector: 'app-modal',
@@ -9,12 +10,9 @@ import { RoutesService } from '../../../admin/services/route.service';
 })
 export class DeleteRouteModalComponent {
   data = inject(MAT_DIALOG_DATA);
-  constructor(private routesService: RoutesService) {}
+  constructor(private store: Store) {}
 
   delete() {
-    this.routesService.deleteRoute(this.data.id).subscribe(
-      res => res,
-      err => console.error(err)
-    );
+    this.store.dispatch(deleteRoute({ id: this.data.id }));
   }
 }
