@@ -38,10 +38,19 @@ export interface IRoute {
   schedule: ISchedule[];
 }
 
-interface ISchedule {
+export interface ISchedule {
   rideId: number;
   segments: ISegment[];
 }
+
+export const ArrayTypePrices = [
+  'carriage1',
+  'carriage2',
+  'carriage3',
+  'carriage4',
+  'carriage5',
+  'carriage6',
+];
 
 interface ISegment {
   time: string[];
@@ -91,4 +100,5 @@ export interface ICardResult {
   stationStart: string;
   stationEnd: string;
   occupiedSeats: number[];
+  prices: number[];
 }

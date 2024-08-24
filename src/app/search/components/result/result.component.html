@@ -33,18 +33,20 @@
         </div>
       </div>
       <div class="results__info">
-        <div
-          class="results__info-block-wrap"
-          *ngFor="let occupiedSeat of card.occupiedSeats; let i = index">
-          <div class="results__info-block" *ngIf="occupiedSeat > 0">
-            <span class="results__class">{{ i + 1 }} class</span>
-            <span class="results__seats">{{ occupiedSeat }}</span>
-            <span class="results__price">0$</span>
-          </div>
-          <div class="results__info-block" *ngIf="occupiedSeat === -1">
-            <span class="results__class">{{ i + 1 }} class</span>
-            <span class="results__seats">All</span>
-            <span class="results__price">0$</span>
+        <div *ngFor="let price of card.prices; let i = index">
+          <div class="results__info-block-wrap" *ngIf="price > 0">
+            <div class="results__info-block" *ngIf="card.occupiedSeats[i] > 0">
+              <span class="results__class">{{ i + 1 }} class</span>
+              <span class="results__seats">{{ card.occupiedSeats[i] }}</span>
+              <span class="results__price">{{ price }}$</span>
+            </div>
+            <div
+              class="results__info-block"
+              *ngIf="card.occupiedSeats[i] === -1">
+              <span class="results__class">{{ i + 1 }} class</span>
+              <span class="results__seats">All</span>
+              <span class="results__price">{{ price }}$</span>
+            </div>
           </div>
         </div>
       </div>

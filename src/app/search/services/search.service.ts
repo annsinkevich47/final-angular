@@ -5,10 +5,12 @@ import { catchError, Observable, of, Subject } from 'rxjs';
 import { env } from '../../../environments/environment';
 import { getDaydate, getTimeFromDateString } from '../consts/consts';
 import {
+  ArrayTypePrices,
   ICardResult,
   ICity,
   IRequestSearch,
   IRoute,
+  ISchedule,
   IStationObj,
   ITrip,
 } from '../models/models';
@@ -145,6 +147,9 @@ export class SearchService {
           indexStartStation,
           indexEndStation,
           occupiedSeats,
+          copyIndexFrom,
+          copyIndexTo,
+          this.getArrayPrices(schedule, copyIndexFrom, copyIndexTo),
         ),
       );
     });
@@ -170,6 +175,24 @@ export class SearchService {
     return params;
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getArrayPrices(schedule: ISchedule, indexFrom: number, indexTo: number) {
+    const arrauPrices: number[] = [0, 0, 0, 0, 0, 0];
+
+    for (let index = indexFrom; index < indexTo; index += 1) {
+      console.log(schedule.segments[index].price);
+
+      ArrayTypePrices.forEach((type, indexArrayPrices) => {
+        arrauPrices[indexArrayPrices] += schedule.segments[index].price[type]
+          ? schedule.segments[index].price[type]
+          : 0;
+      });
+    }
+    console.log(arrauPrices);
+
+    return arrauPrices;
+  }
+
   createCardStation(
     data: ITrip,
     dateDataFrom: { date: string; dayName: string },
@@ -179,6 +202,9 @@ export class SearchService {
     indexStartStation: number,
     indexEndStation: number,
     occupiedSeats: number[],
+    copyIndexFrom: number,
+    copyIndexTo: number,
+    prices: number[],
   ) {
     const cardStation: ICardResult = {
       stationFrom: {
@@ -201,6 +227,7 @@ export class SearchService {
       stationStart: this.stations[indexStartStation].city,
       stationEnd: this.stations[indexEndStation].city,
       occupiedSeats,
+      prices,
     };
     return cardStation;
   }
