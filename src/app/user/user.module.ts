@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { FilterComponent } from '../search/components/filter/filter.component';
+import { ResultComponent } from '../search/components/result/result.component';
+import { SearchComponent } from '../search/components/search/search.component';
 import { SharedModule } from '../shared/shared.module';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
@@ -17,6 +20,9 @@ import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   declarations: [
+    FilterComponent,
+    SearchComponent,
+    ResultComponent,
     HomePageComponent,
     RegistrationFormComponent,
     RegistrationPageComponent,

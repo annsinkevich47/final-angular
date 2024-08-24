@@ -35,7 +35,7 @@ export class CarriagesPageComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {

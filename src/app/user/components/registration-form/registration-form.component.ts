@@ -24,7 +24,7 @@ export class RegistrationFormComponent extends BaseFormComponent<ISignUpForm> {
   constructor(
     private router: Router,
     private signService: SignService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {
     super();
   }
@@ -46,7 +46,7 @@ export class RegistrationFormComponent extends BaseFormComponent<ISignUpForm> {
         ]),
         repeatPassword: this.formBuilder.control('', [Validators.required]),
       },
-      { validators: PasswordMatchValidator }
+      { validators: PasswordMatchValidator },
     );
 
     this.form.controls.repeatPassword.valueChanges.subscribe(value => {

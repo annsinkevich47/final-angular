@@ -7,5 +7,5 @@ export const selectCarriageState =
 
 export const selectAllCarriages = createSelector(
   selectCarriageState,
-  (state: CarriageState) => state.carriages
+  (state: CarriageState) => state.carriages,
 );
