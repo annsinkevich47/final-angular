@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ICardResult } from '../../models/models';
+import { PopupService } from '../../services/popup.service';
 import { SearchService } from '../../services/search.service';
 
 @Component({
@@ -16,7 +17,10 @@ export class ResultComponent implements OnInit, OnDestroy {
   public tripData: ICardResult[] | null = null;
   public tripDataFiltered: ICardResult[] | null = null;
 
-  constructor(private searchService: SearchService) {}
+  constructor(
+    private searchService: SearchService,
+    private popupService: PopupService,
+  ) {}
 
   public ngOnInit(): void {
     this.subscriptionActualDate = this.searchService.actualDate$.subscribe(
@@ -74,6 +78,9 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   public openPopup(): void {
-    console.log('popup');
+    const dataToSend: string = 'Привет из родительского компонента!';
+    console.log(dataToSend);
+
+    this.popupService.open(dataToSend);
   }
 }
