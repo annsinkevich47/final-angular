@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-type Role = 'guest' | 'user' | 'manager';
+import { Role } from '../../shared/models/profile-response.module';
 
 @Injectable({
   providedIn: 'root',
@@ -32,10 +32,6 @@ export class AuthService {
   public setUserRole(role: Role): void {
     this.userRole = role;
     localStorage.setItem('userRole', role);
-  }
-
-  public getUserRole(): Role {
-    return this.userRole;
   }
 
   public isAdmin(): boolean {

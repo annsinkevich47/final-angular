@@ -1,1 +1,14 @@
-<p>header works!</p>
+<nav>
+  <a routerLink="/">Home</a>
+  <ng-container *ngIf="!isLoggedIn; else loggedInLinks">
+    <a routerLink="/signin">Sign In</a>
+    <a routerLink="/signup">Sign Up</a>
+  </ng-container>
+  <ng-template #loggedInLinks>
+    <a routerLink="/profile">Profile</a>
+    <a routerLink="/orders">My Orders</a>
+    <ng-container *ngIf="isAdmin">
+      <a routerLink="/admin">Admin</a>
+    </ng-container>
+  </ng-template>
+</nav>
