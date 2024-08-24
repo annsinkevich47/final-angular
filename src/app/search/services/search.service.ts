@@ -87,6 +87,8 @@ export class SearchService {
           case idStationTo:
             indexPathTo = index;
             break;
+          default:
+            break;
         }
         if (indexPathFrom !== -1 && indexPathTo !== -1) {
           console.log(indexPathFrom, indexPathTo);
@@ -111,7 +113,10 @@ export class SearchService {
     this.saveResults(arrayResult, arrayDateStart);
   }
 
-  private saveResults(arrayResult: ICardResult[], arrayDateStart: string[]): void {
+  private saveResults(
+    arrayResult: ICardResult[],
+    arrayDateStart: string[],
+  ): void {
     this.tripCardsData$.next(arrayResult);
     const sortedDates = this.getUniqueDates(arrayDateStart);
     this.actualDate$.next(sortedDates[0]);
@@ -174,7 +179,11 @@ export class SearchService {
     return params;
   }
 
-  private getArrayPrices(schedule: ISchedule, indexFrom: number, indexTo: number): number[] {
+  private getArrayPrices(
+    schedule: ISchedule,
+    indexFrom: number,
+    indexTo: number,
+  ): number[] {
     const arrauPrices: number[] = [0, 0, 0, 0, 0, 0];
 
     for (let index = indexFrom; index < indexTo; index += 1) {
@@ -253,7 +262,10 @@ export class SearchService {
     this.actualDate$.next(date);
   }
 
-  private calculateTimeDifference(startDateStr: string, endDateStr: string): string {
+  private calculateTimeDifference(
+    startDateStr: string,
+    endDateStr: string,
+  ): string {
     const millisecondsInSecond = 1000;
     const secondsInMinute = 60;
     const minutesinHour = 60;
@@ -263,11 +275,22 @@ export class SearchService {
     const endDate = new Date(endDateStr);
 
     const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
-    const differenceInSeconds = Math.floor(differenceInMilliseconds / millisecondsInSecond);
+    const differenceInSeconds = Math.floor(
+      differenceInMilliseconds / millisecondsInSecond,
+    );
 
-    const days = Math.floor(differenceInSeconds / (hoursInDay * secondsInMinute * minutesinHour));
-    const hours = Math.floor((differenceInSeconds % (hoursInDay * secondsInMinute * minutesinHour)) / secondsInMinute * minutesinHour);
-    const minutes = Math.floor((differenceInSeconds % (secondsInMinute * minutesinHour)) / secondsInMinute);
+    const days = Math.floor(
+      differenceInSeconds / (hoursInDay * secondsInMinute * minutesinHour),
+    );
+    const hours = Math.floor(
+      ((differenceInSeconds % (hoursInDay * secondsInMinute * minutesinHour)) /
+        secondsInMinute) *
+        minutesinHour,
+    );
+    const minutes = Math.floor(
+      (differenceInSeconds % (secondsInMinute * minutesinHour)) /
+        secondsInMinute,
+    );
 
     return `${!days ? '' : `${days}d, `}${!hours ? '' : `${hours}h,`} ${minutes}m`;
   }

@@ -77,7 +77,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   get getForm(): {
-    [key: string]: AbstractControl<any, any>;
+    [key: string]: AbstractControl;
   } {
     return this.searchForm.controls;
   }
