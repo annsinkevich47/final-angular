@@ -16,4 +16,9 @@ export class HeaderComponent {
   public get isAdmin(): boolean {
     return this.authService.isAdmin();
   }
+
+  public get userName(): string {
+    const userData = this.authService.getUserData();
+    return userData ? (userData.name ?? 'User') : '';
+  }
 }

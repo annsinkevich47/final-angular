@@ -7,3 +7,5 @@ export interface IProfileResponse {
   email: string;
   role: Role;
 }
+
+export interface IUser extends IProfileResponse {}
