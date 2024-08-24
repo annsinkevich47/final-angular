@@ -33,22 +33,28 @@
           {{ getErrorMessage('longitude') }}
         </div>
       </div>
-      <div class="stations__formWrapper">
-        <label for="stations__selectStation" class="stations__connectedLabel"
-          >Connected</label
-        >
-        <select name="stations__selectStation" id="stations__selectStation">
-          <option value="">Select a station</option>
-          <option
-            *ngFor="let connectStation of connectedStations"
-            value="connectStation"
-            class="stations__optionStation">
-            {{ connectStation }}
-          </option>
-        </select>
+      <div class="stations__formWrapper stations__connectedWrapper">
+        <label for="stations__selectStation" class="stations__connectedLabel">
+          Connected Stations
+        </label>
+        <div formArrayName="selectedStations">
+          <div *ngFor="let control of selectedStations.controls; let i = index">
+            <select
+              [id]="'stations__selectStation' + i"
+              [formControlName]="i"
+              (change)="onStationSelect(i, $event)">
+              <!-- <option value="">Select a station</option> -->
+              <option
+                *ngFor="let station of availableStations(i)"
+                [value]="station.id">
+                {{ station.city }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <button class="stations__submit" (click)="getAllStations()" type="button">
+      <button class="stations__submit" (click)="onSave()" type="button">
         Save
       </button>
     </form>

@@ -21,6 +21,9 @@
   &__formWrapper {
     height: 70px;
   }
+  &__connectedWrapper {
+    height: fit-content;
+  }
   #stations__selectStation,
   &__optionStation {
     padding: 5px;

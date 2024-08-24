@@ -6,7 +6,7 @@ export default interface StationType {
   connectedTo: ConnectedType[];
 }
 
-interface ConnectedType {
+export interface ConnectedType {
   id: number;
   distance: number;
 }
