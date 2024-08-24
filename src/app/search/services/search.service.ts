@@ -37,7 +37,7 @@ export class SearchService {
     });
   }
 
-  public setSchedule(requestSearch: IRequestSearch) {
+  public setSchedule(requestSearch: IRequestSearch): void {
     const params = this.createParams(requestSearch);
     console.log(params);
     this.http
@@ -62,7 +62,7 @@ export class SearchService {
       });
   }
 
-  private getInfoFromApi(data: ITrip) {
+  private getInfoFromApi(data: ITrip): void {
     const arrayDateStart: string[] = [];
     let arrayResult: ICardResult[] = [];
     const idStationFrom = data.from.stationId;
@@ -111,7 +111,7 @@ export class SearchService {
     this.saveResults(arrayResult, arrayDateStart);
   }
 
-  private saveResults(arrayResult: ICardResult[], arrayDateStart: string[]) {
+  private saveResults(arrayResult: ICardResult[], arrayDateStart: string[]): void {
     this.tripCardsData$.next(arrayResult);
     const sortedDates = this.getUniqueDates(arrayDateStart);
     this.actualDate$.next(sortedDates[0]);
@@ -125,7 +125,7 @@ export class SearchService {
     indexEndStation: number,
     copyIndexFrom: number,
     copyIndexTo: number,
-  ) {
+  ): ICardResult[] {
     const arrayResult: ICardResult[] = [];
 
     route.schedule.forEach(schedule => {
@@ -156,7 +156,7 @@ export class SearchService {
     return arrayResult;
   }
 
-  private createParams(requestSearch: IRequestSearch) {
+  private createParams(requestSearch: IRequestSearch): HttpParams {
     const params = new HttpParams()
       .set('fromLatitude', requestSearch.fromLatitude)
       .set('fromLongitude', requestSearch.fromLongitude)
@@ -174,7 +174,7 @@ export class SearchService {
     return params;
   }
 
-  private getArrayPrices(schedule: ISchedule, indexFrom: number, indexTo: number) {
+  private getArrayPrices(schedule: ISchedule, indexFrom: number, indexTo: number): number[] {
     const arrauPrices: number[] = [0, 0, 0, 0, 0, 0];
 
     for (let index = indexFrom; index < indexTo; index += 1) {
@@ -198,7 +198,7 @@ export class SearchService {
     indexEndStation: number,
     occupiedSeats: number[],
     prices: number[],
-  ) {
+  ): ICardResult {
     const cardStation: ICardResult = {
       stationFrom: {
         id: data.from.stationId,
@@ -225,7 +225,7 @@ export class SearchService {
     return cardStation;
   }
 
-  private getUniqueDates(dates: string[]) {
+  private getUniqueDates(dates: string[]): string[] {
     const uniqueDays = new Set();
 
     return dates
@@ -240,7 +240,7 @@ export class SearchService {
       .sort();
   }
 
-  private getStations() {
+  private getStations(): void {
     this.http
       .get<IStationObj[]>(`${env.API_URL_STATION}`)
       .subscribe((data: IStationObj[]) => {
@@ -249,7 +249,7 @@ export class SearchService {
       });
   }
 
-  public setActualDate(date: string) {
+  public setActualDate(date: string): void {
     this.actualDate$.next(date);
   }
 

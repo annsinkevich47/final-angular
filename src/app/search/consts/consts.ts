@@ -8,7 +8,12 @@ enum DaysOfWeek {
   'Saturday',
 }
 
-export const getDaydate = (dateString: string) => {
+export const getDaydate = (
+  dateString: string,
+): {
+  date: string;
+  dayName: string;
+} => {
   const date = new Date(dateString);
   const options = { month: 'long', day: 'numeric' } as const;
   const formattedDate = date.toLocaleDateString('en-EN', options);
@@ -16,7 +21,7 @@ export const getDaydate = (dateString: string) => {
   return { date: formattedDate, dayName };
 };
 
-export const getTimeFromDateString = (dateString: string) => {
+export const getTimeFromDateString = (dateString: string): string => {
   const date = new Date(dateString);
 
   const hours = date.getHours();

@@ -36,7 +36,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
   }
 
-  private filterData(list: ICardResult[]) {
+  private filterData(list: ICardResult[]): void {
     const now = new Date(this.actualDate);
     const endOfDay = new Date(
       now.getFullYear(),
@@ -73,7 +73,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.subscriptionActualDate?.unsubscribe();
   }
 
-  public openPopup() {
+  public openPopup(): void {
     console.log('popup');
   }
 }

@@ -32,7 +32,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.subscriptionFilter?.unsubscribe();
   }
 
-  private generateCards(arrayDate: string[]) {
+  private generateCards(arrayDate: string[]): void {
     this.cards.length = 0;
     for (let index = 0; index < arrayDate.length; index += 1) {
       const { date, dayName } = getDaydate(arrayDate[index]);
@@ -46,24 +46,24 @@ export class FilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  get visibleCards() {
+  get visibleCards(): ICardFilter[] {
     const start = this.currentIndex * this.itemsPerPage;
     return this.cards.slice(start, start + this.itemsPerPage);
   }
 
-  public nextCards() {
+  public nextCards(): void {
     if ((this.currentIndex + 1) * this.itemsPerPage < this.cards.length) {
       this.currentIndex += 1;
     }
   }
 
-  public prevCards() {
+  public prevCards(): void {
     if (this.currentIndex > 0) {
       this.currentIndex -= 1;
     }
   }
 
-  public setActiveCard(id: number, dateBase: string) {
+  public setActiveCard(id: number, dateBase: string): void {
     this.idActiveCard = id;
     this.searchService.setActualDate(dateBase);
   }

@@ -47,7 +47,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.subscriptionTo = this.setSubscriptionCityFind('cityTo', false);
   }
 
-  private setSubscriptionCityFind(name: string, isFrom: boolean = true) {
+  private setSubscriptionCityFind(
+    name: string,
+    isFrom: boolean = true,
+  ): Subscription | undefined {
     return this.searchForm
       .get(name)
       ?.valueChanges.pipe(
@@ -68,22 +71,24 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscriptionFrom?.unsubscribe();
     this.subscriptionTo?.unsubscribe();
   }
 
-  get getForm() {
+  get getForm(): {
+    [key: string]: AbstractControl<any, any>;
+  } {
     return this.searchForm.controls;
   }
 
-  private getActualTime() {
+  private getActualTime(): string {
     const now = new Date();
     now.setHours(now.getHours() + 3);
     return now.toISOString().slice(0, 16);
   }
 
-  private getMinDateTime() {
+  private getMinDateTime(): string {
     const now = new Date();
     now.setHours(3, 0, 0, 0);
     return now.toISOString().slice(0, 16);
@@ -101,7 +106,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     return inputDateTime < currentDateTime ? { pastDate: true } : null;
   }
 
-  public search() {
+  public search(): void {
     // if (!this.searchForm.invalid) {
     //   const cityFrom: ICity[] = this.citiesFrom.filter(city => {
     //     return city.name === this.searchForm.get('cityFrom')?.value;
