@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
@@ -8,8 +8,10 @@ import {
 } from '../../../shared/models/stations-response.model';
 import CarriageType from '../../models/carriage';
 import { loadCarriages } from '../../redux/actions/carriages.actions';
+import { createRoute } from '../../redux/actions/routes.actions';
 import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
+import { RoutesService } from '../../services/route.service';
 
 @Component({
   selector: 'app-route-form',
@@ -22,27 +24,54 @@ export class RouteFormComponent {
   public stationForm: FormGroup;
   public availableCarriages: CarriageType[] = [];
   public availableStations: Station[] = [];
+  public allStations: Station[] = [];
   public selectedStationsList: Station[] = [];
 
   constructor(
     private store: Store,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private routeSerivce: RoutesService
   ) {
     this.stationForm = this.fb.group({
-      stations: this.fb.array([]),
-      carriages: this.fb.array([]),
+      stations: this.fb.array([], [Validators.minLength(2)]),
+      carriages: this.fb.array([], [Validators.minLength(2)]),
     });
   }
   ngOnInit(): void {
     this.stations$ = this.store.select(selectAllStations);
     this.stations$.subscribe(stations => {
       this.availableStations = stations;
+      this.allStations = stations;
     });
     this.carriages$ = this.store.select(selectAllCarriages);
     this.store.dispatch(loadCarriages());
     this.carriages$.subscribe(carriages => {
       this.availableCarriages = carriages;
     });
+    this.addStation();
+    this.addCarriages();
+  }
+
+  onSubmit() {
+    if (this.stationForm.valid) {
+      this.stations.value.pop();
+      this.carriages.value.pop();
+      this.store.dispatch(
+        createRoute({
+          path: this.stations.value,
+          carriages: this.carriages.value,
+        })
+      );
+    } else {
+      this.carriages.markAsTouched();
+      this.stations.markAsTouched();
+    }
+  }
+
+  resetForm() {
+    this.stationForm.reset();
+    this.stations.clear();
+    this.carriages.clear();
     this.addStation();
     this.addCarriages();
   }
@@ -76,7 +105,7 @@ export class RouteFormComponent {
       ];
       const connectedStations = selectedStation[0].connectedTo;
       this.availableStations = [
-        ...this.getStationsFromId(connectedStations, this.availableStations),
+        ...this.getStationsFromId(connectedStations, this.allStations),
         ...this.selectedStationsList,
       ].filter(
         // filter duplicates

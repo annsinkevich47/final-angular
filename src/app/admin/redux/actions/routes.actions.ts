@@ -15,3 +15,7 @@ export const deleteRoute = createAction(
   '[Routes] Delete Route',
   props<{ id: number }>()
 );
+export const createRoute = createAction(
+  '[Routes] Create Route',
+  props<{ path: string[]; carriages: string[] }>()
+);

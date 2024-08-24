@@ -18,4 +18,11 @@ export class RoutesService {
     const url = `${this.baseUrl}/${id}`;
     return this.http.delete(url);
   }
+
+  createRoute(path: string[], carriages: string[]): Observable<object> {
+    return this.http.post(this.baseUrl, {
+      path,
+      carriages,
+    });
+  }
 }
