@@ -25,7 +25,7 @@ export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
     private formBuilder: FormBuilder,
     private router: Router,
     private signService: SignService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     super();
   }

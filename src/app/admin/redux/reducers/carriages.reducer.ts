@@ -20,33 +20,33 @@ export const carriageReducer = createReducer(
     (state, { carriages }): CarriageState => ({
       ...state,
       carriages,
-    })
+    }),
   ),
   on(
     CarriageActions.loadCarriagesFailure,
     (state, { error }): CarriageState => ({
       ...state,
       error,
-    })
+    }),
   ),
   on(
     CarriageActions.createCarriageSuccess,
     (state, { carriage }): CarriageState => ({
       ...state,
       carriages: [carriage, ...state.carriages],
-    })
+    }),
   ),
   on(
     CarriageActions.createCarriageFailure,
     (state, { error }): CarriageState => ({
       ...state,
       error,
-    })
+    }),
   ),
   on(CarriageActions.updateCarriageSuccess, (state, { carriage }) => ({
     ...state,
     carriages: state.carriages.map(c =>
-      c.code === carriage.code ? { ...c, ...carriage } : c
+      c.code === carriage.code ? { ...c, ...carriage } : c,
     ),
-  }))
+  })),
 );
