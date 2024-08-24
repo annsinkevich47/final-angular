@@ -72,4 +72,9 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.subscriptionTrip?.unsubscribe();
     this.subscriptionActualDate?.unsubscribe();
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  openPopup() {
+    console.log('popup');
+  }
 }

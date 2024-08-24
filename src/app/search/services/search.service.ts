@@ -180,15 +180,12 @@ export class SearchService {
     const arrauPrices: number[] = [0, 0, 0, 0, 0, 0];
 
     for (let index = indexFrom; index < indexTo; index += 1) {
-      console.log(schedule.segments[index].price);
-
       ArrayTypePrices.forEach((type, indexArrayPrices) => {
         arrauPrices[indexArrayPrices] += schedule.segments[index].price[type]
           ? schedule.segments[index].price[type]
           : 0;
       });
     }
-    console.log(arrauPrices);
 
     return arrauPrices;
   }

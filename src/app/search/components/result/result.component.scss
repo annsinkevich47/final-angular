@@ -139,6 +139,29 @@
     font-size: 12px;
   }
 
+  &__stations-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__route {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 22px;
+    background: $color-blue;
+    color: $color-white;
+    padding: 2px 5px;
+    border: 1px solid $color-blue;
+    border-radius: 5px;
+
+    &:hover {
+      background: transparentize($color-blue, 0.3);
+    }
+  }
+
   &__time-wrap {
     font-size: 14px;
     font-weight: 600;

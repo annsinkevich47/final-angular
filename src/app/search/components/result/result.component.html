@@ -27,9 +27,12 @@
             <p class="results__station-name">{{ card.stationTo.name }}</p>
           </div>
         </div>
-        <div class="results__stations-wrap">
-          <p class="results__transfer-label">From: {{ card.stationStart }}</p>
-          <p class="results__transfer">to: {{ card.stationEnd }}</p>
+        <div class="results__stations-info">
+          <div class="results__stations-wrap">
+            <p class="results__transfer-label">From: {{ card.stationStart }}</p>
+            <p class="results__transfer">to: {{ card.stationEnd }}</p>
+          </div>
+          <button class="results__route" (click)="openPopup()">Route</button>
         </div>
       </div>
       <div class="results__info">
