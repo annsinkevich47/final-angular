@@ -11,6 +11,7 @@ import {
   IRequestSearch,
   IRoute,
   ISchedule,
+  IScheduleStation,
   IScheduleTrip,
   IStationObj,
   ITrip,
@@ -137,15 +138,11 @@ export class SearchService {
     const secondsInMinute = 60;
     const date1: Date = new Date(dateStringStart);
     const date2: Date = new Date(dateStringEnd);
-    console.log(date1, date2);
 
     const differenceInMilliseconds: number = date2.getTime() - date1.getTime();
-    console.log(differenceInMilliseconds);
-
     const differenceInMinutes: number = Math.floor(
       differenceInMilliseconds / (millisecondsInSecond * secondsInMinute),
     );
-    console.log(differenceInMinutes / secondsInMinute);
 
     const hours: number = Math.floor(differenceInMinutes / secondsInMinute);
     const minutes: number = differenceInMinutes % secondsInMinute;
@@ -158,6 +155,8 @@ export class SearchService {
     copyIndexFrom: number,
     copyIndexTo: number,
   ): { arrayTime: string[]; arrayDuration: string[] } {
+    console.log(schedule);
+
     const arrayTime: string[] = [];
     const arrayDuration: string[] = [];
     for (
@@ -202,13 +201,13 @@ export class SearchService {
     schedule: ISchedule,
     copyIndexFrom: number,
     copyIndexTo: number,
-  ): IScheduleTrip[] {
+  ): IScheduleTrip {
     const arrayIndexesStation: number[] = [];
     const arrayStations: string[] = [];
     let arrayTime: string[] = [];
     let arrayDuration: string[] = [];
-    const scheduleTrips: IScheduleTrip[] = [];
-
+    let scheduleTrips: IScheduleTrip | null = null;
+    const scheduleStation: IScheduleStation[] = [];
     for (let index = copyIndexFrom; index <= copyIndexTo; index += 1) {
       arrayIndexesStation.push(route.path[index]);
     }
@@ -235,13 +234,14 @@ export class SearchService {
     arrayDuration = [...dataArrayTime.arrayDuration];
 
     arrayTime.forEach((time, indexTime) => {
-      scheduleTrips.push({
+      scheduleStation.push({
         time,
         nameStation: arrayStations[indexTime],
         duration: arrayDuration[indexTime],
       });
     });
 
+    scheduleTrips = { rideId: schedule.rideId, scheduleStation };
     return scheduleTrips;
   }
 
@@ -330,7 +330,7 @@ export class SearchService {
     indexEndStation: number,
     occupiedSeats: number[],
     prices: number[],
-    schedules: IScheduleTrip[],
+    schedules: IScheduleTrip,
   ): ICardResult {
     const cardStation: ICardResult = {
       stationFrom: {

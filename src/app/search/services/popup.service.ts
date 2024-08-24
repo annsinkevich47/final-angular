@@ -8,9 +8,9 @@ import { IScheduleTrip } from '../models/models';
 })
 export class PopupService {
   public isOpen$ = new Subject<boolean>();
-  public scheduleTrip$ = new Subject<IScheduleTrip[]>();
+  public scheduleTrip$ = new Subject<IScheduleTrip | null>();
 
-  public open(scheduleTrip: IScheduleTrip[]): void {
+  public open(scheduleTrip: IScheduleTrip): void {
     this.isOpen$.next(true);
     this.scheduleTrip$.next(scheduleTrip);
   }
@@ -18,7 +18,7 @@ export class PopupService {
   public close(): void {
     this.isOpen$.next(false);
     setTimeout(() => {
-      this.scheduleTrip$.next([]);
+      this.scheduleTrip$.next(null);
     }, 350);
   }
 }

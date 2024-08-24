@@ -20,7 +20,7 @@
      489.292,457.678 277.331,245.004 489.292,32.337 " />
       </svg>
     </button>
-    <h2 class="popup__title">Name</h2>
+    <h2 class="popup__title">Route: {{ scheduleTrip?.rideId }}</h2>
     <div class="popup__list-stations">
       <div class="popup__time-wrap popup__wrapper">
         <span class="popup__time-label popup__label">Time</span>
@@ -29,10 +29,12 @@
       </div>
       <div
         class="popup__station-wrap popup__wrapper"
-        *ngFor="let schedule of scheduleTrip">
-        <span class="popup__time-value">{{ schedule.time }}</span>
-        <span class="popup__station-value">{{ schedule.nameStation }}</span>
-        <span class="popup__stop-value">{{ schedule.duration }}</span>
+        *ngFor="let scheduleStation of scheduleTrip?.scheduleStation">
+        <span class="popup__time-value">{{ scheduleStation.time }}</span>
+        <span class="popup__station-value">{{
+          scheduleStation.nameStation
+        }}</span>
+        <span class="popup__stop-value">{{ scheduleStation.duration }}</span>
       </div>
     </div>
   </div>

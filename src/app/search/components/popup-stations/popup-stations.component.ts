@@ -11,7 +11,7 @@ import { PopupService } from '../../services/popup.service';
 })
 export class PopupStationsComponent implements OnInit, OnDestroy {
   public isOpen = false;
-  public scheduleTrip: IScheduleTrip[] = [];
+  public scheduleTrip: IScheduleTrip | null = null;
   private subscriptionIsOpen: Subscription | undefined;
   private subscriptionScheduleTrip: Subscription | undefined;
 

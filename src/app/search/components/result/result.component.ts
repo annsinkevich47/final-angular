@@ -77,7 +77,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.subscriptionActualDate?.unsubscribe();
   }
 
-  public openPopup(scheduleTrip: IScheduleTrip[]): void {
+  public openPopup(scheduleTrip: IScheduleTrip): void {
     const dataToSend: string = 'Привет из родительского компонента!';
     console.log(dataToSend);
 
