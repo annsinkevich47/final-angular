@@ -35,7 +35,7 @@ export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
     super();
   }
 
-  get formControls() {
+  public get formControls() {
     return this.form.controls;
   }
 

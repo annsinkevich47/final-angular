@@ -10,10 +10,10 @@ import { AuthService } from '../../../core/services/auth.service';
 export class HeaderComponent {
   constructor(private authService: AuthService) {}
 
-  get isLoggedIn(): boolean {
+  public get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
-  get isAdmin(): boolean {
+  public get isAdmin(): boolean {
     return this.authService.isAdmin();
   }
 }
