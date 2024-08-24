@@ -137,16 +137,20 @@ export class SearchService {
     const secondsInMinute = 60;
     const date1: Date = new Date(dateStringStart);
     const date2: Date = new Date(dateStringEnd);
+    console.log(date1, date2);
 
-    const differenceInMilliseconds: number = date1.getTime() - date2.getTime();
+    const differenceInMilliseconds: number = date2.getTime() - date1.getTime();
+    console.log(differenceInMilliseconds);
 
     const differenceInMinutes: number = Math.floor(
       differenceInMilliseconds / (millisecondsInSecond * secondsInMinute),
     );
+    console.log(differenceInMinutes / secondsInMinute);
+
     const hours: number = Math.floor(differenceInMinutes / secondsInMinute);
     const minutes: number = differenceInMinutes % secondsInMinute;
 
-    return `${hours}h ${minutes}m`;
+    return `${hours > 0 ? `${hours}h ` : ''}${minutes}m`;
   }
 
   private getArrayTimeSchedule(
@@ -177,11 +181,11 @@ export class SearchService {
       } else if (indexSegment !== copyIndexFrom) {
         arrayTime.push(
           // eslint-disable-next-line max-len
-          `${this.getTime(schedule.segments[indexSegment].time[1])} - ${this.getTime(schedule.segments[indexSegment].time[0])}`,
+          `${this.getTime(schedule.segments[indexSegment - 1].time[1])} - ${this.getTime(schedule.segments[indexSegment].time[0])}`,
         );
         arrayDuration.push(
           this.getDuration(
-            schedule.segments[indexSegment].time[1],
+            schedule.segments[indexSegment - 1].time[1],
             schedule.segments[indexSegment].time[0],
           ),
         );
