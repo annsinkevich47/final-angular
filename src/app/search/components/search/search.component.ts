@@ -77,21 +77,18 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.searchForm.controls;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getActualTime() {
     const now = new Date();
     now.setHours(now.getHours() + 3);
     return now.toISOString().slice(0, 16);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getMinDateTime() {
     const now = new Date();
     now.setHours(3, 0, 0, 0);
     return now.toISOString().slice(0, 16);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   pastDateValidator(
     control: AbstractControl,
   ): { [key: string]: boolean } | null {

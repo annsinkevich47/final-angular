@@ -1,4 +1,4 @@
-const daysOfWeek = [
+enum DaysOfWeek {
   'Sunday',
   'Monday',
   'Tuesday',
@@ -6,13 +6,13 @@ const daysOfWeek = [
   'Thursday',
   'Friday',
   'Saturday',
-];
+}
 
 export const getDaydate = (dateString: string) => {
   const date = new Date(dateString);
   const options = { month: 'long', day: 'numeric' } as const;
   const formattedDate = date.toLocaleDateString('en-EN', options);
-  const dayName = daysOfWeek[date.getDay()];
+  const dayName = DaysOfWeek[date.getDay()];
   return { date: formattedDate, dayName };
 };
 

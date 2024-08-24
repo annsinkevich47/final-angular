@@ -73,18 +73,20 @@ export class SearchService {
       const indexStartStation = route.path[0];
       const indexEndStation = route.path[route.path.length - 1];
       for (let index = 0; index < route.path.length; index += 1) {
-        if (route.path[index] === idStationFrom) {
-          indexPathFrom = index;
+        switch (route.path[index]) {
+          case idStationFrom:
+            indexPathFrom = index;
 
-          if (indexPathFrom !== -1) {
-            const copyIndex = indexPathFrom;
-            route.schedule.forEach(schedule => {
-              arrayDateStart.push(schedule.segments[copyIndex].time[0]);
-            });
-          }
-        }
-        if (route.path[index] === idStationTo) {
-          indexPathTo = index;
+            if (indexPathFrom !== -1) {
+              const copyIndex = indexPathFrom;
+              route.schedule.forEach(schedule => {
+                arrayDateStart.push(schedule.segments[copyIndex].time[0]);
+              });
+            }
+            break;
+          case idStationTo:
+            indexPathTo = index;
+            break;
         }
         if (indexPathFrom !== -1 && indexPathTo !== -1) {
           console.log(indexPathFrom, indexPathTo);
@@ -147,8 +149,6 @@ export class SearchService {
           indexStartStation,
           indexEndStation,
           occupiedSeats,
-          copyIndexFrom,
-          copyIndexTo,
           this.getArrayPrices(schedule, copyIndexFrom, copyIndexTo),
         ),
       );
@@ -156,7 +156,6 @@ export class SearchService {
     return arrayResult;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   createParams(requestSearch: IRequestSearch) {
     const params = new HttpParams()
       .set('fromLatitude', requestSearch.fromLatitude)
@@ -175,7 +174,6 @@ export class SearchService {
     return params;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getArrayPrices(schedule: ISchedule, indexFrom: number, indexTo: number) {
     const arrauPrices: number[] = [0, 0, 0, 0, 0, 0];
 
@@ -199,8 +197,6 @@ export class SearchService {
     indexStartStation: number,
     indexEndStation: number,
     occupiedSeats: number[],
-    copyIndexFrom: number,
-    copyIndexTo: number,
     prices: number[],
   ) {
     const cardStation: ICardResult = {
@@ -229,7 +225,6 @@ export class SearchService {
     return cardStation;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getUniqueDates(dates: string[]) {
     const uniqueDays = new Set();
 
@@ -258,17 +253,21 @@ export class SearchService {
     this.actualDate$.next(date);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   calculateTimeDifference(startDateStr: string, endDateStr: string): string {
+    const millisecondsInSecond = 1000;
+    const secondsInMinute = 60;
+    const minutesinHour = 60;
+    const hoursInDay = 24;
+
     const startDate = new Date(startDateStr);
     const endDate = new Date(endDateStr);
 
     const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
-    const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+    const differenceInSeconds = Math.floor(differenceInMilliseconds / millisecondsInSecond);
 
-    const days = Math.floor(differenceInSeconds / (24 * 3600));
-    const hours = Math.floor((differenceInSeconds % (24 * 3600)) / 3600);
-    const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+    const days = Math.floor(differenceInSeconds / (hoursInDay * secondsInMinute * minutesinHour));
+    const hours = Math.floor((differenceInSeconds % (hoursInDay * secondsInMinute * minutesinHour)) / secondsInMinute * minutesinHour);
+    const minutes = Math.floor((differenceInSeconds % (secondsInMinute * minutesinHour)) / secondsInMinute);
 
     return `${!days ? '' : `${days}d, `}${!hours ? '' : `${hours}h,`} ${minutes}m`;
   }
