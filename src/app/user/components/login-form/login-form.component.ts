@@ -77,8 +77,7 @@ export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
       .subscribe({
         next: (userInfo: IProfileResponse | null) => {
           if (userInfo) {
-            console.log('User Info:', userInfo);
-            this.authService.setUserRole(userInfo.role);
+            this.authService.setUserData(userInfo);
             this.router.navigateByUrl('/');
           }
         },

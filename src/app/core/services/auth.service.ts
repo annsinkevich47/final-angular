@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import { Role } from '../../shared/models/profile-response.module';
+import {
+  IProfileResponse,
+  Role,
+} from '../../shared/models/profile-response.module';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private isAuthenticated: boolean = !!this.getToken();
-  private storedRole = localStorage.getItem('userRole');
+  private storedRole = this.getUserData()?.role;
   private userRole: Role = (this.storedRole as Role) ?? 'guest';
 
   public login(token: string): void {
@@ -18,20 +21,26 @@ export class AuthService {
   public logout(): void {
     localStorage.removeItem('token');
     this.isAuthenticated = false;
-    this.setUserRole('guest');
-  }
-
-  public isLoggedIn(): boolean {
-    return this.isAuthenticated && this.userRole !== 'guest';
+    localStorage.removeItem('userData');
   }
 
   public getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  public setUserRole(role: Role): void {
-    this.userRole = role;
-    localStorage.setItem('userRole', role);
+  public setUserData(data: IProfileResponse) {
+    this.userRole = data.role;
+    localStorage.setItem('userData', JSON.stringify(data));
+  }
+
+  public getUserData(): IProfileResponse | null {
+    const userData = localStorage.getItem('userData');
+
+    return userData ? JSON.parse(userData) : null;
+  }
+
+  public isLoggedIn(): boolean {
+    return this.isAuthenticated && this.userRole !== 'guest';
   }
 
   public isAdmin(): boolean {
