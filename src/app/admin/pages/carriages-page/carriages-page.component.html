@@ -1,1 +1,107 @@
-<p>carriages-page works!</p>
+<div class="wrapper">
+  <div class="carriages">
+    <div class="carriages__manageCarriages">
+      <button class="carriages__create" (click)="onCreateCarriage()">
+        Create
+      </button>
+    </div>
+    <form
+      *ngIf="formDisplay"
+      class="carriages__form"
+      [formGroup]="prototypeForm">
+      <div class="carriages__formWrapper">
+        <label for="carriages__carriageName" class="carriages__nameLabel"
+          >Name</label
+        >
+        <div class="carriages__formValues">
+          <input
+            placeholder="Enter text name"
+            id="carriages__carriageName"
+            formControlName="name" />
+          <div
+            class="carriages__error"
+            *ngIf="prototypeForm.get('name')?.touched">
+            {{ getErrorMessage('name') }}
+          </div>
+        </div>
+      </div>
+
+      <div class="carriages__formWrapper">
+        <label for="carriages__rows" class="carriages__rowsLabel">Rows</label>
+        <div class="carriages__formValues">
+          <input
+            placeholder="Enter number from 1 to 17"
+            id="carriages__rows"
+            formControlName="rows" />
+          <div
+            class="carriages__error"
+            *ngIf="prototypeForm.get('rows')?.touched">
+            {{ getErrorMessage('rows') }}
+          </div>
+        </div>
+      </div>
+
+      <div class="carriages__formWrapper">
+        <label
+          for="carriages__leftSeatsNumber"
+          class="carriages__leftSeatsLabel"
+          >Left Seats</label
+        >
+        <div class="carriages__formValues">
+          <input
+            placeholder="Enter number from 1 to 10"
+            id="carriages__leftSeatsNumber"
+            formControlName="leftSeats" />
+          <div
+            class="carriages__error"
+            *ngIf="prototypeForm.get('leftSeats')?.touched">
+            {{ getErrorMessage('leftSeats') }}
+          </div>
+        </div>
+      </div>
+
+      <div class="carriages__formWrapper">
+        <label
+          for="carriages__rightSeatsNumber"
+          class="carriages__rightSeatsLabel"
+          >Right Seats</label
+        >
+        <div class="carriages__formValues">
+          <input
+            placeholder="Enter number from 1 to 10"
+            id="carriages__rightSeatsNumber"
+            formControlName="rightSeats" />
+          <div
+            class="carriages__error"
+            *ngIf="prototypeForm.get('rightSeats')?.touched">
+            {{ getErrorMessage('rightSeats') }}
+          </div>
+        </div>
+      </div>
+      <button
+        *ngIf="isCreating"
+        class="carriages__save"
+        (click)="onSubmit()"
+        [disabled]="prototypeForm.invalid">
+        Save
+      </button>
+      <button
+        *ngIf="isUpdating"
+        class="carriages__update"
+        (click)="onSubmit()"
+        [disabled]="prototypeForm.invalid">
+        Update
+      </button>
+    </form>
+    <div class="carriages__prototype" *ngIf="createPrototype">
+      <div class="carriages__prototype-name">Carriage Prototype</div>
+      <app-carriage-item [carriage]="selectedCarriage"></app-carriage-item>
+    </div>
+    <div class="carriages__list">
+      <app-carriage-item
+        *ngFor="let carriage of carriages"
+        [carriage]="carriage"
+        (updateCarriage)="onSelectCarriage(carriage)"></app-carriage-item>
+    </div>
+  </div>
+</div>

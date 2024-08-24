@@ -1,0 +1,65 @@
+<div class="signup">
+  <h2 class="signup__title">Sign Up</h2>
+  <form class="signup__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="signup__field">
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" type="email" />
+      <div
+        class="signup__errors"
+        *ngIf="formControls.email.invalid && !emailExistsError">
+        <span *ngIf="isSubmittedForm && formControls.email.hasError('required')"
+          >Required</span
+        >
+        <span *ngIf="isSubmittedForm && formControls.email.hasError('pattern')"
+          >Incorrect email</span
+        >
+      </div>
+      <span class="signup__errors" *ngIf="emailExistsError">
+        {{ emailExistsError }}</span
+      >
+    </div>
+
+    <div class="signup__field">
+      <label for="password">Password</label>
+      <input id="password" formControlName="password" type="password" />
+      <div class="signup__errors" *ngIf="formControls.password.invalid">
+        <span
+          *ngIf="isSubmittedForm && formControls.password.hasError('required')"
+          >Required</span
+        >
+        <span
+          *ngIf="isSubmittedForm && formControls.password.hasError('minlength')"
+          >Password must be at least 8 characters long</span
+        >
+      </div>
+    </div>
+
+    <div class="signup__field">
+      <label for="repeatPassword">Repeat Password</label>
+      <input
+        id="repeatPassword"
+        formControlName="repeatPassword"
+        type="password" />
+      <div
+        class="signup__errors"
+        *ngIf="
+          formControls.repeatPassword.invalid ||
+          form.hasError('passwordsMismatch')
+        ">
+        <span *ngIf="form.hasError('passwordsMismatch')"
+          >Passwords do not match</span
+        >
+      </div>
+    </div>
+
+    <button
+      class="signup__button"
+      type="submit"
+      [disabled]="form.invalid || emailExistsError">
+      Register
+    </button>
+    <span class="signup__already-have-account"
+      >Already have an account? <a routerLink="/signin">Sign In</a></span
+    >
+  </form>
+</div>

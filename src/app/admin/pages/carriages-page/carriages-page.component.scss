@@ -1,0 +1,87 @@
+@import '../../components/admin-navigation/admin-navigation.component.scss';
+
+.carriages {
+  display: flex;
+  flex-direction: column;
+  margin: 0 30px;
+  &__form {
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0;
+    width: 50%;
+    color: $color-black;
+  }
+  &__formWrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__formValues {
+    display: flex;
+    min-height: 50px;
+    width: 50%;
+    flex-direction: column;
+  }
+  &__error {
+    color: $color-red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  &__save,
+  &__update {
+    width: fit-content;
+    margin: 0 auto;
+  }
+  &__prototype {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border: 2px solid $color-purple;
+    width: fit-content;
+    padding: 20px;
+  }
+  &__prototype-item {
+    font-weight: 600;
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    color: $color-black;
+    margin-top: 30px;
+  }
+  input {
+    background-color: rgb(236, 234, 234);
+    padding: 3px;
+    border: 1.5px solid $color-gray;
+    cursor: text;
+  }
+  input.ng-invalid.ng-touched {
+    border: 1.5px solid $color-red;
+  }
+  button {
+    background-color: $color-blue;
+    padding: 10px;
+    color: #ffffff;
+  }
+  label {
+    cursor: default;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .carriages {
+    margin: 0 15px;
+    &__form {
+      width: 60vw;
+    }
+    &__formValues {
+      width: 65%;
+    }
+    label {
+      font-size: 12px;
+    }
+    input {
+      font-size: 11px;
+    }
+  }
+}

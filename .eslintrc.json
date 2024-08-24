@@ -21,6 +21,7 @@
         "import/first": "error",
         "import/newline-after-import": "error",
         "import/no-duplicates": "error",
+        "class-methods-use-this": "off",
         "max-len": ["error", 120],
         "no-console": "off",
         "simple-import-sort/imports": "error",

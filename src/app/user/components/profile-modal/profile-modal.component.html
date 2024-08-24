@@ -1,0 +1,20 @@
+<div class="profile__modal modal" *ngIf="isPasswordModalOpen">
+  <div class="modal__container">
+    <h2 class="modal__title">Change Password</h2>
+    <label for="newPassword">New Password</label>
+    <input
+      type="{{ isHoveredPassword ? 'text' : 'password' }}"
+      placeholder="Enter at least 8 characters"
+      id="newPassword"
+      [formControl]="editPasswordInput"
+      (mouseenter)="isHoveredPassword = true"
+      (mouseleave)="isHoveredPassword = false" />
+    <button
+      class="modal__save-password"
+      (click)="changePassword()"
+      [disabled]="!isPassLengthValid()">
+      Save
+    </button>
+    <button class="modal__close" (click)="close()">Cancel</button>
+  </div>
+</div>
