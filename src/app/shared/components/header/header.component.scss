@@ -1,0 +1,56 @@
+@import "../../../../styles/_variables.scss";
+
+.container {
+  background-color: $color-blue;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 15px 20px;
+  color: $color-white;
+  max-width: 1600px;
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 460px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    &.justify-content-between {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  &__link {
+    color: $color-white;
+    border-bottom: 2px solid transparent;
+  }
+
+  &__link.active {
+    border-bottom: 2px solid $color-white;
+  }
+
+  &__auth-links {
+    display: flex;
+    gap: 15px;
+  }
+
+  &__username {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+    text-align: end;
+  }
+}

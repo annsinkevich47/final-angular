@@ -15,6 +15,7 @@ import { RegistrationFormComponent } from './components/registration-form/regist
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { NotAuthorizedPageComponent } from './pages/not-authorized-page/not-authorized-page.component';
 import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
@@ -42,6 +43,7 @@ import { UserRoutingModule } from './user-routing.module';
     ProfilePageComponent,
     UserComponent,
     TripPageComponent,
+    NotAuthorizedPageComponent,
   ],
   imports: [CommonModule, SharedModule, UserRoutingModule],
 })

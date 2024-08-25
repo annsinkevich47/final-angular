@@ -1,6 +1,6 @@
 @import "../../../../styles/_variables.scss";
 
-.page-not-found {
+.not-authorized {
   min-height: calc(100dvh - 61px);
   display: flex;
   align-items: center;
@@ -25,7 +25,6 @@
   a {
     color: $color-blue;
     border-bottom: 2px solid transparent;
-    cursor: pointer;
 
     &:hover {
       border-bottom: 2px solid $color-blue;

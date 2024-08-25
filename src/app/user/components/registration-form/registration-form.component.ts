@@ -29,7 +29,7 @@ export class RegistrationFormComponent extends BaseFormComponent<ISignUpForm> {
     super();
   }
 
-  get formControls() {
+  public get formControls() {
     return this.form.controls;
   }
 

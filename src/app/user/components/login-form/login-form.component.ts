@@ -1,9 +1,13 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { catchError, of, switchMap } from 'rxjs';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { ISignInResponse } from '../../../shared/models/auth-response.model';
+import { IProfileResponse } from '../../../shared/models/profile-response.module';
+import { ProfileService } from '../../services/profile.service';
 import { SignService } from '../../services/sign.service';
 import {
   BaseFormComponent,
@@ -26,11 +30,12 @@ export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
     private router: Router,
     private signService: SignService,
     private authService: AuthService,
+    private profileService: ProfileService,
   ) {
     super();
   }
 
-  get formControls() {
+  public get formControls() {
     return this.form.controls;
   }
 
@@ -52,19 +57,38 @@ export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
     const password = this.formControls.password.value;
 
     if (email && password) {
-      this.signService.signIn(email, password).subscribe({
-        next: (response: ISignInResponse) => {
+      this.signInAndGetUserInfo(email, password);
+    }
+  }
+
+  private signInAndGetUserInfo(email: string, password: string): void {
+    this.signService
+      .signIn(email, password)
+      .pipe(
+        switchMap((response: ISignInResponse) => {
           this.authService.login(response.token);
-          this.router.navigateByUrl('/');
-        },
-        error: error => {
-          if (error.error.message === 'User is not found') {
-            this.incorrectEmailOrPassError = 'Incorrect email or password';
-          } else {
-            console.error(error);
+          return this.profileService.getUserInfo();
+        }),
+        catchError(error => {
+          this.handleError(error);
+          return of(null);
+        }),
+      )
+      .subscribe({
+        next: (userInfo: IProfileResponse | null) => {
+          if (userInfo) {
+            this.authService.setUserData(userInfo);
+            this.router.navigateByUrl('/');
           }
         },
       });
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.error.message === 'User is not found') {
+      this.incorrectEmailOrPassError = 'Incorrect email or password';
+    } else {
+      console.error(error);
     }
   }
 }
