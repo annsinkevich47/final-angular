@@ -20,8 +20,20 @@ export class RouteEffects {
   deleteRoute$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(RouteActions.deleteRoute),
-      mergeMap(action => {
-        return this.routeService.deleteRoute(action.id).pipe(
+      mergeMap(({ id }) => {
+        return this.routeService.deleteRoute(id).pipe(
+          map(() => RouteActions.loadRoutes()),
+          catchError(error => of(RouteActions.loadRoutesFailure({ error })))
+        );
+      })
+    );
+  });
+  updateRoute$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(RouteActions.createRoute),
+      mergeMap(({ path, carriages }) => {
+        console.log(path);
+        return this.routeService.createRoute(path, carriages).pipe(
           map(() => RouteActions.loadRoutes()),
           catchError(error => of(RouteActions.loadRoutesFailure({ error })))
         );
