@@ -1,0 +1,41 @@
+<div class="popup">
+  <div
+    [ngClass]="{ 'is-open': isOpen }"
+    class="popup__backdrop"
+    (click)="closePopup()"></div>
+  <div class="popup__content" [ngClass]="{ 'is-open': isOpen }">
+    <button class="popup__close" (click)="closePopup()">
+      <svg
+        fill="#020403"
+        height="800px"
+        width="800px"
+        version="1.1"
+        id="Capa_1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 490 490"
+        xml:space="preserve">
+        <polygon
+          points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 
+     489.292,457.678 277.331,245.004 489.292,32.337 " />
+      </svg>
+    </button>
+    <h2 class="popup__title">Route: {{ scheduleTrip?.rideId }}</h2>
+    <div class="popup__list-stations">
+      <div class="popup__time-wrap popup__wrapper">
+        <span class="popup__time-label popup__label">Time</span>
+        <span class="popup__station-label popup__label">Station</span>
+        <span class="popup__stop-label popup__label">Stop</span>
+      </div>
+      <div
+        class="popup__station-wrap popup__wrapper"
+        *ngFor="let scheduleStation of scheduleTrip?.scheduleStation">
+        <span class="popup__time-value">{{ scheduleStation.time }}</span>
+        <span class="popup__station-value">{{
+          scheduleStation.nameStation
+        }}</span>
+        <span class="popup__stop-value">{{ scheduleStation.duration }}</span>
+      </div>
+    </div>
+  </div>
+</div>
