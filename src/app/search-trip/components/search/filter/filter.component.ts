@@ -33,6 +33,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   private generateCards(arrayDate: string[]): void {
+    this.idActiveCard = 0;
     this.cards.length = 0;
     for (let index = 0; index < arrayDate.length; index += 1) {
       const { date, dayName } = getDaydate(arrayDate[index]);
