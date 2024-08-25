@@ -78,9 +78,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   public openPopup(scheduleTrip: IScheduleTrip): void {
-    const dataToSend: string = 'Привет из родительского компонента!';
-    console.log(dataToSend);
-
     this.popupService.open(scheduleTrip);
   }
 }
