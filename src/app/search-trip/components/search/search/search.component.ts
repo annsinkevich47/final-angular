@@ -7,8 +7,9 @@ import {
 } from '@angular/forms';
 import { debounceTime, filter, Subscription } from 'rxjs';
 
-import { ICity, IRequestSearch } from '../../models/models';
-import { SearchService } from '../../services/search.service';
+import { ICity, IRequestSearch } from '../../../models/models';
+import { SearchService } from '../../../services/search.service';
+import { StateCityService } from '../../../services/state-city.service';
 
 @Component({
   selector: 'app-search',
@@ -31,17 +32,26 @@ export class SearchComponent implements OnInit, OnDestroy {
   public minCurrentDateTime: string | undefined;
   private subscriptionFrom: Subscription | undefined;
   private subscriptionTo: Subscription | undefined;
-  private readonly numberError = 999;
 
   public citiesFrom: ICity[] = [];
   public citiesTo: ICity[] = [];
+  // private numberError: number = 999;
 
-  constructor(private searchService: SearchService) {}
+  constructor(
+    private searchService: SearchService,
+    private stateSearch: StateCityService,
+  ) {}
 
   public ngOnInit(): void {
     this.currentDateTime = this.getActualTime();
     this.minCurrentDateTime = this.getMinDateTime();
     this.searchForm.get('datetime')?.patchValue(this.currentDateTime);
+    this.searchForm.get('cityFrom')?.patchValue(this.stateSearch.getCityFrom());
+    this.searchForm.get('cityTo')?.patchValue(this.stateSearch.getCityTo());
+
+    if (!this.stateSearch.isEmpty()) {
+      this.search();
+    }
 
     this.subscriptionFrom = this.setSubscriptionCityFind('cityFrom');
     this.subscriptionTo = this.setSubscriptionCityFind('cityTo', false);
@@ -107,6 +117,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   public search(): void {
+    this.stateSearch.setState({
+      cityFrom: this.searchForm.get('cityFrom')?.value,
+      cityTo: this.searchForm.get('cityTo')?.value,
+    });
     // if (!this.searchForm.invalid) {
     //   const cityFrom: ICity[] = this.citiesFrom.filter(city => {
     //     return city.name === this.searchForm.get('cityFrom')?.value;

@@ -155,8 +155,6 @@ export class SearchService {
     copyIndexFrom: number,
     copyIndexTo: number,
   ): { arrayTime: string[]; arrayDuration: string[] } {
-    console.log(schedule);
-
     const arrayTime: string[] = [];
     const arrayDuration: string[] = [];
     for (
@@ -201,6 +199,7 @@ export class SearchService {
     schedule: ISchedule,
     copyIndexFrom: number,
     copyIndexTo: number,
+    routeId: number,
   ): IScheduleTrip {
     const arrayIndexesStation: number[] = [];
     const arrayStations: string[] = [];
@@ -241,7 +240,7 @@ export class SearchService {
       });
     });
 
-    scheduleTrips = { rideId: schedule.rideId, scheduleStation };
+    scheduleTrips = { rideId: schedule.rideId, scheduleStation, routeId };
     return scheduleTrips;
   }
 
@@ -277,7 +276,13 @@ export class SearchService {
           indexEndStation,
           occupiedSeats,
           this.getArrayPrices(schedule, copyIndexFrom, copyIndexTo),
-          this.createSchedules(route, schedule, copyIndexFrom, copyIndexTo),
+          this.createSchedules(
+            route,
+            schedule,
+            copyIndexFrom,
+            copyIndexTo,
+            route.id,
+          ),
         ),
       );
     });
@@ -307,17 +312,17 @@ export class SearchService {
     indexFrom: number,
     indexTo: number,
   ): number[] {
-    const arrauPrices: number[] = [0, 0, 0, 0, 0, 0];
+    const arrayPrices: number[] = [0, 0, 0, 0, 0, 0];
 
     for (let index = indexFrom; index < indexTo; index += 1) {
       ArrayTypePrices.forEach((type, indexArrayPrices) => {
-        arrauPrices[indexArrayPrices] += schedule.segments[index].price[type]
+        arrayPrices[indexArrayPrices] += schedule.segments[index].price[type]
           ? schedule.segments[index].price[type]
           : 0;
       });
     }
 
-    return arrauPrices;
+    return arrayPrices;
   }
 
   private createCardStation(
