@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { ICardResult, IScheduleTrip } from '../../models/models';
-import { PopupService } from '../../services/popup.service';
-import { SearchService } from '../../services/search.service';
+import { ICardResult, IScheduleTrip } from '../../../models/models';
+import { PopupService } from '../../../services/popup.service';
+import { SearchService } from '../../../services/search.service';
 
 @Component({
   selector: 'app-result',

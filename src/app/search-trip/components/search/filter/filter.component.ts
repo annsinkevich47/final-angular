@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { getDaydate } from '../../consts/consts';
-import { ICardFilter } from '../../models/models';
-import { SearchService } from '../../services/search.service';
+import { getDaydate } from '../../../consts/consts';
+import { ICardFilter } from '../../../models/models';
+import { SearchService } from '../../../services/search.service';
 
 @Component({
   selector: 'app-filter',

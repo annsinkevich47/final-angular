@@ -7,8 +7,8 @@ import {
 } from '@angular/forms';
 import { debounceTime, filter, Subscription } from 'rxjs';
 
-import { ICity, IRequestSearch } from '../../models/models';
-import { SearchService } from '../../services/search.service';
+import { ICity, IRequestSearch } from '../../../models/models';
+import { SearchService } from '../../../services/search.service';
 
 @Component({
   selector: 'app-search',
