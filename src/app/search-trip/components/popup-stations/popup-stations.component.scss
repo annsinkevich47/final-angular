@@ -96,8 +96,6 @@
     max-height: 400px;
     overflow-y: auto;
 
-
-
     @include tablet {
       padding: 10px;
       width: 80%;
@@ -109,7 +107,8 @@
     color: $color-gray;
   }
 
-  &__time-value, &__stop-value  {
+  &__time-value,
+  &__stop-value {
     width: 90px;
     font-size: 14px;
 
