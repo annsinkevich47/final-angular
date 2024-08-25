@@ -6,10 +6,18 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, tap } from 'rxjs';
 
-import StationType, { ConnectedType } from '../../models/stations';
-import { GetStationsService } from '../../services/get-stations.service';
+import { Station } from '../../../shared/models/stations-response.model';
+import StationType, {
+  ConnectedType,
+  StationResponse,
+  StationServer,
+} from '../../models/stations';
+import * as StationActions from '../../redux/actions/stations.actions';
+import { selectAllStations } from '../../redux/selectors/stations.selector';
+import { AddStationService } from '../../services/add-station.service';
 
 @Component({
   selector: 'app-station-page',
@@ -22,8 +30,9 @@ export class StationPageComponent implements OnInit {
   public formStations!: FormGroup;
 
   constructor(
-    public getStations: GetStationsService,
-    private formBuilder: FormBuilder
+    private store: Store,
+    private formBuilder: FormBuilder,
+    private addStationService: AddStationService
   ) {}
 
   ngOnInit(): void {
@@ -49,11 +58,15 @@ export class StationPageComponent implements OnInit {
       ],
       selectedStations: this.formBuilder.array([]),
     });
+    this.store.dispatch(StationActions.loadStations());
 
-    this.stationsObserve$ = this.getStations.getStations().pipe(
-      map(data => {
-        this.stationList = data.items;
-        return data.items;
+    this.stationsObserve$ = this.store.select(selectAllStations).pipe(
+      tap(stations => {
+        this.stationList = stations;
+        console.log(this.stationList)
+        if (stations.length > 0 && this.selectedStations.length === 0) {
+          this.addStationSelect();
+        }
       })
     );
 
@@ -105,42 +118,58 @@ export class StationPageComponent implements OnInit {
     return station ? station.city : 'Unknown';
   }
 
-  public getAllStations(): void {
-    if (this.formStations.valid) {
-      const formData = this.formStations.value;
-      console.log('Form Data:', formData);
-    }
-  }
-
   public onSave(): void {
     if (this.formStations.valid) {
       const formValue = this.formStations.value;
 
-      const connectedStations: ConnectedType[] = this.selectedStations.controls
-        .map(control => {
-          const stationId = +control.value;
+      const selectedCityNames: string[] = this.selectedStations.controls.map(
+        control => control.value
+      );
+      const connectedStationsById: ConnectedType[] = selectedCityNames
+        .map(cityName => {
           const station = this.stationList.find(
-            stationItem => stationItem.id === stationId
+            stationItem => stationItem.city === cityName
           );
           return station ? { id: station.id, distance: 0 } : null;
         })
         .filter((station): station is ConnectedType => station !== null);
 
-      const newStation: StationType = {
-        id: this.stationList.length + 1,
+      console.log('Selected City Names:', selectedCityNames);
+      console.log('Connected Stations (IDs):', connectedStationsById);
+
+      const stationToServer: StationServer = {
         city: formValue.name,
         latitude: Number(formValue.latitude),
         longitude: Number(formValue.longitude),
-        connectedTo: connectedStations,
+        relations: connectedStationsById.map(station => station.id),
       };
+      console.log(stationToServer);
 
-      this.stationList = [...this.stationList, newStation];
+      this.addStationService.addStation(stationToServer).subscribe({
+        next: response => {
+          const responseWithId = response as StationResponse;
+          console.log('Station successfully added to server:', response);
+          const newStation: Station = {
+            id: responseWithId.id,
+            city: response.city,
+            latitude: response.latitude,
+            longitude: response.longitude,
+            connectedTo: connectedStationsById,
+          };
+          this.store.dispatch(
+            StationActions.addStation({ station: newStation })
+          );
+          this.stationList = [newStation, ...this.stationList];
+          this.formStations.reset();
+          this.selectedStations.clear();
+        },
+        error: error => {
+          console.error('Error adding station to server:', error);
+        }
+      });
 
       this.formStations.reset();
       this.selectedStations.clear();
-
-      console.log('New Station Added:', newStation);
-      console.log('Updated Station List:', this.stationList);
     }
   }
 

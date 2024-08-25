@@ -28,5 +28,19 @@ export const stationReducer = createReducer(
       ...state,
       error,
     })
+  ),
+  on(
+    StationActions.addStationSuccess,
+    (state, { station }): StationState => ({
+      ...state,
+      stations: [station, ...state.stations],
+    })
+  ),
+  on(
+    StationActions.addStationFailure,
+    (state, { error }): StationState => ({
+      ...state,
+      error,
+    })
   )
 );

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';
+
+import { AddStationService } from '../../services/add-station.service';
 import { StationService } from '../../services/station.service';
 import * as StationActions from '../actions/stations.actions';
 
@@ -18,8 +20,21 @@ export class StationEffects {
     );
   });
 
+  // addStation$ = createEffect(() =>
+  //   { return this.actions$.pipe(
+  //     ofType(StationActions.addStation),
+  //     mergeMap(action =>
+  //       this.addStation.addStation(action.station).pipe(
+  //         map(station => StationActions.addStationSuccess({ station })),
+  //         catchError(error => of(StationActions.addStationFailure({ error })))
+  //       )
+  //     )
+  //   ) }
+  // );
+
   constructor(
     private actions$: Actions,
-    private stationService: StationService
+    private stationService: StationService,
+    private addStation: AddStationService
   ) {}
 }
