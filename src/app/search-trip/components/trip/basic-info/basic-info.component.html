@@ -1,1 +1,33 @@
-<p>basic-info works!</p>
+<div class="basic-info">
+  <button class="basic-info__back" (click)="backToMain()">
+    <svg
+      viewBox="0 0 1024 1024"
+      class="icon"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z"
+        fill="#ffffff" />
+    </svg>
+  </button>
+  <div class="basic-info__content" *ngIf="basicInfo">
+    <div class="basic-info__content-wrap">
+      <div class="basic-info__stations">
+        <span>From: {{ basicInfo.stationFrom.name }}</span>
+        <span>to: {{ basicInfo.stationTo.name }}</span>
+      </div>
+      <div class="basic-info__date">
+        <span>{{ basicInfo.stationFrom.date }}</span
+        ><span>{{ basicInfo.stationFrom.timeDay }}</span>
+      </div>
+    </div>
+    <div class="basic-info__content-wrap">
+      <span>Ride {{ basicInfo.schedules.rideId }}</span>
+      <button
+        class="basic-info__route"
+        (click)="openPopup(basicInfo.schedules)">
+        Route
+      </button>
+    </div>
+  </div>
+</div>

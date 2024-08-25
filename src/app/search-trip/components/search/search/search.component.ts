@@ -35,6 +35,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   public citiesFrom: ICity[] = [];
   public citiesTo: ICity[] = [];
+  // private numberError: number = 999;
 
   constructor(
     private searchService: SearchService,

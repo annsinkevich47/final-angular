@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ICardResult, IScheduleTrip } from '../../../models/models';
 import { PopupService } from '../../../services/popup.service';
 import { SearchService } from '../../../services/search.service';
+import { TripService } from '../../../services/trip.service';
 
 @Component({
   selector: 'app-result',
@@ -23,6 +24,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     private router: Router,
     private searchService: SearchService,
     private popupService: PopupService,
+    private tripService: TripService,
   ) {}
 
   public ngOnInit(): void {
@@ -90,9 +92,9 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   public openTrip(card: ICardResult): void {
     if (!this.isOpenPopup) {
-      this.router.navigate(['/trip', card.schedules.rideId], {
-        state: card,
-      });
+      this.router.navigate(['/trip', card.schedules.rideId]);
+      this.tripService.save(card);
+      console.log(card);
     }
   }
 }

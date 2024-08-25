@@ -105,6 +105,7 @@ export interface IScheduleStation {
 }
 
 export interface IScheduleTrip {
+  routeId: number;
   rideId: number;
   scheduleStation: IScheduleStation[];
 }

@@ -201,6 +201,7 @@ export class SearchService {
     schedule: ISchedule,
     copyIndexFrom: number,
     copyIndexTo: number,
+    routeId: number,
   ): IScheduleTrip {
     const arrayIndexesStation: number[] = [];
     const arrayStations: string[] = [];
@@ -241,7 +242,7 @@ export class SearchService {
       });
     });
 
-    scheduleTrips = { rideId: schedule.rideId, scheduleStation };
+    scheduleTrips = { rideId: schedule.rideId, scheduleStation, routeId };
     return scheduleTrips;
   }
 
@@ -277,7 +278,13 @@ export class SearchService {
           indexEndStation,
           occupiedSeats,
           this.getArrayPrices(schedule, copyIndexFrom, copyIndexTo),
-          this.createSchedules(route, schedule, copyIndexFrom, copyIndexTo),
+          this.createSchedules(
+            route,
+            schedule,
+            copyIndexFrom,
+            copyIndexTo,
+            route.id,
+          ),
         ),
       );
     });
