@@ -14,7 +14,7 @@ export class AuthService {
   private userRole: Role = (this.storedRole as Role) ?? 'guest';
   public loggedIn$ = new BehaviorSubject<boolean>(this.isLoggedIn());
   public userData$ = new BehaviorSubject<IProfileResponse | null>(
-    this.getUserData()
+    this.getUserData(),
   );
 
   public login(token: string): void {

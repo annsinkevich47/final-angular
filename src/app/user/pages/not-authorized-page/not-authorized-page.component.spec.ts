@@ -8,9 +8,8 @@ describe('NotAuthorizedPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NotAuthorizedPageComponent]
-    })
-    .compileComponents();
+      declarations: [NotAuthorizedPageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NotAuthorizedPageComponent);
     component = fixture.componentInstance;

@@ -30,7 +30,7 @@ export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
     private router: Router,
     private signService: SignService,
     private authService: AuthService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
   ) {
     super();
   }
@@ -72,7 +72,7 @@ export class LoginFormComponent extends BaseFormComponent<ILoginForm> {
         catchError(error => {
           this.handleError(error);
           return of(null);
-        })
+        }),
       )
       .subscribe({
         next: (userInfo: IProfileResponse | null) => {

@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   public ngOnInit(): void {
     this.isLoggedIn$ = this.authService.loggedIn$;
     this.isAdmin$ = this.authService.userData$.pipe(
-      map(userData => (userData ? userData.role === 'manager' : false))
+      map(userData => (userData ? userData.role === 'manager' : false)),
     );
 
     this.authService.userData$.subscribe(userData => {
