@@ -44,7 +44,7 @@ export interface IRoute {
 }
 
 export interface ISchedule {
-  rideId: number;
+  rideId?: number;
   segments: ISegment[];
 }
 
@@ -119,4 +119,15 @@ export interface ICardResult {
   occupiedSeats: number[];
   prices: number[];
   schedules: IScheduleTrip;
+}
+
+export interface ITripDetail {
+  carriages: string[];
+  path: string[];
+  rideId: number;
+  schedule: ISchedule;
+}
+
+export interface ITripResult {
+  uniqueCarriages: string[];
 }

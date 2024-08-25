@@ -240,7 +240,11 @@ export class SearchService {
       });
     });
 
-    scheduleTrips = { rideId: schedule.rideId, scheduleStation, routeId };
+    scheduleTrips = {
+      rideId: schedule.rideId ? schedule.rideId : -1,
+      scheduleStation,
+      routeId,
+    };
     return scheduleTrips;
   }
 

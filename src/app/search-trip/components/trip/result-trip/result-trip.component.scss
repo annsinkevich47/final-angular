@@ -1,0 +1,58 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.result {
+  &__filters {
+    display: flex;
+    justify-content: start;
+    flex-flow: wrap;
+  }
+
+  &__filter{
+    &-part {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom: 2px solid $color-blue;
+      padding: 2px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+
+      @include tablet {
+        margin-right: 20px;
+        padding: 5px;
+      }
+
+      @include laptop {
+        &:hover {
+          background: $color-blue;
+          color: $color-white;
+        }
+      }
+    }
+
+    &-sites, &-class {
+      font-weight: 600;
+      font-size: 12px;
+
+      @include tablet {
+        font-size: 14px;
+      }
+    }
+
+    &-price {
+      font-size: 12px;
+
+      @include tablet {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.is-active {
+  background: $color-blue;
+  color: $color-white;
+  pointer-events: none;
+}

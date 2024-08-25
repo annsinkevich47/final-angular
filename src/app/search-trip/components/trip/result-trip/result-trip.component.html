@@ -1,1 +1,17 @@
-<p>result works!</p>
+<div class="result" *ngIf="tripResult && basicInfo">
+  <div class="result__filters">
+    <div
+      class="result__filter-part"
+      *ngFor="let carriage of tripResult.uniqueCarriages; index as i"
+      (click)="setActiveCard(i)"
+      [ngClass]="{
+        'is-active': i === idActiveCard,
+      }">
+      <span class="result__filter-class"
+        >Carrige {{ carriage.split('carrige')[0] }} class</span
+      >
+      <span class="result__filter-sites">Seats: NULL</span>
+      <span class="result__filter-price">${{ basicInfo.prices[i] }}</span>
+    </div>
+  </div>
+</div>
