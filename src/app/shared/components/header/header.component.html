@@ -1,1 +1,52 @@
-<p>header works!</p>
+<div class="container">
+  <header class="header">
+    <nav
+      [ngClass]="{
+        'justify-content-between': (isLoggedIn$ | async) === false,
+      }">
+      <a
+        class="header__link"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="none"
+          viewBox="0 0 24 24">
+          <path
+            fill="#fff"
+            stroke="#fff"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6.5 20v-9H3l9-6 9 6h-3.5v9h-3v-3.5A1.5 1.5 0 0 0 13 15h-2a1.5 1.5 0 0 0-1.5 1.5V20h-3Z" /></svg
+      ></a>
+      <ng-container *ngIf="(isLoggedIn$ | async) === false; else loggedInLinks">
+        <div class="header__auth-links">
+          <a class="header__link" routerLink="/signin" routerLinkActive="active"
+            >Sign In</a
+          >
+          <a class="header__link" routerLink="/signup" routerLinkActive="active"
+            >Sign Up</a
+          >
+        </div>
+      </ng-container>
+      <ng-template #loggedInLinks>
+        <a class="header__link" routerLink="/profile" routerLinkActive="active"
+          >Profile</a
+        >
+        <a class="header__link" routerLink="/orders" routerLinkActive="active"
+          >My Orders</a
+        >
+        <ng-container *ngIf="isAdmin$ | async">
+          <a class="header__link" routerLink="/admin" routerLinkActive="active"
+            >Admin</a
+          >
+        </ng-container>
+      </ng-template>
+    </nav>
+    <span class="header__username">{{ userName }}</span>
+  </header>
+</div>

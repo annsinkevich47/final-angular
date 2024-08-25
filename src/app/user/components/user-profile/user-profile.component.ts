@@ -29,18 +29,16 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.profileService.getUserInfo().subscribe(user => {
-      this.currentUser = user;
-      this.editNameInput.setValue(this.currentUser.name ?? 'User');
-      this.editEmailInput.setValue(this.currentUser.email);
+    this.currentUser = this.authService.getUserData() as IProfileResponse;
+    this.editNameInput.setValue(this.currentUser.name ?? 'User');
+    this.editEmailInput.setValue(this.currentUser.email);
 
-      this.editNameInput.valueChanges.subscribe(value => {
-        this.validateName(value);
-      });
+    this.editNameInput.valueChanges.subscribe(value => {
+      this.validateName(value);
+    });
 
-      this.editEmailInput.valueChanges.subscribe(value => {
-        this.validateEmail(value);
-      });
+    this.editEmailInput.valueChanges.subscribe(value => {
+      this.validateEmail(value);
     });
   }
 
@@ -66,6 +64,7 @@ export class UserProfileComponent implements OnInit {
     this.profileService.updateUserInfo(name, email).subscribe(() => {
       this.currentUser.name = name;
       this.isEditingName = false;
+      this.authService.setUserData(this.currentUser);
     });
   }
 
@@ -86,6 +85,7 @@ export class UserProfileComponent implements OnInit {
         this.currentUser.email = email;
         this.isEditingEmail = false;
         this.emailError = '';
+        this.authService.setUserData(this.currentUser);
       },
       error: error => {
         if (error.error.message === 'Email already exists') {
