@@ -12,6 +12,11 @@ export interface IDay {
   date: string;
 }
 
+export interface IStateCities {
+  cityFrom: string;
+  cityTo: string;
+}
+
 export interface IRequestSearch {
   fromLatitude: number;
   fromLongitude: number;

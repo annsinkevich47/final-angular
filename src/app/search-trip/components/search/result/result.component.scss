@@ -38,6 +38,8 @@
   }
 
   &__card-trip {
+    width: 100%;
+    background: transparent;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
