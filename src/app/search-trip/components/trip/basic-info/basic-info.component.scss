@@ -14,6 +14,10 @@
     border: 1px solid $color-blue;
     border-radius: 10px;
 
+    @include mobile-x {
+      width: 320px;
+    }
+
     &-wrap {
       display: flex;
       padding: 2px;
@@ -33,7 +37,7 @@
     }
 
     @include tablet {
-      padding: 10px 20px;
+      padding: 10px
     }
   }
 
@@ -53,11 +57,24 @@
 
   &__stations {
     display: flex;
-    margin-right: 20px;
   }
 
   &__date {
     display: flex;
+    justify-content: space-between;
+
+    span {
+      font-size: 14px;
+      padding: 5px 2px;
+    }
+
+    &-to, &-from {
+      width: 90px;
+
+      @include mobile-x {
+        width: auto;
+      }
+    }
   }
 
   &__back {

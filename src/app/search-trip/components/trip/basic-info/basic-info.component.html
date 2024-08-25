@@ -17,8 +17,14 @@
         <span>to: {{ basicInfo.stationTo.name }}</span>
       </div>
       <div class="basic-info__date">
-        <span>{{ basicInfo.stationFrom.date }}</span
-        ><span>{{ basicInfo.stationFrom.timeDay }}</span>
+        <div class="basic-info__date-from">
+          <span>{{ basicInfo.stationFrom.date }}</span
+          ><span>{{ basicInfo.stationFrom.timeDay }}</span>
+        </div>
+        <div class="basic-info__date-to">
+          <span>{{ basicInfo.stationTo.date }}</span
+          ><span>{{ basicInfo.stationTo.timeDay }}</span>
+        </div>
       </div>
     </div>
     <div class="basic-info__content-wrap">
