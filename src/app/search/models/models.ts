@@ -93,6 +93,17 @@ export interface IStationObj {
   connectedTo: IConnection[];
 }
 
+export interface IScheduleStation {
+  time: string;
+  nameStation: string;
+  duration: string;
+}
+
+export interface IScheduleTrip {
+  rideId: number;
+  scheduleStation: IScheduleStation[];
+}
+
 export interface ICardResult {
   stationFrom: IStationResult;
   stationTo: IStationResult;
@@ -101,4 +112,5 @@ export interface ICardResult {
   stationEnd: string;
   occupiedSeats: number[];
   prices: number[];
+  schedules: IScheduleTrip;
 }

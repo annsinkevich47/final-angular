@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { FilterComponent } from '../search/components/filter/filter.component';
+import { PopupStationsComponent } from '../search/components/popup-stations/popup-stations.component';
 import { ResultComponent } from '../search/components/result/result.component';
 import { SearchComponent } from '../search/components/search/search.component';
 import { SharedModule } from '../shared/shared.module';
@@ -23,6 +24,7 @@ import { UserRoutingModule } from './user-routing.module';
     FilterComponent,
     SearchComponent,
     ResultComponent,
+    PopupStationsComponent,
     HomePageComponent,
     RegistrationFormComponent,
     RegistrationPageComponent,
