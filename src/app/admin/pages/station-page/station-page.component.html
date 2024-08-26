@@ -52,13 +52,14 @@
             </select>
           </div>
         </div>
+        <div
+          class="stations__error"
+          *ngIf="selectedStations.invalid && selectedStations.touched">
+          At least two stations must be selected.
+        </div>
       </div>
 
-      <button
-        class="stations__submit"
-        (click)="onSave()"
-        type="button"
-        [disabled]="formStations.invalid">
+      <button class="stations__submit" (click)="onSave()" type="button">
         Save
       </button>
     </form>
@@ -78,7 +79,9 @@
           {{ getCityNameById(stationConnect.id) }},
         </div>
       </div>
-      <button class="stations__delete">
+      <button
+        class="stations__delete"
+        (click)="onDeleteStation(station.id ?? 0)">
         <img src="delete.svg" alt="delete-icon" />
       </button>
     </div>

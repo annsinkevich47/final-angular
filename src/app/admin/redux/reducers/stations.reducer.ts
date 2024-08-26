@@ -42,5 +42,19 @@ export const stationReducer = createReducer(
       ...state,
       error,
     })
+  ),
+  on(
+    StationActions.deleteStationSuccess,
+    (state, { stationId }): StationState => ({
+      ...state,
+      stations: state.stations.filter(station => station.id !== stationId),
+    })
+  ),
+  on(
+    StationActions.deleteStationFailure,
+    (state, { error }): StationState => ({
+      ...state,
+      error,
+    })
   )
 );

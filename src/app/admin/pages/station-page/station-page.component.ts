@@ -7,9 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Station } from '../../../shared/models/stations-response.model';
+import { minSelectedStations } from '../../helpers/connect-validator';
 import StationType, {
   ConnectedType,
   StationResponse,
@@ -56,7 +57,7 @@ export class StationPageComponent implements OnInit {
           Validators.min(-180),
         ],
       ],
-      selectedStations: this.formBuilder.array([]),
+      selectedStations: this.formBuilder.array([], minSelectedStations(2)),
     });
     this.store.dispatch(StationActions.loadStations());
     this.stationsObserve$ = this.store.select(selectAllStations);
@@ -108,6 +109,7 @@ export class StationPageComponent implements OnInit {
   }
 
   public onSave(): void {
+    this.formStations.markAllAsTouched();
     if (this.formStations.valid) {
       const formValue = this.formStations.value;
 
@@ -159,6 +161,11 @@ export class StationPageComponent implements OnInit {
       this.formStations.reset();
       this.selectedStations.clear();
     }
+  }
+
+  public onDeleteStation(stationId: number): void {
+    console.log(stationId)
+    this.store.dispatch(StationActions.deleteStation({ stationId }));
   }
 
   public getErrorMessage(formControlName: string): string {

@@ -28,3 +28,19 @@ export const addStationFailure = createAction(
   '[Station] Add Station Failure',
   props<{ error: unknown }>()
 );
+
+// Delete station
+export const deleteStation = createAction(
+  '[Station] Delete Station',
+  props<{ stationId: number }>()
+);
+
+export const deleteStationSuccess = createAction(
+  '[Station] Delete Station Success',
+  props<{ stationId: number }>()
+);
+
+export const deleteStationFailure = createAction(
+  '[Station] Delete Station Failure',
+  props<{ error: unknown }>()
+);
