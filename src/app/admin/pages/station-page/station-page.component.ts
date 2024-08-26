@@ -59,17 +59,10 @@ export class StationPageComponent implements OnInit {
       selectedStations: this.formBuilder.array([]),
     });
     this.store.dispatch(StationActions.loadStations());
-
-    this.stationsObserve$ = this.store.select(selectAllStations).pipe(
-      tap(stations => {
-        this.stationList = stations;
-        console.log(this.stationList)
-        if (stations.length > 0 && this.selectedStations.length === 0) {
-          this.addStationSelect();
-        }
-      })
-    );
-
+    this.stationsObserve$ = this.store.select(selectAllStations);
+    this.stationsObserve$.subscribe(stations => {
+      this.stationList = stations;
+    });
     this.addStationSelect();
   }
 
@@ -82,7 +75,6 @@ export class StationPageComponent implements OnInit {
   }
 
   public addStationSelect(): void {
-    console.log(this.stationList);
     const firstAvailableStationId =
       this.stationList.length > 0 ? String(this.stationList[0].city) : '';
     this.selectedStations.push(
@@ -99,9 +91,6 @@ export class StationPageComponent implements OnInit {
     if (selectedStationCity && index === this.selectedStations.length - 1) {
       this.addStationSelect();
     }
-    console.log(this.selectedStations.controls);
-
-    console.log(this.selectedStations.value);
   }
 
   public availableStations(index: number): StationType[] {
@@ -143,7 +132,6 @@ export class StationPageComponent implements OnInit {
         longitude: Number(formValue.longitude),
         relations: connectedStationsById.map(station => station.id),
       };
-      console.log(stationToServer);
 
       this.addStationService.addStation(stationToServer).subscribe({
         next: response => {
@@ -151,9 +139,9 @@ export class StationPageComponent implements OnInit {
           console.log('Station successfully added to server:', response);
           const newStation: Station = {
             id: responseWithId.id,
-            city: response.city,
-            latitude: response.latitude,
-            longitude: response.longitude,
+            city: formValue.name,
+            latitude: Number(formValue.latitude),
+            longitude: Number(formValue.longitude),
             connectedTo: connectedStationsById,
           };
           this.store.dispatch(
@@ -165,7 +153,7 @@ export class StationPageComponent implements OnInit {
         },
         error: error => {
           console.error('Error adding station to server:', error);
-        }
+        },
       });
 
       this.formStations.reset();

@@ -32,10 +32,12 @@
     margin-top: 20px;
     padding: 10px;
     width: 100%;
-    background-color: $color-gray;
-  }
-  &__submit.ng-valid {
     background-color: $color-blue;
+    color: #ffffff;
+    &:disabled {
+      background-color: $color-gray;
+      color: $color-black;
+    }
   }
   &__display {
     display: flex;

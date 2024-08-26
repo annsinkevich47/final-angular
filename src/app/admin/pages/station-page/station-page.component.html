@@ -54,15 +54,17 @@
         </div>
       </div>
 
-      <button class="stations__submit" (click)="onSave()" type="button">
+      <button
+        class="stations__submit"
+        (click)="onSave()"
+        type="button"
+        [disabled]="formStations.invalid">
         Save
       </button>
     </form>
   </div>
   <div class="stations__display">
-    <div
-      class="stations__item"
-      *ngFor="let station of stationsObserve$ | async">
+    <div class="stations__item" *ngFor="let station of stationList">
       <div class="stations__name">{{ station.city }}</div>
       <div class="stations__coordinates">
         <div class="stations__latitude">{{ station.latitude }},</div>
@@ -76,7 +78,7 @@
           {{ getCityNameById(stationConnect.id) }},
         </div>
       </div>
-      <button class="stations__delete" [disabled]="formStations.invalid">
+      <button class="stations__delete">
         <img src="delete.svg" alt="delete-icon" />
       </button>
     </div>
