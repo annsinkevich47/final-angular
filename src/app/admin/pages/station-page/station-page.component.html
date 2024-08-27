@@ -65,10 +65,21 @@
           class="stations__addConnect">
           Add Another Station
         </button>
-        <div
-          class="stations__error"
-          *ngIf="submitted && selectedStations.length < 2">
-          At least two stations must be selected.
+        <div class="stations__error" *ngIf="submitted">
+          <div
+            *ngIf="
+              formStations
+                .get('selectedStations')
+                ?.hasError('minSelectedStations')
+            ">
+            At least two stations must be selected.
+          </div>
+          <div
+            *ngIf="
+              formStations.get('selectedStations')?.hasError('defaultSelection')
+            ">
+            Please select a valid station for each connection.
+          </div>
         </div>
       </div>
 
