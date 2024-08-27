@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
 import { Station } from '../../../shared/models/stations-response.model';
 import { minSelectedStations } from '../../helpers/connect-validator';
 import StationType, {
-  ConnectedType,
   StationResponse,
   StationServer,
 } from '../../models/stations';
@@ -31,6 +30,7 @@ export class StationPageComponent implements OnInit {
   public stationList: StationType[] | [] = [];
   public formStations!: FormGroup;
   public errorStationId: number | null = null;
+  public submitted: boolean = false;
 
   constructor(
     private store: Store,
@@ -67,42 +67,35 @@ export class StationPageComponent implements OnInit {
     this.stationsObserve$.subscribe(stations => {
       this.stationList = stations;
     });
-    this.addStationSelect();
+    this.addConnectedStation();
   }
 
   get selectedStations(): FormArray {
     return this.formStations.get('selectedStations') as FormArray;
   }
 
-  private createStationControl(defaultValue: string = ''): FormControl {
-    return new FormControl(defaultValue);
+  addConnectedStation(): void {
+    this.selectedStations.push(new FormControl('', Validators.required));
   }
 
-  public addStationSelect(): void {
-    const firstAvailableStationId =
-      this.stationList.length > 0 ? String(this.stationList[0].city) : '';
-    this.selectedStations.push(
-      this.createStationControl(firstAvailableStationId)
-    );
+  onStationSelect(index: number): void {
+    const selectedStationName = this.selectedStations.at(index).value;
+    this.selectedStations.controls.forEach((control, i) => {
+      if (i > index && control.value === selectedStationName) {
+        control.setValue('');
+      }
+    });
   }
 
-  public onStationSelect(index: number, event: Event): void {
-    const selectedStationId = +(event.target as HTMLSelectElement).value;
-    const selectedStationCity = this.getCityNameById(selectedStationId);
+  getAvailableStations(index: number): StationType[] {
+    const selectedStationNames = this.selectedStations.controls
+      .map(control => control.value)
+      .filter(value => value);
 
-    this.selectedStations.at(index).setValue(selectedStationCity);
-
-    if (selectedStationCity && index === this.selectedStations.length - 1) {
-      this.addStationSelect();
-    }
-  }
-
-  public availableStations(index: number): StationType[] {
-    const selectedStationCities = this.selectedStations.controls
-      .slice(0, index + 1)
-      .map(control => control.value);
     return this.stationList.filter(
-      station => !selectedStationCities.includes(station.city)
+      station =>
+        !selectedStationNames.includes(station.city) ||
+        this.selectedStations.at(index).value === station.city
     );
   }
 
@@ -112,30 +105,23 @@ export class StationPageComponent implements OnInit {
   }
 
   public onSave(): void {
+    this.submitted = true;
     this.formStations.markAllAsTouched();
     if (this.formStations.valid) {
       const formValue = this.formStations.value;
-
-      const selectedCityNames: string[] = this.selectedStations.controls.map(
-        control => control.value
-      );
-      const connectedStationsById: ConnectedType[] = selectedCityNames
-        .map(cityName => {
-          const station = this.stationList.find(
-            stationItem => stationItem.city === cityName
-          );
-          return station ? { id: station.id, distance: 0 } : null;
-        })
-        .filter((station): station is ConnectedType => station !== null);
-
-      console.log('Selected City Names:', selectedCityNames);
-      console.log('Connected Stations (IDs):', connectedStationsById);
 
       const stationToServer: StationServer = {
         city: formValue.name,
         latitude: Number(formValue.latitude),
         longitude: Number(formValue.longitude),
-        relations: connectedStationsById.map(station => station.id),
+        relations: formValue.selectedStations
+          .map((cityName: string) => {
+            const station = this.stationList.find(
+              stationName => stationName.city === cityName
+            );
+            return station?.id ?? -1;
+          })
+          .filter((id: number) => id !== -1),
       };
 
       this.addStationService.addStation(stationToServer).subscribe({
@@ -147,7 +133,12 @@ export class StationPageComponent implements OnInit {
             city: formValue.name,
             latitude: Number(formValue.latitude),
             longitude: Number(formValue.longitude),
-            connectedTo: connectedStationsById,
+            connectedTo: formValue.selectedStations.map((cityName: string) => ({
+              id:
+                this.stationList.find(station => station.city === cityName)
+                  ?.id ?? 0,
+              distance: 0,
+            })),
           };
           this.store.dispatch(
             StationActions.addStation({ station: newStation })
@@ -155,6 +146,8 @@ export class StationPageComponent implements OnInit {
           this.stationList = [newStation, ...this.stationList];
           this.formStations.reset();
           this.selectedStations.clear();
+          this.addConnectedStation();
+          this.submitted = false;
         },
         error: error => {
           console.error('Error adding station to server:', error);
@@ -162,7 +155,6 @@ export class StationPageComponent implements OnInit {
       });
 
       this.formStations.reset();
-      this.selectedStations.clear();
     }
   }
 

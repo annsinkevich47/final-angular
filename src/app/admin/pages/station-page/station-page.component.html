@@ -1,7 +1,10 @@
 <div class="stations">
   <div class="stations__create">
     <div class="stations__map"></div>
-    <form class="stations__form" [formGroup]="formStations">
+    <form
+      class="stations__form"
+      [formGroup]="formStations"
+      (ngSubmit)="onSave()">
       <div class="stations__formWrapper">
         <label for="cityNameInput" class="stations__cityNameLabel"
           >City Name</label
@@ -38,30 +41,38 @@
           Connected Stations
         </label>
         <div formArrayName="selectedStations">
-          <div *ngFor="let control of selectedStations.controls; let i = index">
+          <div
+            *ngFor="
+              let stationCtrl of selectedStations.controls;
+              let i = index
+            ">
             <select
-              [id]="'stations__selectStation' + i"
               [formControlName]="i"
-              (change)="onStationSelect(i, $event)">
-              <!-- <option value="">Select a station</option> -->
+              (change)="onStationSelect(i)"
+              class="stations__selectConnect">
+              <option value="" disabled selected>Choose station</option>
               <option
-                *ngFor="let station of availableStations(i)"
-                [value]="station.id">
+                *ngFor="let station of getAvailableStations(i)"
+                [value]="station.city">
                 {{ station.city }}
               </option>
             </select>
           </div>
         </div>
+        <button
+          type="button"
+          (click)="addConnectedStation()"
+          class="stations__addConnect">
+          Add Another Station
+        </button>
         <div
           class="stations__error"
-          *ngIf="selectedStations.invalid && selectedStations.touched">
+          *ngIf="submitted && selectedStations.length < 2">
           At least two stations must be selected.
         </div>
       </div>
 
-      <button class="stations__submit" (click)="onSave()" type="button">
-        Save
-      </button>
+      <button class="stations__submit" type="submit">Save</button>
     </form>
   </div>
   <div class="stations__display">

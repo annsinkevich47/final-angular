@@ -28,6 +28,15 @@
   &__optionStation {
     padding: 5px;
   }
+  &__selectConnect {
+    padding: 5px;
+    width: 50%;
+  }
+  &__addConnect {
+    width: fit-content;
+    padding: 5px;
+    margin: 10px auto 0 auto;
+  }
   &__submit {
     margin-top: 20px;
     padding: 10px;
