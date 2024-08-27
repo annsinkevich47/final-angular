@@ -79,11 +79,18 @@
           {{ getCityNameById(stationConnect.id) }},
         </div>
       </div>
-      <button
-        class="stations__delete"
-        (click)="onDeleteStation(station.id ?? 0)">
-        <img src="delete.svg" alt="delete-icon" />
-      </button>
+      <div class="stations__deleteWrapper">
+        <div
+          class="stations__errorMessage"
+          *ngIf="errorStationId === station.id">
+          Cannot delete station. Part of an active ride.
+        </div>
+        <button
+          class="stations__delete"
+          (click)="onDeleteStation(station.id ?? 0)">
+          <img src="delete.svg" alt="delete-icon" />
+        </button>
+      </div>
     </div>
   </div>
 </div>

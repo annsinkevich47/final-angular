@@ -19,6 +19,7 @@ import StationType, {
 import * as StationActions from '../../redux/actions/stations.actions';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
 import { AddStationService } from '../../services/add-station.service';
+import { RoutesService } from '../../services/route.service';
 
 @Component({
   selector: 'app-station-page',
@@ -29,11 +30,13 @@ export class StationPageComponent implements OnInit {
   public stationsObserve$!: Observable<StationType[]>;
   public stationList: StationType[] | [] = [];
   public formStations!: FormGroup;
+  public errorStationId: number | null = null;
 
   constructor(
     private store: Store,
     private formBuilder: FormBuilder,
-    private addStationService: AddStationService
+    private addStationService: AddStationService,
+    private routesService: RoutesService
   ) {}
 
   ngOnInit(): void {
@@ -164,8 +167,19 @@ export class StationPageComponent implements OnInit {
   }
 
   public onDeleteStation(stationId: number): void {
-    console.log(stationId)
-    this.store.dispatch(StationActions.deleteStation({ stationId }));
+    this.routesService.getRoutes().subscribe(routes => {
+      const stationInRoute = routes.some(route =>
+        route.path.includes(stationId)
+      );
+
+      if (stationInRoute) {
+        this.errorStationId = stationId;
+        return;
+      }
+
+      this.errorStationId = null;
+      this.store.dispatch(StationActions.deleteStation({ stationId }));
+    });
   }
 
   public getErrorMessage(formControlName: string): string {

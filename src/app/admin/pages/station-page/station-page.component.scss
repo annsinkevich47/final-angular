@@ -70,11 +70,26 @@
     color: $color-red;
     font-size: 12px;
   }
-  &__delete {
+  &__deleteWrapper {
+    display: flex;
+    align-items: center;
     position: absolute;
-    padding: 5px;
     top: 10px;
     right: 10px;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  &__errorMessage {
+    color: $color-red;
+    font-size: 0.875rem;
+    margin-right: 10px;
+    position: absolute;
+    right: 100%;
+    white-space: nowrap;
+  }
+  &__delete {
+    padding: 5px;
     width: 35px;
     height: 35px;
     img {
