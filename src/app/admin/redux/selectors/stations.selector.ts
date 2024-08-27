@@ -7,5 +7,12 @@ export const selectStationState =
 
 export const selectAllStations = createSelector(
   selectStationState,
-  (state: StationState) => state.stations
+  (state: StationState) => {
+    return state.stations.map(station => ({
+      ...station,
+      connectedTo: station.connectedTo.filter(connect =>
+        state.stations.some(s => s.id === connect.id)
+      ),
+    }));
+  }
 );

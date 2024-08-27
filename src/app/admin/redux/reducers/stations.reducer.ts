@@ -47,7 +47,14 @@ export const stationReducer = createReducer(
     StationActions.deleteStationSuccess,
     (state, { stationId }): StationState => ({
       ...state,
-      stations: state.stations.filter(station => station.id !== stationId),
+      stations: state.stations
+        .filter(station => station.id !== stationId)
+        .map(station => ({
+          ...station,
+          connectedTo: station.connectedTo.filter(
+            connect => connect.id !== stationId
+          ),
+        })),
     })
   ),
   on(

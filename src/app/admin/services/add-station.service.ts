@@ -5,10 +5,9 @@ import { Observable } from 'rxjs';
 import { StationServer } from '../models/stations';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AddStationService {
-
   private apiUrl = '/api/station';
 
   constructor(private http: HttpClient) {}

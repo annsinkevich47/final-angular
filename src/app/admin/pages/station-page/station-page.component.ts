@@ -101,7 +101,7 @@ export class StationPageComponent implements OnInit {
 
   public getCityNameById(id: number): string {
     const station = this.stationList.find(stationItem => stationItem.id === id);
-    return station ? station.city : 'Unknown';
+    return station ? station.city : '';
   }
 
   public onSave(): void {
@@ -143,7 +143,7 @@ export class StationPageComponent implements OnInit {
           this.store.dispatch(
             StationActions.addStation({ station: newStation })
           );
-          this.stationList = [newStation, ...this.stationList];
+          this.stationList = [...this.stationList, newStation];
           this.formStations.reset();
           this.selectedStations.clear();
           this.addConnectedStation();
