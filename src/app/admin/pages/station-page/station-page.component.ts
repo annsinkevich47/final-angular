@@ -142,6 +142,17 @@ export class StationPageComponent implements OnInit {
               distance: 0,
             })),
           };
+          newStation.connectedTo.forEach(connection => {
+            const connectedStation = this.stationList.find(
+              station => station.id === connection.id
+            );
+            if (connectedStation) {
+              connectedStation.connectedTo.push({
+                id: newStation.id,
+                distance: 0,
+              });
+            }
+          });
           this.store.dispatch(
             StationActions.addStation({ station: newStation })
           );
