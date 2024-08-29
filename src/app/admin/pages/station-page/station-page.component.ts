@@ -21,7 +21,7 @@ import StationType, {
 import * as StationActions from '../../redux/actions/stations.actions';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
 import { AddStationService } from '../../services/add-station.service';
-import { RoutesService } from '../../services/route.service';
+import { GetOrdersService } from '../../services/get-orders.service';
 
 @Component({
   selector: 'app-station-page',
@@ -39,7 +39,7 @@ export class StationPageComponent implements OnInit {
     private store: Store,
     private formBuilder: FormBuilder,
     private addStationService: AddStationService,
-    private routesService: RoutesService
+    private ordersService: GetOrdersService
   ) {}
 
   ngOnInit(): void {
@@ -173,13 +173,14 @@ export class StationPageComponent implements OnInit {
   }
 
   public onDeleteStation(stationId: number): void {
-    this.routesService.getRoutes().subscribe(routes => {
-      const stationInRoute = routes.some(route =>
-        route.path.includes(stationId)
+    this.ordersService.getOrders().subscribe(orders => {
+      const stationInActiveOrder = orders.some(
+        order => order.status === 'active' && order.path.includes(stationId)
       );
 
-      if (stationInRoute) {
+      if (stationInActiveOrder) {
         this.errorStationId = stationId;
+        console.error('Cannot delete station. It is part of an active order.');
         return;
       }
 
