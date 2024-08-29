@@ -2,7 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 
-import { IOrderItem } from '../../shared/models/orders-response.model';
+import {
+  IOrderItem,
+  IProcessedOrderItem,
+} from '../../shared/models/orders-response.model';
 
 interface IConnectedStation {
   id: number;
@@ -55,9 +58,28 @@ export class OrderService {
     return station ? station.city : 'Unknown Station';
   }
 
+  public sortProcessedOrders(
+    orders: IProcessedOrderItem[],
+  ): IProcessedOrderItem[] {
+    return orders.sort((a, b) => {
+      return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+    });
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     return throwError(() => {
       return error.error.message || 'Server error';
     });
   }
+
+  // create a new order
+  // public createOrder() {
+  //   const body = {
+  //     rideId: 1236,
+  //     seat: 213,
+  //     stationStart: 4,
+  //     stationEnd: 62,
+  //   };
+  //   return this.http.post('/api/order', JSON.stringify(body));
+  // }
 }

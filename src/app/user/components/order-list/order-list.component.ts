@@ -61,7 +61,15 @@ export class OrderListComponent implements OnInit {
         };
       });
 
-      console.log(orders);
+      this.processedOrders = this.orderService.sortProcessedOrders(
+        this.processedOrders,
+      );
+
+      console.log(this.processedOrders);
     });
   }
+
+  // public createOrder() {
+  //   return this.orderService.createOrder().subscribe();
+  // }
 }
