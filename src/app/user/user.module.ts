@@ -7,6 +7,8 @@ import { ResultComponent } from '../search/components/result/result.component';
 import { SearchComponent } from '../search/components/search/search.component';
 import { SharedModule } from '../shared/shared.module';
 import { LoginFormComponent } from './components/login-form/login-form.component';
+import { OrderItemComponent } from './components/order-item/order-item.component';
+import { OrderListComponent } from './components/order-list/order-list.component';
 import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -38,6 +40,8 @@ import { UserRoutingModule } from './user-routing.module';
     UserComponent,
     TripPageComponent,
     NotAuthorizedPageComponent,
+    OrderItemComponent,
+    OrderListComponent,
   ],
   imports: [CommonModule, SharedModule, UserRoutingModule],
 })

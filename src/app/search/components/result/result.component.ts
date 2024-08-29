@@ -70,6 +70,7 @@ export class ResultComponent implements OnInit, OnDestroy {
           );
         })
       : [];
+    console.log(list);
   }
 
   public ngOnDestroy(): void {
