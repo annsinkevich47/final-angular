@@ -1,5 +1,42 @@
-<p>order-list works!</p>
+<div class="orders">
+  <h2 class="orders__title">Orders</h2>
+  <span
+    class="orders__loading"
+    *ngIf="!orders.length || !stations.length; else loadedOrders">
+    Loading...
+  </span>
 
+  <ng-template #loadedOrders>
+    <table>
+      <thead>
+        <tr>
+          <th>Start Station</th>
+          <th>Start Time</th>
+          <th>End Station</th>
+          <th>End Time</th>
+          <th>Duration</th>
+          <th>Carriage Type</th>
+          <th>Car №</th>
+          <th>Seat №</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of processedOrders">
+          <td class="ceil">{{ order.startStationName }}</td>
+          <td class="ceil">Start</td>
+          <td class="ceil">{{ order.endStationName }}</td>
+          <td class="ceil">Start</td>
+          <td class="ceil">Start</td>
+          <td class="ceil">Start</td>
+          <td class="ceil">Start</td>
+          <td class="ceil">Start</td>
+          <td class="ceil">Start</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>
 <!-- <app-order-item></app-order-item>
 <app-order-item></app-order-item>
 <app-order-item></app-order-item> -->

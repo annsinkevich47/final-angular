@@ -20,3 +20,8 @@ export interface IOrderItem {
     segments: ISegments[];
   };
 }
+
+export interface IProcessedOrderItem extends IOrderItem {
+  startStationName: string;
+  endStationName: string;
+}

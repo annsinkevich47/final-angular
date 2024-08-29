@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 
 import { AuthService } from '../../../core/services/auth.service';
-import { OrderService } from '../../services/order.service';
+import {
+  IOrderItem,
+  IProcessedOrderItem,
+} from '../../../shared/models/orders-response.model';
+import { IStationItem, OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-order-list',
@@ -9,7 +14,9 @@ import { OrderService } from '../../services/order.service';
   styleUrl: './order-list.component.scss',
 })
 export class OrderListComponent implements OnInit {
-  public orders = [];
+  public orders: IOrderItem[] = [];
+  public processedOrders: IProcessedOrderItem[] = [];
+  public stations: IStationItem[] = [];
   public isManager: boolean = false;
 
   constructor(
@@ -19,12 +26,26 @@ export class OrderListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.isManager = this.authService.isAdmin();
-    this.loadOrders();
+    this.loadStationsAndOrders();
   }
 
-  public loadOrders(): void {
-    this.orderService.getOrders(this.isManager).subscribe(orders => {
-      console.log(orders);
+  public loadStationsAndOrders(): void {
+    const stations$ = this.orderService.getStationsNames();
+    const orders$ = this.orderService.getOrders(this.isManager);
+
+    forkJoin([stations$, orders$]).subscribe(([stations, orders]) => {
+      this.stations = stations;
+      this.orders = orders;
+      this.processedOrders = this.orders.map(order => ({
+        ...order,
+        startStationName: this.getStationNameById(order.stationStart),
+        endStationName: this.getStationNameById(order.stationEnd),
+      }));
     });
+  }
+
+  public getStationNameById(stationId: number): string {
+    const station = this.stations.find(item => item.id === stationId);
+    return station ? station.city : 'Unknown Station';
   }
 }
