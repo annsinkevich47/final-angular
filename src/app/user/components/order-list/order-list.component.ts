@@ -36,11 +36,23 @@ export class OrderListComponent implements OnInit {
     forkJoin([stations$, orders$]).subscribe(([stations, orders]) => {
       this.stations = stations;
       this.orders = orders;
-      this.processedOrders = this.orders.map(order => ({
-        ...order,
-        startStationName: this.getStationNameById(order.stationStart),
-        endStationName: this.getStationNameById(order.stationEnd),
-      }));
+      this.processedOrders = this.orders.map(order => {
+        const startStationIdx = order.path.indexOf(order.stationStart);
+        const endStationIdx = order.path.indexOf(order.stationEnd);
+        const startTime = order.schedule.segments[startStationIdx].time[0];
+        const endTime = order.schedule.segments[endStationIdx - 1].time[1];
+
+        return {
+          ...order,
+          startStationName: this.getStationNameById(order.stationStart),
+          endStationName: this.getStationNameById(order.stationEnd),
+          startTime,
+          endTime,
+          durationTime: 'seconds',
+        };
+      });
+
+      console.log(orders);
     });
   }
 

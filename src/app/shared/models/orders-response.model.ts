@@ -23,5 +23,8 @@ export interface IOrderItem {
 
 export interface IProcessedOrderItem extends IOrderItem {
   startStationName: string;
+  startTime: string;
   endStationName: string;
+  endTime: string;
+  durationTime: string;
 }
