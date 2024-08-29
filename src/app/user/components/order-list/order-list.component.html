@@ -23,19 +23,19 @@
       </thead>
       <tbody>
         <tr *ngFor="let order of processedOrders">
-          <td class="ceil">{{ order.startStationName }}</td>
+          <td class="">{{ order.startStationName }}</td>
           <td class="">
             {{ order.startTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
           </td>
-          <td class="ceil">{{ order.endStationName }}</td>
+          <td class="">{{ order.endStationName }}</td>
           <td class="">
             {{ order.endTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
           </td>
-          <td class="ceil">Start</td>
-          <td class="ceil">Start</td>
-          <td class="ceil">Start</td>
-          <td class="ceil">Start</td>
-          <td class="ceil">Start</td>
+          <td class="">{{ order.durationTime }}</td>
+          <td class="">Start</td>
+          <td class="">Start</td>
+          <td class="">Start</td>
+          <td class="">Start</td>
         </tr>
       </tbody>
     </table>

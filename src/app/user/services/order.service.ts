@@ -32,8 +32,27 @@ export class OrderService {
       .pipe(catchError(this.handleError));
   }
 
-  public getStationsNames() {
+  public getStations() {
     return this.http.get<IStationItem[]>(this.stationsUrl);
+  }
+
+  public calculateTripDuration(startTrip: string, endTrip: string): string {
+    const startTime = new Date(startTrip).getTime();
+    const endTime = new Date(endTrip).getTime();
+    const durationInMillis = endTime - startTime;
+    const totalMinutes = Math.floor(durationInMillis / (1000 * 60));
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    return `${hours}h ${minutes}m`;
+  }
+
+  public getStationNameById(
+    stations: IStationItem[],
+    stationId: number,
+  ): string {
+    const station = stations.find(item => item.id === stationId);
+    return station ? station.city : 'Unknown Station';
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

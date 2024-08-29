@@ -30,7 +30,7 @@ export class OrderListComponent implements OnInit {
   }
 
   public loadStationsAndOrders(): void {
-    const stations$ = this.orderService.getStationsNames();
+    const stations$ = this.orderService.getStations();
     const orders$ = this.orderService.getOrders(this.isManager);
 
     forkJoin([stations$, orders$]).subscribe(([stations, orders]) => {
@@ -44,20 +44,24 @@ export class OrderListComponent implements OnInit {
 
         return {
           ...order,
-          startStationName: this.getStationNameById(order.stationStart),
-          endStationName: this.getStationNameById(order.stationEnd),
+          startStationName: this.orderService.getStationNameById(
+            this.stations,
+            order.stationStart,
+          ),
+          endStationName: this.orderService.getStationNameById(
+            this.stations,
+            order.stationEnd,
+          ),
           startTime,
           endTime,
-          durationTime: 'seconds',
+          durationTime: this.orderService.calculateTripDuration(
+            startTime,
+            endTime,
+          ),
         };
       });
 
       console.log(orders);
     });
-  }
-
-  public getStationNameById(stationId: number): string {
-    const station = this.stations.find(item => item.id === stationId);
-    return station ? station.city : 'Unknown Station';
   }
 }
