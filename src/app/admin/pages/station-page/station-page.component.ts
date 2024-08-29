@@ -10,7 +10,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Station } from '../../../shared/models/stations-response.model';
-import { minSelectedStations, noDefaultSelectionsValidator } from '../../helpers/connect-validator';
+import {
+  minSelectedStations,
+  noDefaultSelectionsValidator,
+} from '../../helpers/connect-validator';
 import StationType, {
   StationResponse,
   StationServer,
@@ -46,18 +49,16 @@ export class StationPageComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('^[0-9]*$'),
-          Validators.max(90),
-          Validators.min(-90),
+          Validators.pattern(/^[-+]?([1-8]?[0-9](\.[0-9]+)?|90(\.0+)?)$/),
         ],
       ],
       longitude: [
         '',
         [
           Validators.required,
-          Validators.pattern('^[0-9]*$'),
-          Validators.max(180),
-          Validators.min(-180),
+          Validators.pattern(
+            /^[-+]?((1[0-7][0-9]|[1-9]?[0-9])(\.[0-9]+)?|180(\.0+)?)$/
+          ),
         ],
       ],
       selectedStations: this.formBuilder.array([], {
