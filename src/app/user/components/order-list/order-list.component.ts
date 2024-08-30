@@ -4,7 +4,7 @@ import { forkJoin } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import {
   IOrderItem,
-  IProcessedOrderItem,
+  ITransformedOrderItem,
 } from '../../../shared/models/orders-response.model';
 import { IStationItem, OrderService } from '../../services/order.service';
 
@@ -15,7 +15,7 @@ import { IStationItem, OrderService } from '../../services/order.service';
 })
 export class OrderListComponent implements OnInit {
   public orders: IOrderItem[] = [];
-  public processedOrders: IProcessedOrderItem[] = [];
+  public transformedOrders: ITransformedOrderItem[] = [];
   public stations: IStationItem[] = [];
   public isManager: boolean = false;
 
@@ -32,41 +32,55 @@ export class OrderListComponent implements OnInit {
   public loadStationsAndOrders(): void {
     const stations$ = this.orderService.getStations();
     const orders$ = this.orderService.getOrders(this.isManager);
+    const carriages$ = this.orderService.getTransformedCarriages();
 
-    forkJoin([stations$, orders$]).subscribe(([stations, orders]) => {
-      this.stations = stations;
-      this.orders = orders;
-      this.processedOrders = this.orders.map(order => {
-        const startStationIdx = order.path.indexOf(order.stationStart);
-        const endStationIdx = order.path.indexOf(order.stationEnd);
-        const startTime = order.schedule.segments[startStationIdx].time[0];
-        const endTime = order.schedule.segments[endStationIdx - 1].time[1];
+    forkJoin([stations$, orders$, carriages$]).subscribe(
+      ([stations, orders, carriages]) => {
+        this.stations = stations;
+        this.orders = orders;
+        this.transformedOrders = this.orders.map(order => {
+          const startStationIdx = order.path.indexOf(order.stationStart);
+          const endStationIdx = order.path.indexOf(order.stationEnd);
+          const startTime = order.schedule.segments[startStationIdx].time[0];
+          const endTime = order.schedule.segments[endStationIdx - 1].time[1];
+          const carriageInfo = this.orderService.findCarriageAndSeat(
+            order,
+            carriages,
+          );
 
-        return {
-          ...order,
-          startStationName: this.orderService.getStationNameById(
-            this.stations,
-            order.stationStart,
-          ),
-          endStationName: this.orderService.getStationNameById(
-            this.stations,
-            order.stationEnd,
-          ),
-          startTime,
-          endTime,
-          durationTime: this.orderService.calculateTripDuration(
+          const carriageType = carriageInfo ? carriageInfo.carriageType : '';
+          const seatNumber = carriageInfo ? carriageInfo.seatNumber : '';
+          const carNumber = carriageInfo ? carriageInfo.carriageIndex : '';
+
+          return {
+            startStationName: this.orderService.getStationNameById(
+              this.stations,
+              order.stationStart,
+            ),
+            endStationName: this.orderService.getStationNameById(
+              this.stations,
+              order.stationEnd,
+            ),
             startTime,
             endTime,
-          ),
-        };
-      });
+            durationTime: this.orderService.calculateTripDuration(
+              startTime,
+              endTime,
+            ),
+            carriageType,
+            carNumber,
+            seatNumber,
+          };
+        });
 
-      this.processedOrders = this.orderService.sortProcessedOrders(
-        this.processedOrders,
-      );
+        this.transformedOrders = this.orderService.sortProcessedOrders(
+          this.transformedOrders,
+        );
 
-      console.log(this.processedOrders);
-    });
+        console.log(this.transformedOrders);
+        console.log(this.orders);
+      },
+    );
   }
 
   // public createOrder() {

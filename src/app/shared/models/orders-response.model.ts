@@ -21,10 +21,13 @@ export interface IOrderItem {
   };
 }
 
-export interface IProcessedOrderItem extends IOrderItem {
+export interface ITransformedOrderItem {
   startStationName: string;
   startTime: string;
   endStationName: string;
   endTime: string;
   durationTime: string;
+  carriageType: string;
+  carNumber: number | string;
+  seatNumber: number | string;
 }

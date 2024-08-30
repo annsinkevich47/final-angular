@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let order of processedOrders">
+        <tr *ngFor="let order of transformedOrders">
           <td class="">{{ order.startStationName }}</td>
           <td class="">
             {{ order.startTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
@@ -32,9 +32,9 @@
             {{ order.endTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
           </td>
           <td class="">{{ order.durationTime }}</td>
-          <td class="">Start</td>
-          <td class="">Start</td>
-          <td class="">Start</td>
+          <td class="">{{ order.carriageType }}</td>
+          <td class="">{{ order.carNumber }}</td>
+          <td class="">{{ order.seatNumber }}</td>
           <td class="">Start</td>
         </tr>
       </tbody>
