@@ -1,66 +1,66 @@
 <div class="orders">
   <h2 class="orders__title">Orders</h2>
-  <span
-    class="orders__loading"
-    *ngIf="!orders.length || !stations.length; else loadedOrders">
-    Loading...
-  </span>
 
-  <ng-template #loadedOrders>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Status</th>
-          <th *ngIf="isManager">User name</th>
-          <th>Start Station</th>
-          <th>Start Time</th>
-          <th>End Station</th>
-          <th>End Time</th>
-          <th>Duration</th>
-          <th>Carriage Type</th>
-          <th>Car №</th>
-          <th>Seat №</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let order of transformedOrders">
-          <td>
-            <button
-              (click)="openCancelModal(order)"
-              [disabled]="order.status !== 'active'">
-              {{ isManager ? 'Cancel Order' : 'Cancel' }}
-            </button>
-            <!-- кнопка только если заказ активный, иначе убрать -->
-          </td>
-          <td>
-            {{
-              order.status === 'rejected' || order.status === 'canceled'
-                ? 'cancelled'
-                : order.status
-            }}
-          </td>
-          <td *ngIf="isManager">{{ order.userName }}</td>
-          <td>{{ order.startStationName }}</td>
-          <td>
-            {{ order.startTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
-          </td>
-          <td>{{ order.endStationName }}</td>
-          <td>
-            {{ order.endTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
-          </td>
-          <td>{{ order.durationTime }}</td>
-          <td>{{ order.carriageName }}</td>
-          <td>{{ order.carNumber }}</td>
-          <td>{{ order.seatNumber }}</td>
-          <td>
-            {{ order.price | currency: 'USD' : 'symbol' : '1.2-2' }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </ng-template>
+  <span class="orders__loading" *ngIf="isLoading"> Loading... </span>
+
+  <ng-container *ngIf="!isLoading">
+    <span *ngIf="noOrdersFound">No""" orders.</span>
+
+    <ng-container *ngIf="!noOrdersFound">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Status</th>
+            <th *ngIf="isManager">User name</th>
+            <th>Start Station</th>
+            <th>Start Time</th>
+            <th>End Station</th>
+            <th>End Time</th>
+            <th>Duration</th>
+            <th>Carriage Type</th>
+            <th>Car №</th>
+            <th>Seat №</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of transformedOrders">
+            <td>
+              <button
+                (click)="openCancelModal(order)"
+                [disabled]="order.status !== 'active'">
+                {{ isManager ? 'Cancel Order' : 'Cancel' }}
+              </button>
+            </td>
+            <td>
+              {{
+                order.status === 'rejected' || order.status === 'canceled'
+                  ? 'cancelled'
+                  : order.status
+              }}
+            </td>
+            <td *ngIf="isManager">{{ order.userName }}</td>
+            <td>{{ order.startStationName }}</td>
+            <td>
+              {{ order.startTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
+            </td>
+            <td>{{ order.endStationName }}</td>
+            <td>
+              {{ order.endTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
+            </td>
+            <td>{{ order.durationTime }}</td>
+            <td>{{ order.carriageName }}</td>
+            <td>{{ order.carNumber }}</td>
+            <td>{{ order.seatNumber }}</td>
+            <td>
+              {{ order.price | currency: 'USD' : 'symbol' : '1.2-2' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </ng-container>
 </div>
 
 <app-cancel-order-modal
@@ -70,6 +70,5 @@
   [isManager]="isManager"
   (cancelConfirmed)="cancelOrder(selectedOrder!.id)"
   (closed)="isModalVisible = false"></app-cancel-order-modal>
-<!-- <app-order-item></app-order-item>
-<app-order-item></app-order-item>
-<app-order-item></app-order-item> -->
+
+<!-- <button (click)="createOrder()">click</button> -->

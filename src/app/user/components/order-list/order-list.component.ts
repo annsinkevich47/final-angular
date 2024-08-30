@@ -26,6 +26,8 @@ export class OrderListComponent implements OnInit {
   public isModalVisible: boolean = false;
   public users: IUser[] = [];
   public selectedUserName: string = '';
+  public isLoading: boolean = true;
+  public noOrdersFound: boolean = false;
 
   constructor(
     private toastr: ToastrService,
@@ -58,6 +60,9 @@ export class OrderListComponent implements OnInit {
         this.transformedOrders = this.orderService.sortTransformedOrders(
           this.transformedOrders,
         );
+
+        this.isLoading = false;
+        this.noOrdersFound = this.orders.length === 0;
       },
     );
   }
@@ -97,6 +102,10 @@ export class OrderListComponent implements OnInit {
       },
     });
   }
+
+  // public createOrder() {
+  //   this.orderService.createOrder().subscribe();
+  // }
 
   private createTransformedOrder(
     order: IOrderItem,

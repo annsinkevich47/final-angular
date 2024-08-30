@@ -156,4 +156,14 @@ export class OrderService {
       return error.error.message || 'Server error';
     });
   }
+
+  // public createOrder() {
+  //   const body = {
+  //     rideId: 215,
+  //     seat: 45,
+  //     stationStart: 4,
+  //     stationEnd: 62,
+  //   };
+  //   return this.http.post(this.ordersUrl, body);
+  // }
 }
