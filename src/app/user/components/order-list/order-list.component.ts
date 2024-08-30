@@ -4,9 +4,11 @@ import { forkJoin } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import {
   IOrderItem,
+  ITransformedCarriage,
   ITransformedOrderItem,
 } from '../../../shared/models/orders-response.model';
-import { IStationItem, OrderService } from '../../services/order.service';
+import { IStationItem } from '../../../shared/models/station.model';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-order-list',
@@ -38,42 +40,11 @@ export class OrderListComponent implements OnInit {
       ([stations, orders, carriages]) => {
         this.stations = stations;
         this.orders = orders;
-        this.transformedOrders = this.orders.map(order => {
-          const startStationIdx = order.path.indexOf(order.stationStart);
-          const endStationIdx = order.path.indexOf(order.stationEnd);
-          const startTime = order.schedule.segments[startStationIdx].time[0];
-          const endTime = order.schedule.segments[endStationIdx - 1].time[1];
-          const { carriageCode, carriageName, seatNumber, carriageIndex } =
-            this.orderService.findCarriageAndSeat(order, carriages)!;
+        this.transformedOrders = this.orders.map(order =>
+          this.createTransformedOrder(order, carriages),
+        );
 
-          return {
-            startStationName: this.orderService.getStationNameById(
-              this.stations,
-              order.stationStart,
-            ),
-            endStationName: this.orderService.getStationNameById(
-              this.stations,
-              order.stationEnd,
-            ),
-            startTime,
-            endTime,
-            durationTime: this.orderService.calculateTripDuration(
-              startTime,
-              endTime,
-            ),
-            carriageName,
-            carNumber: carriageIndex,
-            seatNumber,
-            price: this.orderService.calculatePrice(
-              order,
-              startStationIdx,
-              endStationIdx,
-              carriageCode,
-            ),
-          };
-        });
-
-        this.transformedOrders = this.orderService.sortProcessedOrders(
+        this.transformedOrders = this.orderService.sortTransformedOrders(
           this.transformedOrders,
         );
 
@@ -84,7 +55,38 @@ export class OrderListComponent implements OnInit {
     );
   }
 
-  // public createOrder() {
-  //   return this.orderService.createOrder().subscribe();
-  // }
+  private createTransformedOrder(
+    order: IOrderItem,
+    carriages: ITransformedCarriage[],
+  ): ITransformedOrderItem {
+    const startStationIdx = order.path.indexOf(order.stationStart);
+    const endStationIdx = order.path.indexOf(order.stationEnd);
+    const startTime = order.schedule.segments[startStationIdx].time[0];
+    const endTime = order.schedule.segments[endStationIdx - 1].time[1];
+    const { carriageCode, carriageName, seatNumber, carriageIndex } =
+      this.orderService.findCarriageAndSeat(order, carriages)!;
+
+    return {
+      startStationName: this.orderService.getStationNameById(
+        this.stations,
+        order.stationStart,
+      ),
+      endStationName: this.orderService.getStationNameById(
+        this.stations,
+        order.stationEnd,
+      ),
+      startTime,
+      endTime,
+      durationTime: this.orderService.calculateTripDuration(startTime, endTime),
+      carriageName,
+      carNumber: carriageIndex,
+      seatNumber,
+      price: this.orderService.calculatePrice(
+        order,
+        startStationIdx,
+        endStationIdx,
+        carriageCode,
+      ),
+    };
+  }
 }

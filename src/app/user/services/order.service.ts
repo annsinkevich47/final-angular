@@ -4,21 +4,10 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 
 import {
   IOrderItem,
+  ITransformedCarriage,
   ITransformedOrderItem,
 } from '../../shared/models/orders-response.model';
-
-export interface IStationItem {
-  id: number;
-  city: string;
-  latitude: number;
-  longitude: number;
-  connectedTo: IConnectedStation[];
-}
-
-interface IConnectedStation {
-  id: number;
-  distance: number;
-}
+import { IStationItem } from '../../shared/models/station.model';
 
 interface ICarriage {
   code: string;
@@ -26,12 +15,6 @@ interface ICarriage {
   rows: number;
   leftSeats: number;
   rightSeats: number;
-}
-
-interface ITransformedCarriage {
-  code: string;
-  name: string;
-  places: number;
 }
 
 @Injectable({
@@ -91,7 +74,7 @@ export class OrderService {
     return station ? station.city : 'Unknown Station';
   }
 
-  public sortProcessedOrders(
+  public sortTransformedOrders(
     orders: ITransformedOrderItem[],
   ): ITransformedOrderItem[] {
     return orders.sort((a, b) => {

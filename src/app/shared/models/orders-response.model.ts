@@ -32,3 +32,9 @@ export interface ITransformedOrderItem {
   seatNumber: number | string;
   price: number;
 }
+
+export interface ITransformedCarriage {
+  code: string;
+  name: string;
+  places: number;
+}
