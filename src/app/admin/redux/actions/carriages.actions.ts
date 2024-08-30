@@ -4,6 +4,7 @@ import CarriageType from '../../models/carriage';
 
 // Load carriages
 export const loadCarriages = createAction('[Carriage] Load Carriages');
+export const clearCarriageError = createAction('[Carriage] Clear Error');
 export const loadCarriagesSuccess = createAction(
   '[Carriage] Load Carriages Success',
   props<{ carriages: CarriageType[] }>(),

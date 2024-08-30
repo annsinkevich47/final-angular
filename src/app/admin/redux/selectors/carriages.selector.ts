@@ -9,3 +9,7 @@ export const selectAllCarriages = createSelector(
   selectCarriageState,
   (state: CarriageState) => state.carriages,
 );
+export const selectCarriageError = createSelector(
+  selectCarriageState,
+  (state: CarriageState) => state.error
+);

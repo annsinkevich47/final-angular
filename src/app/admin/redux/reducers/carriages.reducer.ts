@@ -5,7 +5,7 @@ import * as CarriageActions from '../actions/carriages.actions';
 
 export interface CarriageState {
   carriages: CarriageType[];
-  error: unknown;
+  error: unknown | null;
 }
 
 export const initialState: CarriageState = {
@@ -34,6 +34,7 @@ export const carriageReducer = createReducer(
     (state, { carriage }): CarriageState => ({
       ...state,
       carriages: [carriage, ...state.carriages],
+      error: null,
     }),
   ),
   on(
@@ -48,5 +49,12 @@ export const carriageReducer = createReducer(
     carriages: state.carriages.map(c =>
       c.code === carriage.code ? { ...c, ...carriage } : c,
     ),
+    error: null,
+  })),
+  on(
+    CarriageActions.clearCarriageError,
+    (state): CarriageState => ({
+    ...state,
+    error: null,
   })),
 );

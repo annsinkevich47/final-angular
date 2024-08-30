@@ -36,9 +36,12 @@ export class CarriageEffects {
               carriage: mergedData,
             });
           }),
-          catchError(error =>
-            of(CarriageActions.createCarriageFailure({ error })),
-          ),
+          catchError(error => {
+            const errorMessage = error.message || 'An error occurred';
+            return of(
+              CarriageActions.createCarriageFailure({ error: errorMessage })
+            );
+          }),
         ),
       ),
     );
