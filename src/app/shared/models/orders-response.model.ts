@@ -22,6 +22,9 @@ export interface IOrderItem {
 }
 
 export interface ITransformedOrderItem {
+  id: number;
+  userId: number;
+  status: OrderStatus;
   startStationName: string;
   startTime: string;
   endStationName: string;

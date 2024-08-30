@@ -20,6 +20,8 @@ export class OrderListComponent implements OnInit {
   public transformedOrders: ITransformedOrderItem[] = [];
   public stations: IStationItem[] = [];
   public isManager: boolean = false;
+  public selectedOrder: ITransformedOrderItem | null = null;
+  public isModalVisible: boolean = false;
 
   constructor(
     private orderService: OrderService,
@@ -47,12 +49,17 @@ export class OrderListComponent implements OnInit {
         this.transformedOrders = this.orderService.sortTransformedOrders(
           this.transformedOrders,
         );
-
-        console.log(this.transformedOrders);
-        console.log(this.orders);
-        console.log(carriages);
       },
     );
+  }
+
+  public openCancelModal(order: ITransformedOrderItem): void {
+    this.selectedOrder = order;
+    this.isModalVisible = true;
+  }
+
+  public cancelOrder(orderId: number) {
+    console.log('Cancelling order:', orderId);
   }
 
   private createTransformedOrder(
@@ -67,6 +74,9 @@ export class OrderListComponent implements OnInit {
       this.orderService.findCarriageAndSeat(order, carriages)!;
 
     return {
+      id: order.id,
+      userId: order.userId,
+      status: order.status,
       startStationName: this.orderService.getStationNameById(
         this.stations,
         order.stationStart,

@@ -21,6 +21,7 @@ import { RegistrationPageComponent } from './pages/registration-page/registratio
 import { TripPageComponent } from './pages/trip-page/trip-page.component';
 import { UserComponent } from './pages/user.component';
 import { UserRoutingModule } from './user-routing.module';
+import { CancelOrderModalComponent } from './components/cancel-order-modal/cancel-order-modal.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { UserRoutingModule } from './user-routing.module';
     NotAuthorizedPageComponent,
     OrderItemComponent,
     OrderListComponent,
+    CancelOrderModalComponent,
   ],
   imports: [CommonModule, SharedModule, UserRoutingModule],
 })

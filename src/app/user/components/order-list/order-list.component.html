@@ -10,6 +10,8 @@
     <table>
       <thead>
         <tr>
+          <th></th>
+          <th>Status</th>
           <th>Start Station</th>
           <th>Start Time</th>
           <th>End Station</th>
@@ -23,19 +25,29 @@
       </thead>
       <tbody>
         <tr *ngFor="let order of transformedOrders">
-          <td class="">{{ order.startStationName }}</td>
-          <td class="">
+          <td *ngIf="order.status === 'active'">
+            <button (click)="openCancelModal(order)">Cancel</button>
+          </td>
+          <td>
+            {{
+              order.status === 'rejected' || order.status === 'canceled'
+                ? 'Cancelled'
+                : order.status
+            }}
+          </td>
+          <td>{{ order.startStationName }}</td>
+          <td>
             {{ order.startTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
           </td>
-          <td class="">{{ order.endStationName }}</td>
-          <td class="">
+          <td>{{ order.endStationName }}</td>
+          <td>
             {{ order.endTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
           </td>
-          <td class="">{{ order.durationTime }}</td>
-          <td class="">{{ order.carriageName }}</td>
-          <td class="">{{ order.carNumber }}</td>
-          <td class="">{{ order.seatNumber }}</td>
-          <td class="">
+          <td>{{ order.durationTime }}</td>
+          <td>{{ order.carriageName }}</td>
+          <td>{{ order.carNumber }}</td>
+          <td>{{ order.seatNumber }}</td>
+          <td>
             {{ order.price | currency: 'USD' : 'symbol' : '1.2-2' }}
           </td>
         </tr>
@@ -43,6 +55,13 @@
     </table>
   </ng-template>
 </div>
+
+<app-cancel-order-modal
+  *ngIf="isModalVisible"
+  [orderId]="selectedOrder!.id"
+  [customerId]="selectedOrder!.userId"
+  (cancelConfirmed)="cancelOrder(selectedOrder!.id)"
+  (closed)="isModalVisible = false"></app-cancel-order-modal>
 <!-- <button (click)="createOrder()">Create order</button> -->
 <!-- <app-order-item></app-order-item>
 <app-order-item></app-order-item>
