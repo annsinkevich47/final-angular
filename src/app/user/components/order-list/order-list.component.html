@@ -25,13 +25,18 @@
       </thead>
       <tbody>
         <tr *ngFor="let order of transformedOrders">
-          <td *ngIf="order.status === 'active'">
-            <button (click)="openCancelModal(order)">Cancel</button>
+          <td>
+            <button
+              (click)="openCancelModal(order)"
+              [disabled]="order.status !== 'active'">
+              Cancel
+            </button>
+            <!-- кнопка только если заказ активный, иначе убрать -->
           </td>
           <td>
             {{
               order.status === 'rejected' || order.status === 'canceled'
-                ? 'Cancelled'
+                ? 'Canceled'
                 : order.status
             }}
           </td>

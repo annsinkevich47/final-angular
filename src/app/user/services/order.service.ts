@@ -7,6 +7,7 @@ import {
   ITransformedCarriage,
   ITransformedOrderItem,
 } from '../../shared/models/orders-response.model';
+import { IUser } from '../../shared/models/profile-response.model';
 import { IStationItem } from '../../shared/models/station.model';
 
 interface ICarriage {
@@ -24,6 +25,7 @@ export class OrderService {
   private ordersUrl = '/api/order';
   private stationsUrl = '/api/station';
   private carriageUrl = '/api/carriage';
+  private usersUrl = '/api/users';
 
   constructor(private http: HttpClient) {}
 
@@ -33,8 +35,16 @@ export class OrderService {
       .pipe(catchError(this.handleError));
   }
 
-  public getStations() {
+  public getStations(): Observable<IStationItem[]> {
     return this.http.get<IStationItem[]>(this.stationsUrl);
+  }
+
+  public getUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(this.usersUrl);
+  }
+
+  public cancelActiveOrder(orderId: number): Observable<unknown> {
+    return this.http.delete(`${this.ordersUrl}/${orderId}`);
   }
 
   public getTransformedCarriages(): Observable<ITransformedCarriage[]> {

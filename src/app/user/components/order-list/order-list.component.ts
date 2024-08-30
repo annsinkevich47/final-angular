@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 
 import { AuthService } from '../../../core/services/auth.service';
@@ -7,6 +8,7 @@ import {
   ITransformedCarriage,
   ITransformedOrderItem,
 } from '../../../shared/models/orders-response.model';
+import { IUser } from '../../../shared/models/profile-response.model';
 import { IStationItem } from '../../../shared/models/station.model';
 import { OrderService } from '../../services/order.service';
 
@@ -22,8 +24,10 @@ export class OrderListComponent implements OnInit {
   public isManager: boolean = false;
   public selectedOrder: ITransformedOrderItem | null = null;
   public isModalVisible: boolean = false;
+  public users: IUser[] = [];
 
   constructor(
+    private toastr: ToastrService,
     private orderService: OrderService,
     private authService: AuthService,
   ) {}
@@ -31,6 +35,10 @@ export class OrderListComponent implements OnInit {
   public ngOnInit(): void {
     this.isManager = this.authService.isAdmin();
     this.loadStationsAndOrders();
+
+    if (this.isManager) {
+      this.loadUsers();
+    }
   }
 
   public loadStationsAndOrders(): void {
@@ -53,13 +61,33 @@ export class OrderListComponent implements OnInit {
     );
   }
 
+  public loadUsers(): void {
+    this.orderService.getUsers().subscribe(users => {
+      this.users = users;
+      console.log(this.users);
+    });
+  }
+
   public openCancelModal(order: ITransformedOrderItem): void {
     this.selectedOrder = order;
     this.isModalVisible = true;
   }
 
-  public cancelOrder(orderId: number) {
-    console.log('Cancelling order:', orderId);
+  public cancelOrder(orderId: number): void {
+    this.orderService.cancelActiveOrder(orderId).subscribe({
+      next: () => {
+        this.loadStationsAndOrders();
+        this.isModalVisible = false;
+        this.toastr.success('Order successfully canceled', 'Order Status', {
+          timeOut: 2500,
+        });
+      },
+      error: error => {
+        this.toastr.error(`${error.error.message}`, 'Order Status', {
+          timeOut: 2500,
+        });
+      },
+    });
   }
 
   private createTransformedOrder(
