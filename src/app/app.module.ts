@@ -5,6 +5,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 import { CarriageEffects } from './admin/redux/effects/carriages.effects';
 import { RouteEffects } from './admin/redux/effects/routes.effects';
 import { StationEffects } from './admin/redux/effects/stations.effects';

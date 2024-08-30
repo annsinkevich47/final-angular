@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { NotAuthorizedPageComponent } from './pages/not-authorized-page/not-authorized-page.component';
 import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
@@ -35,7 +36,12 @@ const routes: Routes = [
   },
   {
     path: 'orders',
+    canActivate: [AuthGuard],
     component: OrdersPageComponent,
+  },
+  {
+    path: 'not-authorized',
+    component: NotAuthorizedPageComponent,
   },
 ];
 

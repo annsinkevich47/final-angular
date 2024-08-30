@@ -1,0 +1,55 @@
+<div class="slider" *ngIf="visibleCards.length > 0">
+  <button
+    class="slider__button"
+    (click)="prevCards()"
+    [ngClass]="{
+      'slider__button-inactive': currentIndex === 0,
+    }">
+    <svg
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M6.3508 12.7499L11.2096 17.4615L10.1654 18.5383L3.42264 11.9999L10.1654 5.46148L11.2096 6.53833L6.3508 11.2499L21 11.2499L21 12.7499L6.3508 12.7499Z"
+        fill="#3572ce" />
+    </svg>
+  </button>
+
+  <div class="slider__cards-wrap">
+    <div
+      class="slider__card"
+      *ngFor="let card of visibleCards"
+      (click)="setActiveCard(card.id, card.dateBase)"
+      [ngClass]="{
+        'slider__card--is-active': card.id === idActiveCard,
+      }">
+      <p class="slider__card-date">{{ card.date }}</p>
+      <p class="slider__card-dayname">{{ card.dayName }}</p>
+    </div>
+  </div>
+
+  <button
+    class="slider__button"
+    (click)="nextCards()"
+    [ngClass]="{
+      'slider__button-inactive':
+        (currentIndex + 1) * itemsPerPage >= cards.length,
+    }">
+    <svg
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M17.6492 11.2501L12.7904 6.53852L13.8346 5.46167L20.5774 12.0001L13.8346 18.5385L12.7904 17.4617L17.6492 12.7501H3V11.2501H17.6492Z"
+        fill="#3572ce" />
+    </svg>
+  </button>
+</div>

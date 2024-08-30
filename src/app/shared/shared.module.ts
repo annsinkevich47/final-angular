@@ -10,11 +10,13 @@ import {
 } from '@angular/material/dialog';
 import { DeleteRouteModalComponent } from './components/delete-route-modal/delete-route-modal.component';
 import { HeaderComponent } from './components/header/header.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [HeaderComponent, DeleteRouteModalComponent],
   imports: [
     CommonModule,
+    RouterModule,
     MatButtonModule,
     MatDialogActions,
     MatDialogClose,

@@ -25,7 +25,7 @@ export class ProfileService {
 
   public updateUserInfo(
     name: string,
-    email: string
+    email: string,
   ): Observable<IProfileResponse> {
     const body = { name, email };
 
