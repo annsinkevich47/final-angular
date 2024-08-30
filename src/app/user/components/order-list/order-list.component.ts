@@ -103,9 +103,9 @@ export class OrderListComponent implements OnInit {
     });
   }
 
-  // public createOrder() {
-  //   this.orderService.createOrder().subscribe();
-  // }
+  public createOrder() {
+    this.orderService.createOrder().subscribe();
+  }
 
   private createTransformedOrder(
     order: IOrderItem,

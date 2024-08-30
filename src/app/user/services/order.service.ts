@@ -119,8 +119,9 @@ export class OrderService {
       if (currentCarriage) {
         const { places } = currentCarriage;
 
-        if (currentIndex + places > order.seatId) {
-          const seatNumber = order.seatId - currentIndex; // (from 0) or (from 1)??
+        if (currentIndex + places >= order.seatId) {
+          // > or >=
+          const seatNumber = order.seatId - currentIndex; // seat index from 0 or 1
           return {
             carriageCode,
             carriageName: currentCarriage.name,
@@ -157,13 +158,13 @@ export class OrderService {
     });
   }
 
-  // public createOrder() {
-  //   const body = {
-  //     rideId: 215,
-  //     seat: 45,
-  //     stationStart: 4,
-  //     stationEnd: 62,
-  //   };
-  //   return this.http.post(this.ordersUrl, body);
-  // }
+  public createOrder() {
+    const body = {
+      rideId: 215,
+      seat: 4,
+      stationStart: 4,
+      stationEnd: 62,
+    };
+    return this.http.post(this.ordersUrl, body);
+  }
 }

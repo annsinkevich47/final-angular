@@ -4,7 +4,7 @@
   <span class="orders__loading" *ngIf="isLoading"> Loading... </span>
 
   <ng-container *ngIf="!isLoading">
-    <span *ngIf="noOrdersFound">No""" orders.</span>
+    <span *ngIf="noOrdersFound">No orders.</span>
 
     <ng-container *ngIf="!noOrdersFound">
       <table>
@@ -71,4 +71,4 @@
   (cancelConfirmed)="cancelOrder(selectedOrder!.id)"
   (closed)="isModalVisible = false"></app-cancel-order-modal>
 
-<!-- <button (click)="createOrder()">click</button> -->
+<button (click)="createOrder()">click</button>
