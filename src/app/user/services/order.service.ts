@@ -84,6 +84,11 @@ export class OrderService {
     return station ? station.city : 'Unknown Station';
   }
 
+  public getUserName(users: IUser[], userId: number): string {
+    const user = users.find(item => item.id === userId);
+    return user ? user.name || `User${userId}` : `User${userId}`;
+  }
+
   public sortTransformedOrders(
     orders: ITransformedOrderItem[],
   ): ITransformedOrderItem[] {
@@ -151,15 +156,4 @@ export class OrderService {
       return error.error.message || 'Server error';
     });
   }
-
-  // create a new order
-  // public createOrder() {
-  //   const body = {
-  //     rideId: 1236,
-  //     seat: 213,
-  //     stationStart: 4,
-  //     stationEnd: 62,
-  //   };
-  //   return this.http.post('/api/order', JSON.stringify(body));
-  // }
 }

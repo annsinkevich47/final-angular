@@ -7,7 +7,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class CancelOrderModalComponent {
   @Input() public orderId!: number;
-  @Input() public customerId!: number; // name of customer string
+  @Input() public customerName!: string;
+  @Input() public isManager!: boolean;
   @Output() public cancelConfirmed = new EventEmitter<void>();
   @Output() public closed = new EventEmitter<void>();
 

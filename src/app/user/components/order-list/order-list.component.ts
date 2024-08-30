@@ -25,6 +25,7 @@ export class OrderListComponent implements OnInit {
   public selectedOrder: ITransformedOrderItem | null = null;
   public isModalVisible: boolean = false;
   public users: IUser[] = [];
+  public selectedUserName: string = '';
 
   constructor(
     private toastr: ToastrService,
@@ -64,12 +65,19 @@ export class OrderListComponent implements OnInit {
   public loadUsers(): void {
     this.orderService.getUsers().subscribe(users => {
       this.users = users;
-      console.log(this.users);
     });
   }
 
   public openCancelModal(order: ITransformedOrderItem): void {
     this.selectedOrder = order;
+
+    if (this.isManager) {
+      this.selectedUserName = this.orderService.getUserName(
+        this.users,
+        order.userId,
+      );
+    }
+
     this.isModalVisible = true;
   }
 
@@ -78,7 +86,7 @@ export class OrderListComponent implements OnInit {
       next: () => {
         this.loadStationsAndOrders();
         this.isModalVisible = false;
-        this.toastr.success('Order successfully canceled', 'Order Status', {
+        this.toastr.success('Order successfully cancelled', 'Order Status', {
           timeOut: 2500,
         });
       },
@@ -100,10 +108,12 @@ export class OrderListComponent implements OnInit {
     const endTime = order.schedule.segments[endStationIdx - 1].time[1];
     const { carriageCode, carriageName, seatNumber, carriageIndex } =
       this.orderService.findCarriageAndSeat(order, carriages)!;
+    const userName = this.orderService.getUserName(this.users, order.userId);
 
     return {
       id: order.id,
       userId: order.userId,
+      userName,
       status: order.status,
       startStationName: this.orderService.getStationNameById(
         this.stations,

@@ -12,6 +12,7 @@
         <tr>
           <th></th>
           <th>Status</th>
+          <th *ngIf="isManager">User name</th>
           <th>Start Station</th>
           <th>Start Time</th>
           <th>End Station</th>
@@ -29,17 +30,18 @@
             <button
               (click)="openCancelModal(order)"
               [disabled]="order.status !== 'active'">
-              Cancel
+              {{ isManager ? 'Cancel Order' : 'Cancel' }}
             </button>
             <!-- кнопка только если заказ активный, иначе убрать -->
           </td>
           <td>
             {{
               order.status === 'rejected' || order.status === 'canceled'
-                ? 'Canceled'
+                ? 'cancelled'
                 : order.status
             }}
           </td>
+          <td *ngIf="isManager">{{ order.userName }}</td>
           <td>{{ order.startStationName }}</td>
           <td>
             {{ order.startTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
@@ -64,10 +66,10 @@
 <app-cancel-order-modal
   *ngIf="isModalVisible"
   [orderId]="selectedOrder!.id"
-  [customerId]="selectedOrder!.userId"
+  [customerName]="selectedUserName"
+  [isManager]="isManager"
   (cancelConfirmed)="cancelOrder(selectedOrder!.id)"
   (closed)="isModalVisible = false"></app-cancel-order-modal>
-<!-- <button (click)="createOrder()">Create order</button> -->
 <!-- <app-order-item></app-order-item>
 <app-order-item></app-order-item>
 <app-order-item></app-order-item> -->

@@ -1,7 +1,15 @@
 <div class="modal-backdrop" (click)="close()"></div>
 <div class="modal">
-  <h2 class="modal__title">Confirm order cancellation</h2>
-  <p class="modal__text">Are you sure you want to cancel your order?</p>
+  <h2 class="modal__title">Confirm cancellation</h2>
+  <p class="modal__text">
+    <ng-container *ngIf="!isManager; else managerMessage">
+      Are you sure you want to cancel your order?
+    </ng-container>
+    <ng-template #managerMessage>
+      Are you sure you want to cancel the order with ID: {{ orderId }} for
+      {{ customerName }}?
+    </ng-template>
+  </p>
   <button class="modal__cancel" (click)="cancelOrder()">Yes</button>
   <button class="modal__close" (click)="close()">No</button>
 </div>
