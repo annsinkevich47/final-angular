@@ -77,11 +77,11 @@ export class StationPageComponent implements OnInit {
     return this.formStations.get('selectedStations') as FormArray;
   }
 
-  addConnectedStation(): void {
+  public addConnectedStation(): void {
     this.selectedStations.push(new FormControl('', Validators.required));
   }
 
-  onStationSelect(index: number): void {
+  public onStationSelect(index: number): void {
     const selectedStationName = this.selectedStations.at(index).value;
     this.selectedStations.controls.forEach((control, i) => {
       if (i > index && control.value === selectedStationName) {
@@ -90,7 +90,7 @@ export class StationPageComponent implements OnInit {
     });
   }
 
-  getAvailableStations(index: number): StationType[] {
+  public getAvailableStations(index: number): StationType[] {
     const selectedStationNames = this.selectedStations.controls
       .map(control => control.value)
       .filter(value => value);
@@ -197,10 +197,6 @@ export class StationPageComponent implements OnInit {
           return 'Field is required';
         case control.hasError('pattern'):
           return 'Please enter a valid value';
-        case control.hasError('max'):
-          return 'Number is too big';
-        case control.hasError('min'):
-          return 'Number is too small';
         default:
           return '';
       }

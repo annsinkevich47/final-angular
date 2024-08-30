@@ -7,11 +7,6 @@
   margin: 0 30px;
   width: 80%;
   color: $color-black;
-  &__create {
-    display: grid;
-    grid-template-columns: 65% 30%;
-    column-gap: 5%;
-  }
   &__form,
   &__formWrapper {
     display: flex;
@@ -114,5 +109,12 @@
   }
   input.ng-invalid.ng-touched {
     border: 1.5px solid $color-red;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .stations {
+    margin: 0 20px;
+    width: calc(100% - 40px);
   }
 }

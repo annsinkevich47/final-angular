@@ -39,7 +39,6 @@ export class StationEffects {
   constructor(
     private actions$: Actions,
     private stationService: StationService,
-
     private deleteStation: DeleteStationsService
   ) {}
 }

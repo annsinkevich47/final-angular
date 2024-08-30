@@ -1,91 +1,92 @@
 <div class="stations">
-  <div class="stations__create">
-    <div class="stations__map"></div>
-    <form
-      class="stations__form"
-      [formGroup]="formStations"
-      (ngSubmit)="onSave()">
-      <div class="stations__formWrapper">
-        <label for="cityNameInput" class="stations__cityNameLabel"
-          >City Name</label
-        >
-        <input type="text" id="cityNameInput" formControlName="name" />
-        <div class="stations__error" *ngIf="formStations.get('name')?.touched">
-          {{ getErrorMessage('name') }}
-        </div>
+  <form class="stations__form" [formGroup]="formStations" (ngSubmit)="onSave()">
+    <div class="stations__formWrapper">
+      <label for="cityNameInput" class="stations__cityNameLabel"
+        >City Name</label
+      >
+      <input
+        type="text"
+        id="cityNameInput"
+        formControlName="name"
+        placeholder="Enter a text" />
+      <div class="stations__error" *ngIf="formStations.get('name')?.touched">
+        {{ getErrorMessage('name') }}
       </div>
-      <div class="stations__formWrapper">
-        <label for="latitudeInput" class="stations__latitudeLabel"
-          >Latitude</label
-        >
-        <input id="latitudeInput" formControlName="latitude" />
+    </div>
+    <div class="stations__formWrapper">
+      <label for="latitudeInput" class="stations__latitudeLabel"
+        >Latitude</label
+      >
+      <input
+        id="latitudeInput"
+        formControlName="latitude"
+        placeholder="Enter an integer or a decimal number" />
+      <div
+        class="stations__error"
+        *ngIf="formStations.get('latitude')?.touched">
+        {{ getErrorMessage('latitude') }}
+      </div>
+    </div>
+    <div class="stations__formWrapper">
+      <label for="longitudeInput" class="stations__longitudeLabel"
+        >Longitude</label
+      >
+      <input
+        id="longitudeInput"
+        formControlName="longitude"
+        placeholder="Enter an integer or a decimal number" />
+      <div
+        class="stations__error"
+        *ngIf="formStations.get('longitude')?.touched">
+        {{ getErrorMessage('longitude') }}
+      </div>
+    </div>
+    <div class="stations__formWrapper stations__connectedWrapper">
+      <label for="stations__selectStation" class="stations__connectedLabel">
+        Connected Stations
+      </label>
+      <div formArrayName="selectedStations">
         <div
-          class="stations__error"
-          *ngIf="formStations.get('latitude')?.touched">
-          {{ getErrorMessage('latitude') }}
+          *ngFor="let stationCtrl of selectedStations.controls; let i = index">
+          <select
+            [formControlName]="i"
+            (change)="onStationSelect(i)"
+            class="stations__selectConnect">
+            <option value="" disabled selected>Choose station</option>
+            <option
+              *ngFor="let station of getAvailableStations(i)"
+              [value]="station.city">
+              {{ station.city }}
+            </option>
+          </select>
         </div>
       </div>
-      <div class="stations__formWrapper">
-        <label for="longitudeInput" class="stations__longitudeLabel"
-          >Longitude</label
-        >
-        <input id="longitudeInput" formControlName="longitude" />
+      <button
+        type="button"
+        (click)="addConnectedStation()"
+        class="stations__addConnect">
+        Add Another Station
+      </button>
+      <div class="stations__error" *ngIf="submitted">
         <div
-          class="stations__error"
-          *ngIf="formStations.get('longitude')?.touched">
-          {{ getErrorMessage('longitude') }}
+          *ngIf="
+            formStations
+              .get('selectedStations')
+              ?.hasError('minSelectedStations')
+          ">
+          At least two stations must be selected.
+        </div>
+        <div
+          *ngIf="
+            formStations.get('selectedStations')?.hasError('defaultSelection')
+          ">
+          Please select a valid station for each connection.
         </div>
       </div>
-      <div class="stations__formWrapper stations__connectedWrapper">
-        <label for="stations__selectStation" class="stations__connectedLabel">
-          Connected Stations
-        </label>
-        <div formArrayName="selectedStations">
-          <div
-            *ngFor="
-              let stationCtrl of selectedStations.controls;
-              let i = index
-            ">
-            <select
-              [formControlName]="i"
-              (change)="onStationSelect(i)"
-              class="stations__selectConnect">
-              <option value="" disabled selected>Choose station</option>
-              <option
-                *ngFor="let station of getAvailableStations(i)"
-                [value]="station.city">
-                {{ station.city }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <button
-          type="button"
-          (click)="addConnectedStation()"
-          class="stations__addConnect">
-          Add Another Station
-        </button>
-        <div class="stations__error" *ngIf="submitted">
-          <div
-            *ngIf="
-              formStations
-                .get('selectedStations')
-                ?.hasError('minSelectedStations')
-            ">
-            At least two stations must be selected.
-          </div>
-          <div
-            *ngIf="
-              formStations.get('selectedStations')?.hasError('defaultSelection')
-            ">
-            Please select a valid station for each connection.
-          </div>
-        </div>
-      </div>
+    </div>
 
-      <button class="stations__submit" type="submit">Save</button>
-    </form>
-  </div>
+    <button class="stations__submit" type="submit">Save</button>
+  </form>
   <div class="stations__display">
     <div class="stations__item" *ngFor="let station of stationList">
       <div class="stations__name">{{ station.city }}</div>
