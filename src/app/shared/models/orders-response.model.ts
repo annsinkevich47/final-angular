@@ -27,7 +27,8 @@ export interface ITransformedOrderItem {
   endStationName: string;
   endTime: string;
   durationTime: string;
-  carriageType: string;
+  carriageName: string;
   carNumber: number | string;
   seatNumber: number | string;
+  price: number;
 }

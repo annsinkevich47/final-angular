@@ -43,14 +43,8 @@ export class OrderListComponent implements OnInit {
           const endStationIdx = order.path.indexOf(order.stationEnd);
           const startTime = order.schedule.segments[startStationIdx].time[0];
           const endTime = order.schedule.segments[endStationIdx - 1].time[1];
-          const carriageInfo = this.orderService.findCarriageAndSeat(
-            order,
-            carriages,
-          );
-
-          const carriageType = carriageInfo ? carriageInfo.carriageType : '';
-          const seatNumber = carriageInfo ? carriageInfo.seatNumber : '';
-          const carNumber = carriageInfo ? carriageInfo.carriageIndex : '';
+          const { carriageCode, carriageName, seatNumber, carriageIndex } =
+            this.orderService.findCarriageAndSeat(order, carriages)!;
 
           return {
             startStationName: this.orderService.getStationNameById(
@@ -67,9 +61,15 @@ export class OrderListComponent implements OnInit {
               startTime,
               endTime,
             ),
-            carriageType,
-            carNumber,
+            carriageName,
+            carNumber: carriageIndex,
             seatNumber,
+            price: this.orderService.calculatePrice(
+              order,
+              startStationIdx,
+              endStationIdx,
+              carriageCode,
+            ),
           };
         });
 
@@ -79,6 +79,7 @@ export class OrderListComponent implements OnInit {
 
         console.log(this.transformedOrders);
         console.log(this.orders);
+        console.log(carriages);
       },
     );
   }

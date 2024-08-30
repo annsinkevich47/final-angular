@@ -316,7 +316,6 @@ export class SearchService {
           : 0;
       });
     }
-
     return arrauPrices;
   }
 

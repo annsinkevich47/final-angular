@@ -32,10 +32,12 @@
             {{ order.endTime | date: 'MMMM dd HH:mm' : 'UTC+3' }}
           </td>
           <td class="">{{ order.durationTime }}</td>
-          <td class="">{{ order.carriageType }}</td>
+          <td class="">{{ order.carriageName }}</td>
           <td class="">{{ order.carNumber }}</td>
           <td class="">{{ order.seatNumber }}</td>
-          <td class="">Start</td>
+          <td class="">
+            {{ order.price | currency: 'USD' : 'symbol' : '1.2-2' }}
+          </td>
         </tr>
       </tbody>
     </table>

@@ -103,7 +103,8 @@ export class OrderService {
     order: IOrderItem,
     carriages: ITransformedCarriage[],
   ): {
-    carriageType: string;
+    carriageCode: string;
+    carriageName: string;
     seatNumber: number;
     carriageIndex: number;
   } | null {
@@ -123,7 +124,8 @@ export class OrderService {
         if (currentIndex + places > order.seatId) {
           const seatNumber = order.seatId - currentIndex; // (from 0) or (from 1)??
           return {
-            carriageType: currentCarriage.name,
+            carriageCode,
+            carriageName: currentCarriage.name,
             seatNumber,
             carriageIndex: i + 1,
           };
@@ -134,6 +136,21 @@ export class OrderService {
     }
 
     return null;
+  }
+
+  public calculatePrice(
+    order: IOrderItem,
+    startStationIdx: number,
+    endStationIdx: number,
+    carriageCode: string,
+  ): number {
+    let sum = 0;
+
+    for (let i = startStationIdx; i < endStationIdx; i += 1) {
+      sum += order.schedule.segments[i].price[`${carriageCode}`];
+    }
+
+    return sum;
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
