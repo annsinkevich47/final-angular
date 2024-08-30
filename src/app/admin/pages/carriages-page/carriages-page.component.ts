@@ -5,11 +5,15 @@ import { Observable } from 'rxjs';
 
 import CarriageType from '../../models/carriage';
 import {
+  clearCarriageError,
   createCarriage,
   loadCarriages,
   updateCarriage,
 } from '../../redux/actions/carriages.actions';
-import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
+import {
+  selectAllCarriages,
+  selectCarriageError,
+} from '../../redux/selectors/carriages.selector';
 
 @Component({
   selector: 'app-carriages-page',
@@ -18,6 +22,7 @@ import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
 })
 export class CarriagesPageComponent implements OnInit {
   public carriages$!: Observable<CarriageType[]>;
+  public errorMessage$!: Observable<unknown | null>;
   public carriages: CarriageType[] = [];
   public prototypeForm!: FormGroup;
   public formDisplay: boolean = false;
@@ -40,10 +45,12 @@ export class CarriagesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.carriages$ = this.store.select(selectAllCarriages);
+    this.errorMessage$ = this.store.select(selectCarriageError);
     this.store.dispatch(loadCarriages());
     this.carriages$.subscribe(carriages => {
       this.carriages = carriages;
     });
+
     this.prototypeForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       rows: [
@@ -129,6 +136,7 @@ export class CarriagesPageComponent implements OnInit {
     this.formDisplay = true;
     this.isCreating = true;
     this.isUpdating = false;
+    this.closeErrorMessage();
   }
 
   public onSelectCarriage(carriage: CarriageType): void {
@@ -145,6 +153,9 @@ export class CarriagesPageComponent implements OnInit {
     });
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  public closeErrorMessage(): void {
+    this.store.dispatch(clearCarriageError());
   }
 
   private resetForm(): void {
