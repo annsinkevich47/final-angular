@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Station } from '../../../shared/models/stations-response.model';
-import { OrderService } from '../../../user/services/order.service';
 import {
   minSelectedStations,
   noDefaultSelectionsValidator,
@@ -20,7 +19,10 @@ import StationType, {
   StationServer,
 } from '../../models/stations';
 import * as StationActions from '../../redux/actions/stations.actions';
-import { selectAllStations } from '../../redux/selectors/stations.selector';
+import {
+  selectAllStations,
+  selectErrorStationId,
+} from '../../redux/selectors/stations.selector';
 import { AddStationService } from '../../services/add-station.service';
 
 @Component({
@@ -30,6 +32,7 @@ import { AddStationService } from '../../services/add-station.service';
 })
 export class StationPageComponent implements OnInit {
   public stationsObserve$!: Observable<StationType[]>;
+  public errorStationId$!: Observable<unknown | null>;
   public stationList: StationType[] | [] = [];
   public formStations!: FormGroup;
   public errorStationId: number | null = null;
@@ -39,7 +42,6 @@ export class StationPageComponent implements OnInit {
     private store: Store,
     private formBuilder: FormBuilder,
     private addStationService: AddStationService,
-    private ordersService: OrderService,
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,7 @@ export class StationPageComponent implements OnInit {
       this.stationList = stations;
     });
     this.addConnectedStation();
+    this.errorStationId$ = this.store.select(selectErrorStationId);
   }
 
   get selectedStations(): FormArray {
@@ -173,21 +176,7 @@ export class StationPageComponent implements OnInit {
   }
 
   public onDeleteStation(stationId: number): void {
-    this.ordersService.getOrders(true).subscribe(orders => {
-      console.log(orders);
-      const stationInActiveOrder = orders.some(
-        order => order.status === 'active' && order.path.includes(stationId),
-      );
-
-      if (stationInActiveOrder) {
-        this.errorStationId = stationId;
-        console.error('Cannot delete station. It is part of an active order.');
-        return;
-      }
-
-      this.errorStationId = null;
-      this.store.dispatch(StationActions.deleteStation({ stationId }));
-    });
+    this.store.dispatch(StationActions.deleteStation({ stationId }));
   }
 
   public getErrorMessage(formControlName: string): string {

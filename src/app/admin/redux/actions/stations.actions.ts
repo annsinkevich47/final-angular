@@ -44,3 +44,7 @@ export const deleteStationFailure = createAction(
   '[Station] Delete Station Failure',
   props<{ error: unknown }>(),
 );
+export const deleteStationInUse = createAction(
+  '[Station] Delete Station In Use',
+  props<{ stationId: number }>()
+);
