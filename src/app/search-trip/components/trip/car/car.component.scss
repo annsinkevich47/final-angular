@@ -109,6 +109,7 @@
     @include laptop {
       &:hover {
         background: transparentize($color-blue, 0.3);
+        border: 1px solid $color-blue;
       }
     }
 

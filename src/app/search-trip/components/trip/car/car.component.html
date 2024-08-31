@@ -19,10 +19,17 @@
       class="car__seats-wrapper"
       *ngFor="let row of [].constructor(car.info.rows); let rowIndex = index">
       <div class="car__right-seats">
-        <div
+        <button
           *ngFor="
             let seat of [].constructor(car.info.rightSeats);
             let seatIndex = index
+          "
+          (click)="
+            selected(
+              rowIndex * (car.info.leftSeats + car.info.rightSeats) +
+                car.info.leftSeats +
+                seatIndex
+            )
           "
           class="car__seat"
           [ngClass]="{
@@ -32,6 +39,12 @@
                 seatIndex +
                 1
             ),
+            'car__seat--is-selected':
+              arraySelected[
+                rowIndex * (car.info.leftSeats + car.info.rightSeats) +
+                  car.info.leftSeats +
+                  seatIndex
+              ],
           }">
           {{
             rowIndex * (car.info.leftSeats + car.info.rightSeats) +
@@ -39,13 +52,18 @@
               seatIndex +
               1
           }}
-        </div>
+        </button>
       </div>
       <div class="car__left-seats">
-        <div
+        <button
           *ngFor="
             let seat of [].constructor(car.info.leftSeats);
             let seatIndex = index
+          "
+          (click)="
+            selected(
+              rowIndex * (car.info.leftSeats + car.info.rightSeats) + seatIndex
+            )
           "
           class="car__seat"
           [ngClass]="{
@@ -54,13 +72,18 @@
                 seatIndex +
                 1
             ),
+            'car__seat--is-selected':
+              arraySelected[
+                rowIndex * (car.info.leftSeats + car.info.rightSeats) +
+                  seatIndex
+              ],
           }">
           {{
             rowIndex * (car.info.leftSeats + car.info.rightSeats) +
               seatIndex +
               1
           }}
-        </div>
+        </button>
       </div>
     </div>
   </div>

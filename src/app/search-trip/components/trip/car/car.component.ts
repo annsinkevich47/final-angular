@@ -12,17 +12,18 @@ export class CarComponent implements OnInit {
   @Input() numberCar!: number;
   private carriageCapacity: ICarriageCapacity = {};
   private occupiedSeats: number[] = [];
+  public arraySelected: boolean[] = [];
 
   ngOnInit(): void {
     this.occupiedSeats = [];
 
     this.createObjectAboutCar(this.car.infoAll);
+    this.arraySelected = new Array(
+      this.carriageCapacity[this.car.info.name],
+    ).fill(false);
 
     this.car.occupiedSeats.forEach(place => {
-      console.log(place);
-      
       const dataPlace = this.findCarriageAndSeat(place);
-      console.log(dataPlace?.carriageIndex);
       if (dataPlace?.carriageIndex === this.numberCar - 1) {
         this.occupiedSeats.push(dataPlace.seatNumber);
       }
@@ -41,24 +42,25 @@ export class CarComponent implements OnInit {
     return this.occupiedSeats.includes(number);
   }
 
-  public findCarriageAndSeat(index: number) {
+  public selected(index: number): void {
+    this.arraySelected[index] = !this.arraySelected[index];
+  }
+
+  private findCarriageAndSeat(index: number) {
     let currentIndex = 0;
 
     for (let i = 0; i < this.car.carriages.length; i += 1) {
       const carriage = this.car.carriages[i];
       const capacity = this.carriageCapacity[carriage];
 
-      // Проверяем, попадает ли индекс в текущий вагон
       if (currentIndex + capacity > index) {
-        // Находим номер места в вагоне
-        const seatNumber = index - currentIndex + 1; // +1 для 1-ориентированного номера
-        return { seatNumber, carriageIndex: i }; // Возвращаем индекс вагона
+        const seatNumber = index - currentIndex + 1;
+        return { seatNumber, carriageIndex: i };
       }
 
-      // Увеличиваем текущий индекс
       currentIndex += capacity;
     }
 
-    return null; // Если индекс выходит за пределы
+    return null;
   }
 }
