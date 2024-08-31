@@ -8,9 +8,8 @@ describe('RouteFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RouteFormComponent]
-    })
-    .compileComponents();
+      declarations: [RouteFormComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RouteFormComponent);
     component = fixture.componentInstance;

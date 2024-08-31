@@ -14,9 +14,11 @@ export class StationEffects {
       mergeMap(() =>
         this.stationService.getStations().pipe(
           map(data => StationActions.loadStationsSuccess({ stations: data })),
-          catchError(error => of(StationActions.loadStationsFailure({ error })))
-        )
-      )
+          catchError(error =>
+            of(StationActions.loadStationsFailure({ error })),
+          ),
+        ),
+      ),
     );
   });
 
@@ -26,19 +28,21 @@ export class StationEffects {
       mergeMap(action =>
         this.deleteStation.deleteStation(action.stationId).pipe(
           map(() =>
-            StationActions.deleteStationSuccess({ stationId: action.stationId })
+            StationActions.deleteStationSuccess({
+              stationId: action.stationId,
+            }),
           ),
           catchError(error =>
-            of(StationActions.deleteStationFailure({ error }))
-          )
-        )
-      )
+            of(StationActions.deleteStationFailure({ error })),
+          ),
+        ),
+      ),
     );
   });
 
   constructor(
     private actions$: Actions,
     private stationService: StationService,
-    private deleteStation: DeleteStationsService
+    private deleteStation: DeleteStationsService,
   ) {}
 }

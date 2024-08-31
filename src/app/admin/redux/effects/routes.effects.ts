@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';
+
 import { RoutesService } from '../../services/route.service';
 import * as RouteActions from '../actions/routes.actions';
 
@@ -12,9 +13,9 @@ export class RouteEffects {
       mergeMap(() =>
         this.routeService.getRoutes().pipe(
           map(data => RouteActions.loadRoutesSuccess({ routes: data })),
-          catchError(error => of(RouteActions.loadRoutesFailure({ error })))
-        )
-      )
+          catchError(error => of(RouteActions.loadRoutesFailure({ error }))),
+        ),
+      ),
     );
   });
   deleteRoute$ = createEffect(() => {
@@ -23,9 +24,9 @@ export class RouteEffects {
       mergeMap(({ id }) => {
         return this.routeService.deleteRoute(id).pipe(
           map(() => RouteActions.loadRoutes()),
-          catchError(error => of(RouteActions.loadRoutesFailure({ error })))
+          catchError(error => of(RouteActions.loadRoutesFailure({ error }))),
         );
-      })
+      }),
     );
   });
   updateRoute$ = createEffect(() => {
@@ -35,14 +36,14 @@ export class RouteEffects {
         console.log(path);
         return this.routeService.createRoute(path, carriages).pipe(
           map(() => RouteActions.loadRoutes()),
-          catchError(error => of(RouteActions.loadRoutesFailure({ error })))
+          catchError(error => of(RouteActions.loadRoutesFailure({ error }))),
         );
-      })
+      }),
     );
   });
 
   constructor(
     private actions$: Actions,
-    private routeService: RoutesService
+    private routeService: RoutesService,
   ) {}
 }

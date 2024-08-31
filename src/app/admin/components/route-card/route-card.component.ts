@@ -1,5 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+
 import { DeleteRouteModalComponent } from '../../../shared/components/delete-route-modal/delete-route-modal.component';
 import { RouteType } from '../../../shared/models/routes-response.model';
 import { Station } from '../../../shared/models/stations-response.model';
@@ -14,12 +15,10 @@ export class RouteCardComponent {
   @Input() stations: Station[];
   readonly dialog = inject(MatDialog);
 
-  constructor() {}
-
   getPathNames() {
     return this.route.path
       .map(id => {
-        const station = this.stations?.find(station => station.id === id);
+        const station = this.stations?.find(item => item.id === id);
         if (station) {
           return station.city;
         }

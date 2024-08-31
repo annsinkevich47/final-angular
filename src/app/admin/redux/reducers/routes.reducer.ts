@@ -20,13 +20,13 @@ export const routeReducer = createReducer(
     (state, { routes }): RouteState => ({
       ...state,
       routes,
-    })
+    }),
   ),
   on(
     RouteActions.loadRoutesFailure,
     (state, { error }): RouteState => ({
       ...state,
       error,
-    })
-  )
+    }),
+  ),
 );
