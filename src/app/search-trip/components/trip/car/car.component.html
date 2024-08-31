@@ -1,12 +1,12 @@
 <div class="car__result-wrapper">
   <div class="car__header">
     <div class="car__carriage-data">
-      <div class="car__name">{{ carriage.name }}</div>
+      <div class="car__name">Car {{ numberCar }}</div>
       <div class="car__seats-number">
         Seats:
         {{
-          carriage.leftSeats * carriage.rows +
-            carriage.rightSeats * carriage.rows
+          car.info.leftSeats * car.info.rows +
+            car.info.rightSeats * car.info.rows
         }}
       </div>
     </div>
@@ -17,17 +17,25 @@
   <div class="car__display">
     <div
       class="car__seats-wrapper"
-      *ngFor="let row of [].constructor(carriage.rows); let rowIndex = index">
+      *ngFor="let row of [].constructor(car.info.rows); let rowIndex = index">
       <div class="car__right-seats">
         <div
           *ngFor="
-            let seat of [].constructor(carriage.rightSeats);
+            let seat of [].constructor(car.info.rightSeats);
             let seatIndex = index
           "
-          class="car__seat">
+          class="car__seat"
+          [ngClass]="{
+            'car__seat--is-active': isOccupiedSeat(
+              rowIndex * (car.info.leftSeats + car.info.rightSeats) +
+                car.info.leftSeats +
+                seatIndex +
+                1
+            ),
+          }">
           {{
-            rowIndex * (carriage.leftSeats + carriage.rightSeats) +
-              carriage.leftSeats +
+            rowIndex * (car.info.leftSeats + car.info.rightSeats) +
+              car.info.leftSeats +
               seatIndex +
               1
           }}
@@ -36,12 +44,19 @@
       <div class="car__left-seats">
         <div
           *ngFor="
-            let seat of [].constructor(carriage.leftSeats);
+            let seat of [].constructor(car.info.leftSeats);
             let seatIndex = index
           "
-          class="car__seat">
+          class="car__seat"
+          [ngClass]="{
+            'car__seat--is-active': isOccupiedSeat(
+              rowIndex * (car.info.leftSeats + car.info.rightSeats) +
+                seatIndex +
+                1
+            ),
+          }">
           {{
-            rowIndex * (carriage.leftSeats + carriage.rightSeats) +
+            rowIndex * (car.info.leftSeats + car.info.rightSeats) +
               seatIndex +
               1
           }}

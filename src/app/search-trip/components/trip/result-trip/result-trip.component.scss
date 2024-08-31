@@ -13,6 +13,16 @@
     }
   }
 
+  &__car-wrap {
+    &:not(:first-child) {
+      margin-top: 10px;
+
+      @include tablet {
+        margin-top: 20px;
+      }
+    }
+  }
+
   &__filter {
     &-part {
       display: flex;

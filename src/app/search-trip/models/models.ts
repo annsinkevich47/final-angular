@@ -146,3 +146,16 @@ export interface ICarriageView {
   occupiedSeats: number[];
   countClearSeats: number;
 }
+
+export interface ICar {
+  name: string;
+  info: ICarriage;
+  infoAll: ICarriage[];
+  occupiedSeats: number[];
+  carriages: string[];
+  numbersCar: number[];
+}
+
+export interface ICarriageCapacity {
+  [key: string]: number;
+}

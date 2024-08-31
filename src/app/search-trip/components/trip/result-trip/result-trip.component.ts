@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import {
+  ICar,
   ICardResult,
   ICarriage,
-  ICarriageView,
   ITripResult,
 } from '../../../models/models';
 import { SearchService } from '../../../services/search.service';
@@ -20,9 +20,8 @@ export class ResultTripComponent implements OnInit, OnDestroy {
   public tripResult: ITripResult | null = null;
   public idActiveCard: number = 0;
 
-  public activeCarriages: ICarriageView[] = [];
+  public infoCars: ICar | null = null;
   public infoAllCarriages: ICarriage[] = [];
-  public filterInfoCarriages: ICarriage[] = [];
   public subscriptionTripDetail: Subscription | undefined;
 
   constructor(
@@ -45,11 +44,40 @@ export class ResultTripComponent implements OnInit, OnDestroy {
     this.subscriptionTripDetail = this.tripServise.tripResult$.subscribe(
       data => {
         this.tripResult = data;
-        this.filterInfoCarriages = this.infoAllCarriages.filter(
-          info => info.name === this.tripResult?.uniqueCarriages[0],
-        );
+        if (this.basicInfo?.carriages) {
+          this.createInfoCar(
+            this.tripResult?.uniqueCarriages[0],
+            this.basicInfo?.carriages,
+            // this.basicInfo?.occupiedSeats,
+            [10, 12, 111],
+          );
+        }
       },
     );
+  }
+
+  private createInfoCar(
+    nameCarriage: string,
+    carriages: string[],
+    occupiedSeats: number[] = [],
+  ) {
+    const numbersCar: number[] = [];
+    carriages.forEach((carriage, index) => {
+      if (carriage === nameCarriage) {
+        numbersCar.push(index + 1);
+      }
+    });
+    const [info] = this.infoAllCarriages.filter(
+      carriage => carriage.name === nameCarriage,
+    );
+    this.infoCars = {
+      name: nameCarriage,
+      occupiedSeats,
+      info,
+      infoAll: this.infoAllCarriages,
+      numbersCar,
+      carriages,
+    };
   }
 
   public ngOnDestroy(): void {
@@ -58,9 +86,13 @@ export class ResultTripComponent implements OnInit, OnDestroy {
 
   public setActiveCard(id: number, carriage: string): void {
     this.idActiveCard = id;
-    this.filterInfoCarriages = this.infoAllCarriages.filter(
-      info => info.name === carriage,
-    );
-    console.log(this.filterInfoCarriages);
+    if (this.basicInfo?.carriages) {
+      this.createInfoCar(
+        carriage,
+        this.basicInfo?.carriages,
+        // this.basicInfo?.occupiedSeats,
+        [10, 12, 111],
+      );
+    }
   }
 }
