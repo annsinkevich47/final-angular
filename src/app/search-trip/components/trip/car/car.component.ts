@@ -86,7 +86,11 @@ export class CarComponent implements OnInit {
   }
 
   public selected(index: number, numberCar: number): void {
-    this.arraySelected[index] = !this.arraySelected[index];
+    const copyValueSelected = this.arraySelected[index];
+    this.arraySelected = new Array(
+      this.carriageCapacity[this.car.info.name],
+    ).fill(false);
+    this.arraySelected[index] = !copyValueSelected;
     if (this.arraySelected[index]) {
       this.tripServise.addSeatToList(
         this.getGlobalSeatNumber(numberCar, index),

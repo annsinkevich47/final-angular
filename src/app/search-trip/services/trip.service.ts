@@ -17,6 +17,7 @@ export class TripService {
   public card: ICardResult | null = null;
   public tripResult$ = new Subject<ITripResult>();
 
+  public isWaiting$ = new Subject<boolean>();
   public arrayOrders: IOrderView[] = [];
   public arrayOrders$ = new Subject<IOrderView[]>();
 
@@ -54,6 +55,31 @@ export class TripService {
       });
   }
 
+  public bookSeats() {
+    this.isWaiting$.next(true);
+    this.arrayOrders.forEach(order => {
+      setTimeout(() => {
+        const body = order;
+        this.http
+          .post(`${env.API_URL_ORDER}`, body)
+          .pipe(
+            catchError(error => {
+              console.error('Error executing the request:', error);
+              return of(null);
+            }),
+          )
+          .subscribe((data: unknown) => {
+            if (!data) {
+              return;
+            }
+            this.isWaiting$.next(false);
+            this.clearArrayOrder();
+            console.log('GOOG!');
+          });
+      }, 500);
+    });
+  }
+
   public addSeatToList(
     numberSeat: number,
     seatCar: number,
@@ -67,7 +93,7 @@ export class TripService {
       if (containerOrder.length > 0) {
         return;
       }
-
+      this.arrayOrders = [];
       this.arrayOrders.push({
         object: {
           seat: numberSeat,

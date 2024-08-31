@@ -35,7 +35,14 @@
           <div class="result__ticket-price">${{ order.price }}</div>
         </div>
       </div>
-      <button class="result__btn-pay">Book seat</button>
+      <button
+        class="result__btn-pay"
+        [ngClass]="{
+          'result__btn-pay--is-no-active': isWaiting,
+        }"
+        (click)="bookSeats()">
+        Book seat
+      </button>
     </div>
   </div>
 </div>

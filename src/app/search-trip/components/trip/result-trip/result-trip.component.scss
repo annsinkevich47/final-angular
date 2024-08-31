@@ -69,6 +69,11 @@
         background: transparentize($color-blue, 0.3);
       }
     }
+
+    &--is-no-active {
+      background: transparentize($color-blue, 0.3);
+      pointer-events: none;
+    }
   }
 
   &__tickets {
