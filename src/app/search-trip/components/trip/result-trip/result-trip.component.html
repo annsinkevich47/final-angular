@@ -16,10 +16,23 @@
   </div>
 
   <div class="result__wrapper" *ngIf="infoCars">
-    <div
-      class="result__car-wrap"
-      *ngFor="let carriage of infoCars.numbersCar; index as i">
-      <app-car [car]="infoCars" [numberCar]="infoCars.numbersCar[i]"></app-car>
+    <div class="result__cars-wrap">
+      <div
+        class="result__car-wrap"
+        *ngFor="let carriage of infoCars.numbersCar; index as i">
+        <app-car
+          [car]="infoCars"
+          [numberCar]="infoCars.numbersCar[i]"></app-car>
+      </div>
+    </div>
+    <div class="result__pay-wrap">
+      <div class="result__tickets">
+        <div class="result__ticket-wrap">
+          <div class="result__ticket-number">Car 8, seat 49</div>
+          <div class="result__ticket-price">$900.00</div>
+        </div>
+      </div>
+      <button class="result__btn-pay">Book seat</button>
     </div>
   </div>
 </div>

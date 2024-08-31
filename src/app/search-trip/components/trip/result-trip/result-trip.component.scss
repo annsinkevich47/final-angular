@@ -13,6 +13,87 @@
     }
   }
 
+  &__wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    @include tablet {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__cars-wrap {
+    width: 100%;
+
+    @include tablet {
+      width: 70%;
+    }
+  }
+
+  &__pay-wrap {
+    position: sticky;
+    bottom: 5px;
+    width: 100%;
+    height: fit-content;
+    border-radius: 20px;
+    background: $color-white;
+    border: 1px solid $color-gray;
+    padding: 10px;
+    margin-top: 20px;
+
+    @include tablet {
+      bottom: 0;
+      top: 10px;
+      width: 28%;
+      margin-top: 0;
+    }
+  }
+
+  &__btn-pay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 10px;
+    background: $color-blue;
+    border: 1px solid $color-blue;
+    color: $color-white;
+    margin-left: auto;
+
+    @include laptop {
+      &:hover {
+        background: transparentize($color-blue, 0.3);
+      }
+    }
+  }
+
+  &__tickets {
+    max-height: 100px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 5px 0;
+    border-bottom: 1px solid $color-gray;
+    margin-bottom: 10px;
+    overflow-y: auto;
+
+    @include tablet {
+      max-height: 100%;
+      font-size: 16px;
+    }
+  }
+
+  &__ticket-wrap {
+
+    display: flex;
+    justify-content: space-between;
+    flex-flow: wrap;
+    padding: 3px 0;
+  }
+
   &__car-wrap {
     &:not(:first-child) {
       margin-top: 10px;
