@@ -1,7 +1,142 @@
 <div class="orders">
   <h2 class="orders__title">Orders</h2>
 
-  <span class="orders__loading" *ngIf="isLoading"> Loading... </span>
+  <span class="orders__loading" *ngIf="isLoading">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="96"
+      height="96"
+      viewBox="0 0 24 24">
+      <g>
+        <circle cx="12" cy="3" r="1" fill="#3572ce">
+          <animate
+            id="b"
+            attributeName="r"
+            begin="0;a.end-0.5s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="16.5" cy="4.21" r="1" fill="#3572ce">
+          <animate
+            id="d"
+            attributeName="r"
+            begin="b.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="7.5" cy="4.21" r="1" fill="#3572ce">
+          <animate
+            id="a"
+            attributeName="r"
+            begin="c.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="19.79" cy="7.5" r="1" fill="#3572ce">
+          <animate
+            id="f"
+            attributeName="r"
+            begin="d.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="4.21" cy="7.5" r="1" fill="#3572ce">
+          <animate
+            id="c"
+            attributeName="r"
+            begin="e.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="21" cy="12" r="1" fill="#3572ce">
+          <animate
+            id="h"
+            attributeName="r"
+            begin="f.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="3" cy="12" r="1" fill="#3572ce">
+          <animate
+            id="e"
+            attributeName="r"
+            begin="g.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="19.79" cy="16.5" r="1" fill="#3572ce">
+          <animate
+            id="j"
+            attributeName="r"
+            begin="h.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="4.21" cy="16.5" r="1" fill="#3572ce">
+          <animate
+            id="g"
+            attributeName="r"
+            begin="i.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="16.5" cy="19.79" r="1" fill="#3572ce">
+          <animate
+            id="l"
+            attributeName="r"
+            begin="j.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="7.5" cy="19.79" r="1" fill="#3572ce">
+          <animate
+            id="i"
+            attributeName="r"
+            begin="k.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <circle cx="12" cy="21" r="1" fill="#3572ce">
+          <animate
+            id="k"
+            attributeName="r"
+            begin="l.begin+0.1s"
+            calcMode="spline"
+            dur="0.6s"
+            keySplines=".27,.42,.37,.99;.53,0,.61,.73"
+            values="1;2;1" />
+        </circle>
+        <animateTransform
+          attributeName="transform"
+          dur="6s"
+          repeatCount="indefinite"
+          type="rotate"
+          values="360 12 12;0 12 12" />
+      </g>
+    </svg>
+  </span>
 
   <ng-container *ngIf="!isLoading">
     <span class="orders__no-orders" *ngIf="noOrdersFound">No orders</span>
