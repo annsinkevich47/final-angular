@@ -6,7 +6,7 @@ import { catchError, of, switchMap } from 'rxjs';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { ISignInResponse } from '../../../shared/models/auth-response.model';
-import { IProfileResponse } from '../../../shared/models/profile-response.module';
+import { IProfileResponse } from '../../../shared/models/profile-response.model';
 import { ProfileService } from '../../services/profile.service';
 import { SignService } from '../../services/sign.service';
 import {

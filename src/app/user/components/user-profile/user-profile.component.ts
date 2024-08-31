@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
-import { IProfileResponse } from '../../../shared/models/profile-response.module';
+import { IProfileResponse } from '../../../shared/models/profile-response.model';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({

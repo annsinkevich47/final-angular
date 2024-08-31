@@ -131,27 +131,82 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     const dateObject: Date = new Date(this.searchForm.get('datetime')?.value);
     const timestamp: number = dateObject.getTime();
-    //   const requestSearch: IRequestSearch = {
-    //     fromLatitude:
-    //       cityFrom.length === 0 ? this.numberError : cityFrom[0].latitude,
-    //     fromLongitude:
-    //       cityFrom.length === 0 ? this.numberError : cityFrom[0].longitude,
-    //     toLatitude:
-    //       citiesTo.length === 0 ? this.numberError : citiesTo[0].latitude,
-    //     toLongitude:
-    //       citiesTo.length === 0 ? this.numberError : citiesTo[0].longitude,
-    //     time: timestamp,
-    //   };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude:
+    //     cityFrom.length === 0 ? this.numberError : cityFrom[0].latitude,
+    //   fromLongitude:
+    //     cityFrom.length === 0 ? this.numberError : cityFrom[0].longitude,
+    //   toLatitude:
+    //     citiesTo.length === 0 ? this.numberError : citiesTo[0].latitude,
+    //   toLongitude:
+    //     citiesTo.length === 0 ? this.numberError : citiesTo[0].longitude,
+    //   time: timestamp,
+    // };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude: 66.71049150983345,
+    //   fromLongitude: 60.82953046072217,
+    //   toLatitude: 69.77028818846455,
+    //   toLongitude: 64.52479439681153,
+    //   time: timestamp,
+    // };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude: 7.211736816446816,
+    //   fromLongitude: -132.93097998603827,
+    //   toLatitude: -31.284400521466225,
+    //   toLongitude: -154.69302105476976,
+    //   time: timestamp,
+    // };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude: 53.703159346177586,
+    //   fromLongitude: -120.26994055102456,
+    //   toLatitude: 65.40389527161656,
+    //   toLongitude: -90.2545054123769,
+    //   time: timestamp,
+    // };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude: 34.043044121971235,
+    //   fromLongitude: 19.86080459305535,
+    //   toLatitude: 37.83825614316248,
+    //   toLongitude: 3.9501738740867154,
+    //   time: timestamp,
+    // };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude: -58.28859278772375,
+    //   fromLongitude: 124.08742931243478,
+    //   toLatitude: -88.18741167147087,
+    //   toLongitude: -87.93864928674485,
+    //   time: timestamp,
+    // };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude: -58.28859278772375,
+    //   fromLongitude: 124.08742931243478,
+    //   toLatitude: -70.5028109254797,
+    //   toLongitude: 137.2716477099292,
+    //   time: timestamp,
+    // };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude: -24.72121959958656,
+    //   fromLongitude: 88.451538280357,
+    //   toLatitude: -47.19311206515809,
+    //   toLongitude: 54.26653003956619,
+    //   time: timestamp,
+    // };
+    // const requestSearch: IRequestSearch = {
+    //   fromLatitude: 66.71049150983345,
+    //   fromLongitude: 60.82953046072217,
+    //   toLatitude: 65.10986138733989,
+    //   toLongitude: 53.82109270977992,
+    //   time: timestamp,
+    // };
     const requestSearch: IRequestSearch = {
-      fromLatitude: 53.5747,
-      fromLongitude: 7.7808,
-      toLatitude: 50.72,
-      toLongitude: -1.88,
+      fromLatitude: -14.629666627535528,
+      fromLongitude: -27.4683663943201,
+      toLatitude: 8.682780278358095,
+      toLongitude: -5.177550642642302,
       time: timestamp,
     };
 
-    console.log(requestSearch);
-
     this.searchService.setSchedule(requestSearch);
   }
+  // }
 }

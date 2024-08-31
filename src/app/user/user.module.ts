@@ -9,7 +9,10 @@ import { BasicInfoComponent } from '../search-trip/components/trip/basic-info/ba
 import { CarComponent } from '../search-trip/components/trip/car/car.component';
 import { ResultTripComponent } from '../search-trip/components/trip/result-trip/result-trip.component';
 import { SharedModule } from '../shared/shared.module';
+import { CancelOrderModalComponent } from './components/cancel-order-modal/cancel-order-modal.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
+import { OrderItemComponent } from './components/order-item/order-item.component';
+import { OrderListComponent } from './components/order-list/order-list.component';
 import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -44,6 +47,9 @@ import { UserRoutingModule } from './user-routing.module';
     UserComponent,
     TripPageComponent,
     NotAuthorizedPageComponent,
+    OrderItemComponent,
+    OrderListComponent,
+    CancelOrderModalComponent,
   ],
   imports: [CommonModule, SharedModule, UserRoutingModule],
 })

@@ -8,4 +8,6 @@ export interface IProfileResponse {
   role: Role;
 }
 
-export interface IUser extends IProfileResponse {}
+export interface IUser extends IProfileResponse {
+  id: number;
+}

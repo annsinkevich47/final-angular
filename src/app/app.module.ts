@@ -5,23 +5,23 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ToastrModule } from 'ngx-toastr';
 
 import { CarriageEffects } from './admin/redux/effects/carriages.effects';
 import { RouteEffects } from './admin/redux/effects/routes.effects';
 import { StationEffects } from './admin/redux/effects/stations.effects';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AppEffects } from './redux/effects/app.effects';
 import { metaReducers, reducers } from './redux/reducers';
-import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    UserModule,
     BrowserModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     AppRoutingModule,
     CoreModule,
     StoreModule.forRoot(reducers, {
