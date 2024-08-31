@@ -7,6 +7,7 @@ import { getDaydate, getTimeFromDateString } from '../consts/consts';
 import {
   ArrayTypePrices,
   ICardResult,
+  ICarriage,
   ICity,
   IRequestSearch,
   IRoute,
@@ -25,9 +26,11 @@ export class SearchService {
   public dateFilter$ = new Subject<string[]>();
   public actualDate$ = new Subject<string>();
   public stations: IStationObj[] = [];
+  public carriages: ICarriage[] = [];
 
   constructor(private http: HttpClient) {
     this.getStations();
+    this.getCarriages();
   }
 
   public getCities(address: string): Observable<ICity[]> {
@@ -287,6 +290,7 @@ export class SearchService {
             copyIndexTo,
             route.id,
           ),
+          route.carriages,
         ),
       );
     });
@@ -340,6 +344,7 @@ export class SearchService {
     occupiedSeats: number[],
     prices: number[],
     schedules: IScheduleTrip,
+    carriages: string[],
   ): ICardResult {
     const cardStation: ICardResult = {
       stationFrom: {
@@ -364,6 +369,7 @@ export class SearchService {
       occupiedSeats,
       prices,
       schedules,
+      carriages,
     };
     return cardStation;
   }
@@ -389,6 +395,15 @@ export class SearchService {
       .subscribe((data: IStationObj[]) => {
         console.log(data);
         this.stations = [...data];
+      });
+  }
+
+  private getCarriages(): void {
+    this.http
+      .get<ICarriage[]>(`${env.API_URL_CARRIAGE}`)
+      .subscribe((data: ICarriage[]) => {
+        console.log(data);
+        this.carriages = [...data];
       });
   }
 

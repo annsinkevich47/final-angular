@@ -1,7 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { ICardResult, ITripResult } from '../../../models/models';
+import {
+  ICardResult,
+  ICarriage,
+  ICarriageView,
+  ITripResult,
+} from '../../../models/models';
+import { SearchService } from '../../../services/search.service';
 import { TripService } from '../../../services/trip.service';
 
 @Component({
@@ -11,15 +17,22 @@ import { TripService } from '../../../services/trip.service';
 })
 export class ResultTripComponent implements OnInit, OnDestroy {
   public basicInfo: ICardResult | null = null;
-  public subscriptionTripDetail: Subscription | undefined;
   public tripResult: ITripResult | null = null;
   public idActiveCard: number = 0;
 
-  constructor(private tripServise: TripService) {}
+  public activeCarriages: ICarriageView[] = [];
+  public infoAllCarriages: ICarriage[] = [];
+  public filterInfoCarriages: ICarriage[] = [];
+  public subscriptionTripDetail: Subscription | undefined;
+
+  constructor(
+    private tripServise: TripService,
+    private searchService: SearchService,
+  ) {}
 
   public ngOnInit(): void {
     this.basicInfo = this.tripServise.card;
-    console.log(this.basicInfo?.prices);
+
     if (this.basicInfo?.prices) {
       this.basicInfo.prices = this.basicInfo?.prices.filter(price => price > 0);
     }
@@ -28,9 +41,13 @@ export class ResultTripComponent implements OnInit, OnDestroy {
       this.tripServise.getRideInformation(this.basicInfo?.schedules.rideId);
     }
 
+    this.infoAllCarriages = [...this.searchService.carriages];
     this.subscriptionTripDetail = this.tripServise.tripResult$.subscribe(
       data => {
         this.tripResult = data;
+        this.filterInfoCarriages = this.infoAllCarriages.filter(
+          info => info.name === this.tripResult?.uniqueCarriages[0],
+        );
       },
     );
   }
@@ -39,7 +56,10 @@ export class ResultTripComponent implements OnInit, OnDestroy {
     this.subscriptionTripDetail?.unsubscribe();
   }
 
-  public setActiveCard(id: number): void {
+  public setActiveCard(id: number, carriage: string): void {
     this.idActiveCard = id;
+    this.filterInfoCarriages = this.infoAllCarriages.filter(
+      info => info.name === carriage,
+    );
   }
 }

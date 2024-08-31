@@ -119,6 +119,7 @@ export interface ICardResult {
   occupiedSeats: number[];
   prices: number[];
   schedules: IScheduleTrip;
+  carriages: string[];
 }
 
 export interface ITripDetail {
@@ -130,4 +131,18 @@ export interface ITripDetail {
 
 export interface ITripResult {
   uniqueCarriages: string[];
+}
+
+export interface ICarriage {
+  code: string;
+  name: string;
+  rows: number;
+  leftSeats: number;
+  rightSeats: number;
+}
+
+export interface ICarriageView {
+  name: string;
+  occupiedSeats: number[];
+  countClearSeats: number;
 }
