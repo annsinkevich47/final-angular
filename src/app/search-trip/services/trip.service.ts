@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { catchError, of, Subject } from 'rxjs';
 
 import { env } from '../../../environments/environment';
-import { ICardResult, ITripDetail, ITripResult } from '../models/models';
+import {
+  ICardResult,
+  IOrderView,
+  ITripDetail,
+  ITripResult,
+} from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +16,9 @@ import { ICardResult, ITripDetail, ITripResult } from '../models/models';
 export class TripService {
   public card: ICardResult | null = null;
   public tripResult$ = new Subject<ITripResult>();
+
+  public arrayOrders: IOrderView[] = [];
+  public arrayOrders$ = new Subject<IOrderView[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -41,9 +49,49 @@ export class TripService {
           // this.actualDate$.next('');
           return;
         }
-        console.log(data);
         this.createTripResult(data);
         // this.getInfoFromApi(data);
       });
+  }
+
+  public addSeatToList(
+    numberSeat: number,
+    seatCar: number,
+    numberCar: number,
+    indexCarriage: number,
+  ): void {
+    if (this.card?.stationFrom && this.card.stationTo) {
+      const containerOrder = this.arrayOrders.filter(
+        order => order.object.seat === numberSeat,
+      );
+      if (containerOrder.length > 0) {
+        return;
+      }
+
+      this.arrayOrders.push({
+        object: {
+          seat: numberSeat,
+          stationStart: this.card?.stationFrom.id,
+          stationEnd: this.card?.stationTo.id,
+          rideId: this.card?.schedules.rideId,
+        },
+        price: this.card?.prices[indexCarriage],
+        seatCar,
+        car: numberCar,
+      });
+      this.arrayOrders$.next(this.arrayOrders);
+    }
+  }
+
+  public clearArrayOrder(): void {
+    this.arrayOrders = [];
+    this.arrayOrders$.next([]);
+  }
+
+  public deleteSeatToList(numberSeat: number): void {
+    this.arrayOrders = this.arrayOrders.filter(
+      order => order.object.seat !== numberSeat,
+    );
+    this.arrayOrders$.next(this.arrayOrders);
   }
 }

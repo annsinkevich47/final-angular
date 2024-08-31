@@ -5,6 +5,7 @@ import {
   ICar,
   ICardResult,
   ICarriage,
+  IOrderView,
   ITripResult,
 } from '../../../models/models';
 import { SearchService } from '../../../services/search.service';
@@ -22,7 +23,10 @@ export class ResultTripComponent implements OnInit, OnDestroy {
 
   public infoCars: ICar | null = null;
   public infoAllCarriages: ICarriage[] = [];
+
+  public arrayOrders: IOrderView[] = [];
   public subscriptionTripDetail: Subscription | undefined;
+  public subscriptionOrders: Subscription | undefined;
 
   constructor(
     private tripServise: TripService,
@@ -54,6 +58,10 @@ export class ResultTripComponent implements OnInit, OnDestroy {
         }
       },
     );
+
+    this.subscriptionOrders = this.tripServise.arrayOrders$.subscribe(data => {
+      this.arrayOrders = [...data];
+    });
   }
 
   private createInfoCar(
@@ -72,6 +80,7 @@ export class ResultTripComponent implements OnInit, OnDestroy {
     );
     this.infoCars = {
       name: nameCarriage,
+      indexCarriage: this.idActiveCard,
       occupiedSeats,
       info,
       infoAll: this.infoAllCarriages,
@@ -82,6 +91,7 @@ export class ResultTripComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptionTripDetail?.unsubscribe();
+    this.subscriptionOrders?.unsubscribe();
   }
 
   public setActiveCard(id: number, carriage: string): void {

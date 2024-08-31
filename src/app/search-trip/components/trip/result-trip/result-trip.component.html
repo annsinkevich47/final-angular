@@ -22,14 +22,17 @@
         *ngFor="let carriage of infoCars.numbersCar; index as i">
         <app-car
           [car]="infoCars"
-          [numberCar]="infoCars.numbersCar[i]"></app-car>
+          [numberCar]="infoCars.numbersCar[i]"
+          [arrayOrders]="arrayOrders"></app-car>
       </div>
     </div>
-    <div class="result__pay-wrap">
+    <div class="result__pay-wrap" *ngIf="arrayOrders && arrayOrders.length > 0">
       <div class="result__tickets">
-        <div class="result__ticket-wrap">
-          <div class="result__ticket-number">Car 8, seat 49</div>
-          <div class="result__ticket-price">$900.00</div>
+        <div class="result__ticket-wrap" *ngFor="let order of arrayOrders">
+          <div class="result__ticket-number">
+            Car {{ order.car }}, seat {{ order.seatCar }}
+          </div>
+          <div class="result__ticket-price">${{ order.price }}</div>
         </div>
       </div>
       <button class="result__btn-pay">Book seat</button>

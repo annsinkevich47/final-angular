@@ -29,7 +29,8 @@
             selected(
               rowIndex * (car.info.leftSeats + car.info.rightSeats) +
                 car.info.leftSeats +
-                seatIndex
+                seatIndex,
+              numberCar - 1
             )
           "
           class="car__seat"
@@ -45,7 +46,14 @@
                 rowIndex * (car.info.leftSeats + car.info.rightSeats) +
                   car.info.leftSeats +
                   seatIndex
-              ],
+              ] ||
+              isSelectedSeat(
+                rowIndex * (car.info.leftSeats + car.info.rightSeats) +
+                  car.info.leftSeats +
+                  seatIndex +
+                  1,
+                numberCar
+              ),
           }">
           {{
             rowIndex * (car.info.leftSeats + car.info.rightSeats) +
@@ -63,7 +71,8 @@
           "
           (click)="
             selected(
-              rowIndex * (car.info.leftSeats + car.info.rightSeats) + seatIndex
+              rowIndex * (car.info.leftSeats + car.info.rightSeats) + seatIndex,
+              numberCar - 1
             )
           "
           class="car__seat"
@@ -77,7 +86,13 @@
               arraySelected[
                 rowIndex * (car.info.leftSeats + car.info.rightSeats) +
                   seatIndex
-              ],
+              ] ||
+              isSelectedSeat(
+                rowIndex * (car.info.leftSeats + car.info.rightSeats) +
+                  seatIndex +
+                  1,
+                numberCar
+              ),
           }">
           {{
             rowIndex * (car.info.leftSeats + car.info.rightSeats) +

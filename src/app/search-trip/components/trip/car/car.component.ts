@@ -1,6 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { ICar, ICarriage, ICarriageCapacity } from '../../../models/models';
+import {
+  ICar,
+  ICarriage,
+  ICarriageCapacity,
+  IOrderView,
+} from '../../../models/models';
+import { TripService } from '../../../services/trip.service';
 
 @Component({
   selector: 'app-car',
@@ -10,9 +17,15 @@ import { ICar, ICarriage, ICarriageCapacity } from '../../../models/models';
 export class CarComponent implements OnInit {
   @Input() car!: ICar;
   @Input() numberCar!: number;
+  @Input() arrayOrders!: IOrderView[];
+
   private carriageCapacity: ICarriageCapacity = {};
   public occupiedSeats: number[] = [];
   public arraySelected: boolean[] = [];
+
+  public subscriptionOrders: Subscription | undefined;
+
+  constructor(private tripServise: TripService) {}
 
   ngOnInit(): void {
     this.occupiedSeats = [];
@@ -22,8 +35,18 @@ export class CarComponent implements OnInit {
       this.carriageCapacity[this.car.info.name],
     ).fill(false);
 
+    for (let index = 0; index < this.arrayOrders.length; index += 1) {
+      if (this.numberCar === this.arrayOrders[index].car) {
+        for (let j = 0; j < this.arraySelected.length; j += 1) {
+          if (j === this.arrayOrders[index].seatCar - 1) {
+            this.arraySelected[j] = true;
+          }
+        }
+      }
+    }
+
     this.car.occupiedSeats.forEach(place => {
-      const dataPlace = this.findCarriageAndSeat(place);
+      const dataPlace = this.findCarriageSeat(place);
       if (dataPlace?.carriageIndex === this.numberCar - 1) {
         this.occupiedSeats.push(dataPlace.seatNumber);
       }
@@ -42,11 +65,43 @@ export class CarComponent implements OnInit {
     return this.occupiedSeats.includes(number);
   }
 
-  public selected(index: number): void {
-    this.arraySelected[index] = !this.arraySelected[index];
+  public isSelectedSeat(number: number, numberCar: number): boolean {
+    const copyOrder = this.arrayOrders.filter(
+      order => order.car === numberCar && order.seatCar === number,
+    );
+    return copyOrder.length > 0;
   }
 
-  private findCarriageAndSeat(index: number) {
+  private getGlobalSeatNumber(carIndex: number, seatNumber: number): number {
+    let globalSeatNumber = 0;
+
+    for (let i = 0; i < carIndex; i += 1) {
+      const seats = this.carriageCapacity[this.car.carriages[i]];
+      globalSeatNumber += seats;
+    }
+
+    globalSeatNumber += seatNumber;
+
+    return globalSeatNumber;
+  }
+
+  public selected(index: number, numberCar: number): void {
+    this.arraySelected[index] = !this.arraySelected[index];
+    if (this.arraySelected[index]) {
+      this.tripServise.addSeatToList(
+        this.getGlobalSeatNumber(numberCar, index),
+        index + 1,
+        numberCar + 1,
+        this.car.indexCarriage,
+      );
+    } else {
+      this.tripServise.deleteSeatToList(
+        this.getGlobalSeatNumber(numberCar, index),
+      );
+    }
+  }
+
+  private findCarriageSeat(index: number) {
     let currentIndex = 0;
 
     for (let i = 0; i < this.car.carriages.length; i += 1) {

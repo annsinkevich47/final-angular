@@ -149,6 +149,7 @@ export interface ICarriageView {
 
 export interface ICar {
   name: string;
+  indexCarriage: number;
   info: ICarriage;
   infoAll: ICarriage[];
   occupiedSeats: number[];
@@ -158,4 +159,18 @@ export interface ICar {
 
 export interface ICarriageCapacity {
   [key: string]: number;
+}
+
+export interface IOrder {
+  rideId: number;
+  seat: number;
+  stationStart: number;
+  stationEnd: number;
+}
+
+export interface IOrderView {
+  object: IOrder;
+  price: number;
+  seatCar: number;
+  car: number;
 }
