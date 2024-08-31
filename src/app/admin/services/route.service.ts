@@ -10,17 +10,27 @@ export class RoutesService {
   readonly baseUrl = '/api/route';
   constructor(private http: HttpClient) {}
 
-  getRoutes(): Observable<RouteType[]> {
+  public getRoutes(): Observable<RouteType[]> {
     return this.http.get<RouteType[]>(this.baseUrl);
   }
 
-  deleteRoute(id: number): Observable<object> {
+  public deleteRoute(id: number): Observable<object> {
     const url = `${this.baseUrl}/${id}`;
     return this.http.delete(url);
   }
 
-  createRoute(path: string[], carriages: string[]): Observable<object> {
+  public createRoute(path: string[], carriages: string[]): Observable<object> {
     return this.http.post(this.baseUrl, {
+      path,
+      carriages,
+    });
+  }
+  public updateRoute(
+    path: string[],
+    carriages: string[],
+    id: number | undefined
+  ): Observable<object> {
+    return this.http.put(`${this.baseUrl}/${id}`, {
       path,
       carriages,
     });

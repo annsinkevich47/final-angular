@@ -30,6 +30,17 @@ export class RouteEffects {
   });
   updateRoute$ = createEffect(() => {
     return this.actions$.pipe(
+      ofType(RouteActions.updateRoute),
+      mergeMap(({ path, carriages, id }) => {
+        return this.routeService.updateRoute(path, carriages, id).pipe(
+          map(() => RouteActions.loadRoutes()),
+          catchError(error => of(RouteActions.loadRoutesFailure({ error })))
+        );
+      })
+    );
+  });
+  createRoute$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(RouteActions.createRoute),
       mergeMap(({ path, carriages }) => {
         console.log(path);
