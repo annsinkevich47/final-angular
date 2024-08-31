@@ -1,0 +1,133 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0 10px;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    @include mobile-x {
+      justify-content: start;
+    }
+
+    @include tablet {
+      margin-top: 0;
+    }
+  }
+
+  &__error {
+    color: $color-red;
+    font-size: 11px;
+    margin-bottom: 5px;
+
+    @include tablet {
+      margin: 5px;
+    }
+
+    @include laptop {
+      margin: 5px 10px;
+    }
+  }
+
+  &__input-wrap {
+    position: relative;
+  }
+
+  &__label {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    font-size: 11px;
+
+    @include tablet {
+      top: -15px;
+      left: 5px;
+    }
+
+    @include laptop {
+      left: 10px;
+    }
+  }
+
+  &__input,
+  &__button {
+    width: 100%;
+    height: 30px;
+    padding: 5px 10px;
+    border: 1px solid $color-blue;
+    background: transparentize($color-gray, 0.8);
+    border-radius: 5px;
+    color: $color-black;
+    margin: 5px 0;
+
+    &-date {
+      width: 160px;
+    }
+
+    &::placeholder {
+      color: $color-gray;
+    }
+
+    @include tablet {
+      width: 200px;
+      margin: 0 5px;
+
+      &-date {
+        width: 160px;
+      }
+    }
+
+    @include laptop {
+      width: 230px;
+      margin: 0 10px;
+
+      &-date {
+        width: 170px;
+      }
+    }
+  }
+
+  &__button {
+    width: 100px;
+    background: $color-blue;
+    color: $color-white;
+
+    &-inactive {
+      background: transparentize($color-blue, 0.3);
+      pointer-events: none;
+    }
+
+    @include mobile-x {
+      width: 150px;
+      margin-left: 20px;
+    }
+
+    @include tablet {
+      width: 100px;
+      margin: 0 5px;
+    }
+
+    @include laptop {
+      width: 150px;
+      margin: 0 10px;
+
+      &:hover {
+        background: transparentize($color-blue, 0.3);
+      }
+    }
+  }
+
+  @include tablet {
+    flex-direction: row;
+  }
+
+  @include laptop {
+    margin: 20px 0;
+  }
+}

@@ -4,6 +4,12 @@
       <button class="carriages__create" (click)="onCreateCarriage()">
         Create
       </button>
+      <div
+        *ngIf="errorMessage$ | async as errorMessage"
+        class="carriages__errorMessageCreate">
+        <span>Carriage already exists</span>
+        <button (click)="closeErrorMessage()">Close</button>
+      </div>
     </div>
     <form
       *ngIf="formDisplay"
