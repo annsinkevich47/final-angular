@@ -8,9 +8,10 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
+
 import { DeleteRouteModalComponent } from './components/delete-route-modal/delete-route-modal.component';
 import { HeaderComponent } from './components/header/header.component';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [HeaderComponent, DeleteRouteModalComponent],
