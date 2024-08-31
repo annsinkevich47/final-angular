@@ -1,4 +1,4 @@
-<!-- <div class="orders__item item">
+<div class="item">
   <div class="item__top">
     <div class="item__start">
       <b>Start</b>
@@ -26,25 +26,27 @@
         >Seat №{{ order.seatNumber }}</span
       >
     </div>
-    <div class="item__person-info">
-      <span class="item__person-info--username" *ngIf="isManager"
-        >Customer: {{ order.userName }}</span
-      >
-      <span class="item__person-info--price">{{
-        order.price | currency: 'USD' : 'symbol' : '1.2-2'
-      }}</span>
-    </div>
+    <span class="item__username" *ngIf="isManager"
+      >Customer: {{ order.userName }}</span
+    >
   </div>
   <div class="item__bottom">
-    <button (click)="cancel()" [disabled]="order.status !== 'active'">
-      {{ isManager ? 'Cancel Order' : 'Cancel' }}
-    </button>
-    <span class="item__status">
-      {{
-        order.status === 'rejected' || order.status === 'canceled'
-          ? 'cancelled'
-          : order.status
-      }}
-    </span>
+    <div>
+      <span
+        class="item__status"
+        [ngClass]="{
+          cancelled: isCancelled,
+          active: isActive,
+          completed: order.status === 'completed',
+        }">
+        {{ isCancelled ? 'cancelled' : order.status }}
+      </span>
+      <button *ngIf="isActive" (click)="onCancel(order)">
+        {{ isManager ? 'Cancel Order' : 'Cancel' }}
+      </button>
+    </div>
+    <span class="item__price">{{
+      order.price | currency: 'USD' : 'symbol' : '1.2-2'
+    }}</span>
   </div>
-</div> -->
+</div>

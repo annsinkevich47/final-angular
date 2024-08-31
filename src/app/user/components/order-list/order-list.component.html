@@ -8,69 +8,12 @@
 
     <ng-container *ngIf="!noOrdersFound">
       <div class="orders__list">
-        <div class="orders__item item" *ngFor="let order of transformedOrders">
-          <div class="item__top">
-            <div class="item__start">
-              <b>Start</b>
-              <span class="item__start--station">{{
-                order.startStationName
-              }}</span>
-              <span class="item__start--time">{{
-                order.startTime | date: 'MMMM dd HH:mm' : 'UTC+3'
-              }}</span>
-            </div>
-            <div class="item__duration">{{ order.durationTime }}</div>
-            <div class="item__end">
-              <b>End</b>
-              <span class="item__end--station">{{ order.endStationName }}</span>
-              <span class="item__end--time">{{
-                order.endTime | date: 'MMMM dd HH:mm' : 'UTC+3'
-              }}</span>
-            </div>
-          </div>
-          <div class="item__middle">
-            <div class="item__carriage-info">
-              <span class="item__carriage-info--type"
-                >Carriage type: {{ order.carriageName }}</span
-              >
-              <span class="item__carriage-info--car"
-                >Car №{{ order.carNumber }}</span
-              >
-              <span class="item__carriage-info--seat"
-                >Seat №{{ order.seatNumber }}</span
-              >
-            </div>
-            <span class="item__username" *ngIf="isManager"
-              >Customer: {{ order.userName }}</span
-            >
-          </div>
-          <div class="item__bottom">
-            <div>
-              <span
-                class="item__status"
-                [ngClass]="{
-                  cancelled:
-                    order.status === 'rejected' || order.status === 'canceled',
-                  active: order.status === 'active',
-                  completed: order.status === 'completed',
-                }">
-                {{
-                  order.status === 'rejected' || order.status === 'canceled'
-                    ? 'cancelled'
-                    : order.status
-                }}
-              </span>
-              <button
-                *ngIf="order.status === 'active'"
-                (click)="openCancelModal(order)">
-                {{ isManager ? 'Cancel Order' : 'Cancel' }}
-              </button>
-            </div>
-            <span class="item__price">{{
-              order.price | currency: 'USD' : 'symbol' : '1.2-2'
-            }}</span>
-          </div>
-        </div>
+        <app-order-item
+          *ngFor="let order of transformedOrders"
+          [order]="order"
+          [isManager]="isManager"
+          [onCancel]="openCancelModal.bind(this)">
+        </app-order-item>
       </div>
     </ng-container>
   </ng-container>

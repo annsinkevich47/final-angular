@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-// import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-// import { ITransformedOrderItem } from '../../../shared/models/orders-response.model';
+import { ITransformedOrderItem } from '../../../shared/models/orders-response.model';
 
 @Component({
   selector: 'app-order-item',
@@ -9,10 +8,15 @@ import { Component } from '@angular/core';
   styleUrl: './order-item.component.scss',
 })
 export class OrderItemComponent {
-  // @Input() public order!: ITransformedOrderItem;
-  // @Input() public isManager: boolean = false;
-  // @Output() public cancelOrder = new EventEmitter<number>();
-  // public cancel(): void {
-  //   this.cancelOrder.emit(this.order.id);
-  // }
+  @Input() order!: ITransformedOrderItem;
+  @Input() isManager!: boolean;
+  @Input() onCancel!: (order: ITransformedOrderItem) => void;
+
+  get isActive(): boolean {
+    return this.order.status === 'active';
+  }
+
+  get isCancelled(): boolean {
+    return this.order.status === 'rejected' || this.order.status === 'canceled';
+  }
 }
