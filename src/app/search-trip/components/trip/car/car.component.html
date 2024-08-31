@@ -6,7 +6,8 @@
         Seats:
         {{
           car.info.leftSeats * car.info.rows +
-            car.info.rightSeats * car.info.rows
+            car.info.rightSeats * car.info.rows -
+            occupiedSeats.length
         }}
       </div>
     </div>

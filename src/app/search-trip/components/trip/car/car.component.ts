@@ -11,7 +11,7 @@ export class CarComponent implements OnInit {
   @Input() car!: ICar;
   @Input() numberCar!: number;
   private carriageCapacity: ICarriageCapacity = {};
-  private occupiedSeats: number[] = [];
+  public occupiedSeats: number[] = [];
   public arraySelected: boolean[] = [];
 
   ngOnInit(): void {
