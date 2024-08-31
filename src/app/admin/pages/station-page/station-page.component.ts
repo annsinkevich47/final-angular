@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Station } from '../../../shared/models/stations-response.model';
+import { OrderService } from '../../../user/services/order.service';
 import {
   minSelectedStations,
   noDefaultSelectionsValidator,
@@ -21,7 +22,6 @@ import StationType, {
 import * as StationActions from '../../redux/actions/stations.actions';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
 import { AddStationService } from '../../services/add-station.service';
-import { GetOrdersService } from '../../services/get-orders.service';
 
 @Component({
   selector: 'app-station-page',
@@ -39,7 +39,7 @@ export class StationPageComponent implements OnInit {
     private store: Store,
     private formBuilder: FormBuilder,
     private addStationService: AddStationService,
-    private ordersService: GetOrdersService
+    private ordersService: OrderService,
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class StationPageComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(
-            /^[-+]?((1[0-7][0-9]|[1-9]?[0-9])(\.[0-9]+)?|180(\.0+)?)$/
+            /^[-+]?((1[0-7][0-9]|[1-9]?[0-9])(\.[0-9]+)?|180(\.0+)?)$/,
           ),
         ],
       ],
@@ -98,7 +98,7 @@ export class StationPageComponent implements OnInit {
     return this.stationList.filter(
       station =>
         !selectedStationNames.includes(station.city) ||
-        this.selectedStations.at(index).value === station.city
+        this.selectedStations.at(index).value === station.city,
     );
   }
 
@@ -120,7 +120,7 @@ export class StationPageComponent implements OnInit {
         relations: formValue.selectedStations
           .map((cityName: string) => {
             const station = this.stationList.find(
-              stationName => stationName.city === cityName
+              stationName => stationName.city === cityName,
             );
             return station?.id ?? -1;
           })
@@ -145,7 +145,7 @@ export class StationPageComponent implements OnInit {
           };
           newStation.connectedTo.forEach(connection => {
             const connectedStation = this.stationList.find(
-              station => station.id === connection.id
+              station => station.id === connection.id,
             );
             if (connectedStation) {
               connectedStation.connectedTo.push({
@@ -155,7 +155,7 @@ export class StationPageComponent implements OnInit {
             }
           });
           this.store.dispatch(
-            StationActions.addStation({ station: newStation })
+            StationActions.addStation({ station: newStation }),
           );
           this.stationList = [...this.stationList, newStation];
           this.formStations.reset();
@@ -173,9 +173,10 @@ export class StationPageComponent implements OnInit {
   }
 
   public onDeleteStation(stationId: number): void {
-    this.ordersService.getOrders().subscribe(orders => {
+    this.ordersService.getOrders(true).subscribe(orders => {
+      console.log(orders);
       const stationInActiveOrder = orders.some(
-        order => order.status === 'active' && order.path.includes(stationId)
+        order => order.status === 'active' && order.path.includes(stationId),
       );
 
       if (stationInActiveOrder) {
