@@ -37,11 +37,12 @@ export class OrderListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.isManager = this.authService.isAdmin();
-    this.loadStationsAndOrders();
 
     if (this.isManager) {
       this.loadUsers();
     }
+
+    this.loadStationsAndOrders();
   }
 
   public loadStationsAndOrders(): void {
@@ -101,10 +102,6 @@ export class OrderListComponent implements OnInit {
         });
       },
     });
-  }
-
-  public createOrder() {
-    this.orderService.createOrder().subscribe();
   }
 
   private createTransformedOrder(

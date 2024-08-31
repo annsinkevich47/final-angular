@@ -6,6 +6,7 @@ import { PopupStationsComponent } from '../search/components/popup-stations/popu
 import { ResultComponent } from '../search/components/result/result.component';
 import { SearchComponent } from '../search/components/search/search.component';
 import { SharedModule } from '../shared/shared.module';
+import { CancelOrderModalComponent } from './components/cancel-order-modal/cancel-order-modal.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { OrderItemComponent } from './components/order-item/order-item.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
@@ -21,7 +22,6 @@ import { RegistrationPageComponent } from './pages/registration-page/registratio
 import { TripPageComponent } from './pages/trip-page/trip-page.component';
 import { UserComponent } from './pages/user.component';
 import { UserRoutingModule } from './user-routing.module';
-import { CancelOrderModalComponent } from './components/cancel-order-modal/cancel-order-modal.component';
 
 @NgModule({
   declarations: [

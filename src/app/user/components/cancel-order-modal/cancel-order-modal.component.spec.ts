@@ -8,9 +8,8 @@ describe('CancelOrderModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CancelOrderModalComponent]
-    })
-    .compileComponents();
+      declarations: [CancelOrderModalComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CancelOrderModalComponent);
     component = fixture.componentInstance;

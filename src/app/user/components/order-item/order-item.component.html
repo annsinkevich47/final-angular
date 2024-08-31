@@ -1,1 +1,50 @@
-<p>order-item works!</p>
+<!-- <div class="orders__item item">
+  <div class="item__top">
+    <div class="item__start">
+      <b>Start</b>
+      <span class="item__start--station">{{ order.startStationName }}</span>
+      <span class="item__start--time">{{
+        order.startTime | date: 'MMMM dd HH:mm' : 'UTC+3'
+      }}</span>
+    </div>
+    <div class="item__duration">{{ order.durationTime }}</div>
+    <div class="item__end">
+      <b>End</b>
+      <span class="item__end--station">{{ order.endStationName }}</span>
+      <span class="item__end--time">{{
+        order.endTime | date: 'MMMM dd HH:mm' : 'UTC+3'
+      }}</span>
+    </div>
+  </div>
+  <div class="item__middle">
+    <div class="item__carriage-info">
+      <span class="item__carriage-info--type"
+        >Carriage type: {{ order.carriageName }}</span
+      >
+      <span class="item__carriage-info--car">Car №{{ order.carNumber }}</span>
+      <span class="item__carriage-info--seat"
+        >Seat №{{ order.seatNumber }}</span
+      >
+    </div>
+    <div class="item__person-info">
+      <span class="item__person-info--username" *ngIf="isManager"
+        >Customer: {{ order.userName }}</span
+      >
+      <span class="item__person-info--price">{{
+        order.price | currency: 'USD' : 'symbol' : '1.2-2'
+      }}</span>
+    </div>
+  </div>
+  <div class="item__bottom">
+    <button (click)="cancel()" [disabled]="order.status !== 'active'">
+      {{ isManager ? 'Cancel Order' : 'Cancel' }}
+    </button>
+    <span class="item__status">
+      {{
+        order.status === 'rejected' || order.status === 'canceled'
+          ? 'cancelled'
+          : order.status
+      }}
+    </span>
+  </div>
+</div> -->
