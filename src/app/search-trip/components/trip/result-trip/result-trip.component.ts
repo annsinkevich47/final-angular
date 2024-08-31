@@ -61,5 +61,6 @@ export class ResultTripComponent implements OnInit, OnDestroy {
     this.filterInfoCarriages = this.infoAllCarriages.filter(
       info => info.name === carriage,
     );
+    console.log(this.filterInfoCarriages);
   }
 }

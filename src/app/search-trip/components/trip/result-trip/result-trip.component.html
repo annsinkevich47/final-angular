@@ -15,5 +15,9 @@
     </div>
   </div>
 
-  <div class="result__wrapper"></div>
+  <div class="result__wrapper">
+    <div class="result__car-wrap" *ngFor="let carriage of filterInfoCarriages">
+      <app-car [carriage]="carriage"></app-car>
+    </div>
+  </div>
 </div>

@@ -6,6 +6,11 @@
     display: flex;
     justify-content: start;
     flex-flow: wrap;
+    margin-bottom: 10px;
+
+    @include tablet {
+      margin-bottom: 30px;
+    }
   }
 
   &__filter {

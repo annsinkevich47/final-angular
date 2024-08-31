@@ -1,1 +1,52 @@
-<p>car works!</p>
+<div class="car__result-wrapper">
+  <div class="car__header">
+    <div class="car__carriage-data">
+      <div class="car__name">{{ carriage.name }}</div>
+      <div class="car__seats-number">
+        Seats:
+        {{
+          carriage.leftSeats * carriage.rows +
+            carriage.rightSeats * carriage.rows
+        }}
+      </div>
+    </div>
+    <button class="car__update-carriage" (click)="onUpdateCarriage()">
+      Update
+    </button>
+  </div>
+  <div class="car__display">
+    <div
+      class="car__seats-wrapper"
+      *ngFor="let row of [].constructor(carriage.rows); let rowIndex = index">
+      <div class="car__right-seats">
+        <div
+          *ngFor="
+            let seat of [].constructor(carriage.rightSeats);
+            let seatIndex = index
+          "
+          class="car__seat">
+          {{
+            rowIndex * (carriage.leftSeats + carriage.rightSeats) +
+              carriage.leftSeats +
+              seatIndex +
+              1
+          }}
+        </div>
+      </div>
+      <div class="car__left-seats">
+        <div
+          *ngFor="
+            let seat of [].constructor(carriage.leftSeats);
+            let seatIndex = index
+          "
+          class="car__seat">
+          {{
+            rowIndex * (carriage.leftSeats + carriage.rightSeats) +
+              seatIndex +
+              1
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

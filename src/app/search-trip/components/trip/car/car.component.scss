@@ -1,0 +1,130 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+:host {
+  width: fit-content;
+}
+.car {
+  &__result-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: $color-black;
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid $color-gray;
+    border-radius: 2%;
+    box-sizing: border-box;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  &__carriage-data {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    width: auto;
+  }
+
+  &__update-carriage {
+    background-color: $color-blue;
+    padding: 8px;
+    color: #ffffff;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__display {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 45px;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  &__seats-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  &__right-seats,
+  &__leftSeats {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 5px;
+    margin-bottom: 10px;
+    max-width: 100%;
+  }
+
+  &__seat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $color-blue;
+    color: #ffffff;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin: 2px;
+    cursor: pointer;
+
+    @include laptop {
+      &:hover {
+        background: transparentize($color-blue, 0.3);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .car {
+    &__result-wrapper {
+      padding: 15px;
+      gap: 15px;
+    }
+
+    &__header {
+      gap: 5px;
+    }
+
+    &__update-carriage {
+      padding: 8px;
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .car {
+    &__result-wrapper {
+      padding: 10px;
+      gap: 10px;
+    }
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    &__update-carriage {
+      align-self: flex-end;
+    }
+
+    &__display {
+      column-gap: 5px;
+    }
+  }
+}
