@@ -29,6 +29,7 @@ export class ResultTripComponent implements OnInit, OnDestroy {
   public subscriptionTripDetail: Subscription | undefined;
   public subscriptionOrders: Subscription | undefined;
   public subscriptionWaiting: Subscription | undefined;
+  public subscriptionCard: Subscription | undefined;
 
   constructor(
     private tripServise: TripService,
@@ -60,6 +61,14 @@ export class ResultTripComponent implements OnInit, OnDestroy {
         }
       },
     );
+
+    this.subscriptionOrders = this.tripServise.card$.subscribe(data => {
+      this.basicInfo = data;
+
+      if (this.infoCars) {
+        this.infoCars = null;
+      }
+    });
 
     this.subscriptionOrders = this.tripServise.arrayOrders$.subscribe(data => {
       this.arrayOrders = [...data];
@@ -101,7 +110,9 @@ export class ResultTripComponent implements OnInit, OnDestroy {
   }
 
   public bookSeats(): void {
-    this.tripServise.bookSeats();
+    if (this.infoCars) {
+      this.tripServise.bookSeats();
+    }
   }
 
   public setActiveCard(id: number, carriage: string): void {

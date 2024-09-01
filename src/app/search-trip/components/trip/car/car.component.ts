@@ -47,6 +47,7 @@ export class CarComponent implements OnInit {
 
     this.car.occupiedSeats.forEach(place => {
       const dataPlace = this.findCarriageSeat(place);
+
       if (dataPlace?.carriageIndex === this.numberCar - 1) {
         this.occupiedSeats.push(dataPlace.seatNumber - 1);
       }
@@ -115,7 +116,7 @@ export class CarComponent implements OnInit {
       const carriage = this.car.carriages[i];
       const capacity = this.carriageCapacity[carriage];
 
-      if (currentIndex + capacity > index) {
+      if (currentIndex + capacity >= index) {
         const seatNumber = index - currentIndex + 1;
         return { seatNumber, carriageIndex: i };
       }
