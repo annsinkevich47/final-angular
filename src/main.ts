@@ -7,6 +7,6 @@ startServer()
   .then(() =>
     platformBrowserDynamic().bootstrapModule(AppModule, {
       ngZoneEventCoalescing: true,
-    })
+    }),
   )
   .catch(err => console.error(err));

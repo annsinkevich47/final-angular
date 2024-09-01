@@ -43,7 +43,7 @@ export abstract class RouteFormComponent {
     if (index === this.stations.length - 1) {
       this.addStation();
       const selectedStation = this.availableStations.filter(
-        station => station.id === id
+        station => station.id === id,
       );
       this.selectedStationsList = [
         ...this.selectedStationsList,
@@ -56,7 +56,7 @@ export abstract class RouteFormComponent {
       ].filter(
         // filter duplicates
         (item, i, self) =>
-          i === self.findIndex(station => station.id === item.id)
+          i === self.findIndex(station => station.id === item.id),
       );
     }
   }
@@ -69,7 +69,7 @@ export abstract class RouteFormComponent {
 
   protected getStationsFromId(
     connectedTo: ConnectedStations[],
-    stations: Station[]
+    stations: Station[],
   ) {
     return connectedTo
       .map(connection => {

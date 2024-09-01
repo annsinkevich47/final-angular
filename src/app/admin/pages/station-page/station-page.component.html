@@ -1,1 +1,119 @@
-<p>station-page works!</p>
+<div class="stations">
+  <form class="stations__form" [formGroup]="formStations" (ngSubmit)="onSave()">
+    <div class="stations__formWrapper">
+      <label for="cityNameInput" class="stations__cityNameLabel"
+        >City Name</label
+      >
+      <input
+        type="text"
+        id="cityNameInput"
+        formControlName="name"
+        placeholder="Enter a text" />
+      <div class="stations__error" *ngIf="formStations.get('name')?.touched">
+        {{ getErrorMessage('name') }}
+      </div>
+    </div>
+    <div class="stations__formWrapper">
+      <label for="latitudeInput" class="stations__latitudeLabel"
+        >Latitude</label
+      >
+      <input
+        id="latitudeInput"
+        formControlName="latitude"
+        placeholder="Enter an integer or a decimal number" />
+      <div
+        class="stations__error"
+        *ngIf="formStations.get('latitude')?.touched">
+        {{ getErrorMessage('latitude') }}
+      </div>
+    </div>
+    <div class="stations__formWrapper">
+      <label for="longitudeInput" class="stations__longitudeLabel"
+        >Longitude</label
+      >
+      <input
+        id="longitudeInput"
+        formControlName="longitude"
+        placeholder="Enter an integer or a decimal number" />
+      <div
+        class="stations__error"
+        *ngIf="formStations.get('longitude')?.touched">
+        {{ getErrorMessage('longitude') }}
+      </div>
+    </div>
+    <div class="stations__formWrapper stations__connectedWrapper">
+      <label for="stations__selectStation" class="stations__connectedLabel">
+        Connected Stations
+      </label>
+      <div formArrayName="selectedStations">
+        <div
+          *ngFor="let stationCtrl of selectedStations.controls; let i = index">
+          <select
+            [formControlName]="i"
+            (change)="onStationSelect(i)"
+            class="stations__selectConnect">
+            <option value="" disabled selected>Choose station</option>
+            <option
+              *ngFor="let station of getAvailableStations(i)"
+              [value]="station.city">
+              {{ station.city }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="addConnectedStation()"
+        class="stations__addConnect">
+        Add Another Station
+      </button>
+      <div class="stations__error" *ngIf="submitted">
+        <div
+          *ngIf="
+            formStations
+              .get('selectedStations')
+              ?.hasError('minSelectedStations')
+          ">
+          At least two stations must be selected.
+        </div>
+        <div
+          *ngIf="
+            formStations.get('selectedStations')?.hasError('defaultSelection')
+          ">
+          Please select a valid station for each connection.
+        </div>
+      </div>
+    </div>
+
+    <button class="stations__submit" type="submit">Save</button>
+  </form>
+  <div class="stations__display">
+    <div class="stations__item" *ngFor="let station of stationList">
+      <div class="stations__name">{{ station.city }}</div>
+      <div class="stations__coordinates">
+        <div class="stations__latitude">{{ station.latitude }},</div>
+        <div class="stations__longitude">{{ station.longitude }}</div>
+      </div>
+      <div class="stations__connectedTo">
+        <div class="stations__connectName">Connected to:</div>
+        <div
+          class="stations__connectedItem"
+          *ngFor="let stationConnect of station.connectedTo">
+          {{ getCityNameById(stationConnect.id) }},
+        </div>
+      </div>
+      <div class="stations__deleteWrapper">
+        <div
+          class="stations__errorMessage"
+          *ngIf="(errorStationId$ | async) === station.id">
+          Cannot delete station. Station is already used
+        </div>
+        <button
+          class="stations__delete"
+          (click)="onDeleteStation(station.id ?? 0)">
+          <img src="delete.svg" alt="delete-icon" />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

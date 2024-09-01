@@ -1,0 +1,33 @@
+@import '../../../../styles/_variables.scss';
+
+.not-authorized {
+  min-height: calc(100dvh - 61px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  gap: 15px;
+  text-align: center;
+
+  @media screen and (max-width: 460px) {
+    min-height: calc(100dvh - 100px);
+  }
+
+  h1 {
+    color: $color-blue;
+  }
+
+  p {
+    color: $color-purple;
+  }
+
+  a {
+    color: $color-blue;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      border-bottom: 2px solid $color-blue;
+    }
+  }
+}

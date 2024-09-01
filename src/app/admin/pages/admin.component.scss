@@ -1,27 +1,28 @@
 .container {
   height: 100vh;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  grid-template-rows: 30px 1fr;
+  display: flex;
+  flex-direction: column;
 }
 
-.main {
-  grid-column: 2/3;
-  grid-row: 2/3;
+.content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 1fr;
+  flex-grow: 1;
 }
 
 .sidebar {
   grid-column: 1/2;
-  grid-row: 1/3;
+  grid-row: 1;
 }
 
-.header {
+.main {
   grid-column: 2/3;
-  grid-row: 1/2;
+  grid-row: 1;
 }
 
 @media screen and (max-width: 768px) {
-  .wrapper {
+  .content {
     grid-template-columns: 30% 1fr;
   }
 }

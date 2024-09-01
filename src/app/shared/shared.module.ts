@@ -8,6 +8,7 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 
 import { DeleteRouteModalComponent } from './components/delete-route-modal/delete-route-modal.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -16,6 +17,7 @@ import { HeaderComponent } from './components/header/header.component';
   declarations: [HeaderComponent, DeleteRouteModalComponent],
   imports: [
     CommonModule,
+    RouterModule,
     MatButtonModule,
     MatDialogActions,
     MatDialogClose,

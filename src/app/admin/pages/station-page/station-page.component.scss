@@ -1,1 +1,145 @@
-@import '../../components/admin-navigation/admin-navigation.component.scss'
+@import '../../components/admin-navigation/admin-navigation.component.scss';
+
+.stations {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 0 30px;
+  width: 80%;
+  color: $color-black;
+  &__form,
+  &__formWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+  }
+  &__formWrapper {
+    height: 70px;
+  }
+  &__coordinates {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__connectedWrapper {
+    height: fit-content;
+  }
+  #stations__selectStation,
+  &__optionStation {
+    padding: 5px;
+  }
+  &__selectConnect {
+    padding: 5px;
+    width: 50%;
+  }
+  &__addConnect {
+    width: fit-content;
+    padding: 5px;
+    margin: 10px auto 0 auto;
+  }
+  &__submit {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    background-color: $color-blue;
+    color: #ffffff;
+    &:disabled {
+      background-color: $color-gray;
+      color: $color-black;
+    }
+  }
+  &__display {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+  &__item {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid $color-gray;
+    border-radius: 2%;
+    padding: 20px;
+    width: 100%;
+  }
+  &__name {
+    font-weight: 600;
+    width: fit-content;
+  }
+  &__coordinates {
+    display: flex;
+    gap: 10px;
+  }
+  &__connectedItem {
+    display: inline-block;
+    width: fit-content;
+    margin-right: 10px;
+  }
+  &__error {
+    color: $color-red;
+    font-size: 12px;
+  }
+  &__deleteWrapper {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  &__errorMessage {
+    color: $color-red;
+    font-size: 12px;
+    margin-right: 10px;
+    position: absolute;
+    right: 100%;
+    word-wrap: break-word;
+    width: 250px;
+  }
+  &__delete {
+    padding: 5px;
+    width: 35px;
+    height: 35px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  input {
+    background-color: rgb(236, 234, 234);
+    padding: 3px;
+    border: 1.5px solid $color-gray;
+    cursor: text;
+  }
+  input.ng-invalid.ng-touched {
+    border: 1.5px solid $color-red;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .stations {
+    &__selectConnect {
+      padding: 5px;
+      width: 80%;
+    }
+    &__errorMessage {
+      font-size: 10px;
+      width: 20vw;
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .stations {
+    &__coordinates {
+      gap: 5px;
+      margin-top: 5px;
+    }
+  }
+  input {
+    font-size: 12px;
+  }
+}

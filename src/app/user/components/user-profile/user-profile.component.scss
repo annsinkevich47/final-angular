@@ -1,4 +1,4 @@
-@import "../../../../styles/_variables.scss";
+@import '../../../../styles/_variables.scss';
 
 .profile {
   max-width: 500px;
@@ -16,7 +16,7 @@
 
   &__change-pass,
   &__logout {
-    color: #ffffff;
+    color: $color-white;
     padding: 10px;
     border-radius: 5px;
     font-size: 18px;
@@ -34,7 +34,7 @@
 
   &__logout {
     align-self: flex-start;
-    color: #ffffff;
+    color: $color-white;
     background-color: $color-red;
     padding: 10px 20px;
   }

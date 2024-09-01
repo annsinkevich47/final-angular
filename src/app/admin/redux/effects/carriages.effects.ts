@@ -15,13 +15,13 @@ export class CarriageEffects {
       mergeMap(() =>
         this.getCarriagesService.getCarriages().pipe(
           map(data =>
-            CarriageActions.loadCarriagesSuccess({ carriages: data.items })
+            CarriageActions.loadCarriagesSuccess({ carriages: data.items }),
           ),
           catchError(error =>
-            of(CarriageActions.loadCarriagesFailure({ error }))
-          )
-        )
-      )
+            of(CarriageActions.loadCarriagesFailure({ error })),
+          ),
+        ),
+      ),
     );
   });
 
@@ -36,11 +36,14 @@ export class CarriageEffects {
               carriage: mergedData,
             });
           }),
-          catchError(error =>
-            of(CarriageActions.createCarriageFailure({ error }))
-          )
-        )
-      )
+          catchError(error => {
+            const errorMessage = error.message || 'An error occurred';
+            return of(
+              CarriageActions.createCarriageFailure({ error: errorMessage }),
+            );
+          }),
+        ),
+      ),
     );
   });
 
@@ -56,10 +59,10 @@ export class CarriageEffects {
             });
           }),
           catchError(error =>
-            of(CarriageActions.updateCarriageFailure({ error }))
-          )
-        )
-      )
+            of(CarriageActions.updateCarriageFailure({ error })),
+          ),
+        ),
+      ),
     );
   });
 
@@ -67,6 +70,6 @@ export class CarriageEffects {
     private actions$: Actions,
     private getCarriagesService: GetCarriagesService,
     private createCarriagesService: CreateCarriageService,
-    private updateCarriagesService: UpdateCarriagesService
+    private updateCarriagesService: UpdateCarriagesService,
   ) {}
 }

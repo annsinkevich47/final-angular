@@ -1,20 +1,17 @@
 <div class="container">
   @if (formType === 'create') {
-    <app-route-create-form></app-route-create-form>
+  <app-route-create-form></app-route-create-form>
   } @else if (formType === 'update') {
-    <button mat-raised-button (click)="createCard()">Create</button>
-    <app-route-edit-form></app-route-edit-form>
+  <button mat-raised-button (click)="createCard()">Create</button>
+  <app-route-edit-form></app-route-edit-form>
   } @else {
-    <button mat-raised-button (click)="createCard()">Create</button>
+  <button mat-raised-button (click)="createCard()">Create</button>
   }
   @if (routes.length) {
-    @for (route of routes.slice().reverse(); track $index) {
-      <app-route-card
-        [route]="route"
-        [stations]="stations"
-        [carriages]="carriages"></app-route-card>
-    }
+  @for (route of routes.slice().reverse(); track $index) {
+  <app-route-card [route]="route" [stations]="stations" [carriages]="carriages"></app-route-card>
+  }
   } @else {
-    <div>Loading...</div>
+  <div>Loading...</div>
   }
 </div>

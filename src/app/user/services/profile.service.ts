@@ -5,7 +5,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import {
   ILogoutResponse,
   IProfileResponse,
-} from '../../shared/models/profile-response.module';
+} from '../../shared/models/profile-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,14 +25,14 @@ export class ProfileService {
 
   public updateUserInfo(
     name: string,
-    email: string
+    email: string,
   ): Observable<IProfileResponse> {
     const body = { name, email };
 
     return this.http.put<IProfileResponse>(this.infoUrl, body);
   }
 
-  public changePassword(newPassword: string) {
+  public changePassword(newPassword: string): Observable<unknown> {
     return this.http
       .put(this.updatePasswordUrl, { password: newPassword })
       .pipe(catchError(this.handleError));
@@ -44,7 +44,7 @@ export class ProfileService {
       .pipe(catchError(this.handleError));
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     return throwError(() => {
       return error.error.message || 'Server error';
     });

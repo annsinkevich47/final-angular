@@ -29,7 +29,7 @@ export class RoutesService {
   public updateRoute(
     path: string[],
     carriages: string[],
-    id: number | undefined
+    id: number | undefined,
   ): Observable<object> {
     return this.http.put(`${this.baseUrl}/${id}`, {
       path,
