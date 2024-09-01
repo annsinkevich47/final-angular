@@ -16,3 +16,7 @@ export const selectAllStations = createSelector(
     }));
   }
 );
+export const selectErrorStationId = createSelector(
+  selectStationState,
+  (state: StationState) => state.error,
+);

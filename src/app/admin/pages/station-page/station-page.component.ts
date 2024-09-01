@@ -19,9 +19,11 @@ import StationType, {
   StationServer,
 } from '../../models/stations';
 import * as StationActions from '../../redux/actions/stations.actions';
-import { selectAllStations } from '../../redux/selectors/stations.selector';
+import {
+  selectAllStations,
+  selectErrorStationId,
+} from '../../redux/selectors/stations.selector';
 import { AddStationService } from '../../services/add-station.service';
-import { GetOrdersService } from '../../services/get-orders.service';
 
 @Component({
   selector: 'app-station-page',
@@ -30,6 +32,7 @@ import { GetOrdersService } from '../../services/get-orders.service';
 })
 export class StationPageComponent implements OnInit {
   public stationsObserve$!: Observable<StationType[]>;
+  public errorStationId$!: Observable<unknown | null>;
   public stationList: StationType[] | [] = [];
   public formStations!: FormGroup;
   public errorStationId: number | null = null;
@@ -39,7 +42,6 @@ export class StationPageComponent implements OnInit {
     private store: Store,
     private formBuilder: FormBuilder,
     private addStationService: AddStationService,
-    private ordersService: GetOrdersService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +59,7 @@ export class StationPageComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(
-            /^[-+]?((1[0-7][0-9]|[1-9]?[0-9])(\.[0-9]+)?|180(\.0+)?)$/
+            /^[-+]?((1[0-7][0-9]|[1-9]?[0-9])(\.[0-9]+)?|180(\.0+)?)$/,
           ),
         ],
       ],
@@ -71,6 +73,7 @@ export class StationPageComponent implements OnInit {
       this.stationList = stations;
     });
     this.addConnectedStation();
+    this.errorStationId$ = this.store.select(selectErrorStationId);
   }
 
   get selectedStations(): FormArray {
@@ -98,7 +101,7 @@ export class StationPageComponent implements OnInit {
     return this.stationList.filter(
       station =>
         !selectedStationNames.includes(station.city) ||
-        this.selectedStations.at(index).value === station.city
+        this.selectedStations.at(index).value === station.city,
     );
   }
 
@@ -120,7 +123,7 @@ export class StationPageComponent implements OnInit {
         relations: formValue.selectedStations
           .map((cityName: string) => {
             const station = this.stationList.find(
-              stationName => stationName.city === cityName
+              stationName => stationName.city === cityName,
             );
             return station?.id ?? -1;
           })
@@ -145,7 +148,7 @@ export class StationPageComponent implements OnInit {
           };
           newStation.connectedTo.forEach(connection => {
             const connectedStation = this.stationList.find(
-              station => station.id === connection.id
+              station => station.id === connection.id,
             );
             if (connectedStation) {
               connectedStation.connectedTo.push({
@@ -155,7 +158,7 @@ export class StationPageComponent implements OnInit {
             }
           });
           this.store.dispatch(
-            StationActions.addStation({ station: newStation })
+            StationActions.addStation({ station: newStation }),
           );
           this.stationList = [...this.stationList, newStation];
           this.formStations.reset();
@@ -173,20 +176,7 @@ export class StationPageComponent implements OnInit {
   }
 
   public onDeleteStation(stationId: number): void {
-    this.ordersService.getOrders().subscribe(orders => {
-      const stationInActiveOrder = orders.some(
-        order => order.status === 'active' && order.path.includes(stationId)
-      );
-
-      if (stationInActiveOrder) {
-        this.errorStationId = stationId;
-        console.error('Cannot delete station. It is part of an active order.');
-        return;
-      }
-
-      this.errorStationId = null;
-      this.store.dispatch(StationActions.deleteStation({ stationId }));
-    });
+    this.store.dispatch(StationActions.deleteStation({ stationId }));
   }
 
   public getErrorMessage(formControlName: string): string {

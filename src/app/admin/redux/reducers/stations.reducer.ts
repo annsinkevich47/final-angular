@@ -20,28 +20,35 @@ export const stationReducer = createReducer(
     (state, { stations }): StationState => ({
       ...state,
       stations,
-    })
+    }),
   ),
   on(
     StationActions.loadStationsFailure,
     (state, { error }): StationState => ({
       ...state,
       error,
-    })
+    }),
   ),
   on(
     StationActions.addStationSuccess,
     (state, { station }): StationState => ({
       ...state,
       stations: [station, ...state.stations],
-    })
+    }),
   ),
   on(
     StationActions.addStationFailure,
     (state, { error }): StationState => ({
       ...state,
       error,
-    })
+    }),
+  ),
+  on(
+    StationActions.deleteStationInUse,
+    (state, { stationId }): StationState => ({
+      ...state,
+      error: stationId,
+    }),
   ),
   on(
     StationActions.deleteStationSuccess,
@@ -52,16 +59,10 @@ export const stationReducer = createReducer(
         .map(station => ({
           ...station,
           connectedTo: station.connectedTo.filter(
-            connect => connect.id !== stationId
+            connect => connect.id !== stationId,
           ),
         })),
-    })
+      error: null,
+    }),
   ),
-  on(
-    StationActions.deleteStationFailure,
-    (state, { error }): StationState => ({
-      ...state,
-      error,
-    })
-  )
 );
