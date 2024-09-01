@@ -7,7 +7,7 @@
     </p>
   </div>
   <div class="results__list">
-    <div *ngFor="let card of tripDataFiltered">
+    <div *ngFor="let card of tripDataFiltered; let j = index">
       <button class="results__card-trip" (click)="openTrip(card)">
         <div class="results__main-info">
           <div class="results__main-wrap">
@@ -45,16 +45,23 @@
             <div class="results__info-block-wrap" *ngIf="price > 0">
               <div
                 class="results__info-block"
-                *ngIf="card.occupiedSeats[i] > 0">
-                <span class="results__class">{{ i + 1 }} class</span>
-                <span class="results__seats">{{ card.occupiedSeats[i] }}</span>
+                *ngIf="card.occupiedSeats.length > 0">
+                <span class="results__class">{{
+                  card.uniqueCarriages[i]
+                }}</span>
+                <span class="results__seats">{{ card.allClearSeats[i] }}</span>
                 <span class="results__price">{{ price }}$</span>
               </div>
               <div
                 class="results__info-block"
-                *ngIf="card.occupiedSeats[i] === -1">
-                <span class="results__class">{{ i + 1 }} class</span>
-                <span class="results__seats">All</span>
+                *ngIf="card.occupiedSeats.length === 0">
+                <span class="results__class">{{
+                  card.uniqueCarriages[i]
+                }}</span>
+                <span class="results__seats">{{
+                  card.countOneCarriage[card.uniqueCarriages[i]] *
+                    card.carriageCapacity[card.uniqueCarriages[i]]
+                }}</span>
                 <span class="results__price">{{ price }}$</span>
               </div>
             </div>

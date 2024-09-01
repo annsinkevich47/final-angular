@@ -48,15 +48,6 @@ export interface ISchedule {
   segments: ISegment[];
 }
 
-export const ArrayTypePrices = [
-  'carriage1',
-  'carriage2',
-  'carriage3',
-  'carriage4',
-  'carriage5',
-  'carriage6',
-];
-
 interface ISegment {
   time: string[];
   price: { [key: string]: number };
@@ -120,6 +111,10 @@ export interface ICardResult {
   prices: number[];
   schedules: IScheduleTrip;
   carriages: string[];
+  countOneCarriage: ICarriageCapacity;
+  uniqueCarriages: string[];
+  carriageCapacity: ICarriageCapacity;
+  allClearSeats: number[];
 }
 
 export interface ITripDetail {

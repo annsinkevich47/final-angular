@@ -5,9 +5,9 @@ import { catchError, Observable, of, Subject } from 'rxjs';
 import { env } from '../../../environments/environment';
 import { getDaydate, getTimeFromDateString } from '../consts/consts';
 import {
-  ArrayTypePrices,
   ICardResult,
   ICarriage,
+  ICarriageCapacity,
   ICity,
   IRequestSearch,
   IRoute,
@@ -27,6 +27,7 @@ export class SearchService {
   public actualDate$ = new Subject<string>();
   public stations: IStationObj[] = [];
   public carriages: ICarriage[] = [];
+  public carriageCapacity: ICarriageCapacity = {};
 
   constructor(private http: HttpClient) {
     this.getStations();
@@ -248,6 +249,26 @@ export class SearchService {
     return scheduleTrips;
   }
 
+  private createObjectAboutCar(carriages: ICarriage[]): void {
+    carriages.forEach(carriage => {
+      const capacity =
+        carriage.rows * (carriage.leftSeats + carriage.rightSeats);
+
+      this.carriageCapacity[carriage.code] = capacity;
+    });
+  }
+
+  private calcCarriagesOneType(carriages: string[]) {
+    const carriageCount = carriages.reduce<ICarriageCapacity>(
+      (acc, carriage) => {
+        acc[carriage] = (acc[carriage] || 0) + 1;
+        return acc;
+      },
+      {},
+    );
+    return carriageCount;
+  }
+
   private createArrayTripCards(
     route: IRoute,
     data: ITrip,
@@ -264,12 +285,8 @@ export class SearchService {
       const dateDataFrom = getDaydate(timeStart);
       const dateDataTo = getDaydate(timeEnd);
       let occupiedSeats: number[] = [];
+      occupiedSeats = [...schedule.segments[copyIndexFrom].occupiedSeats];
 
-      if (schedule.segments[copyIndexFrom].occupiedSeats.length === 0) {
-        occupiedSeats = [-1, -1, -1, -1, -1, -1];
-      } else {
-        occupiedSeats = [...schedule.segments[copyIndexFrom].occupiedSeats];
-      }
       arrayResult.push(
         this.createCardStation(
           data,
@@ -280,7 +297,9 @@ export class SearchService {
           indexStartStation,
           indexEndStation,
           occupiedSeats,
-          this.getArrayPrices(schedule, copyIndexFrom, copyIndexTo),
+          this.getArrayPrices(schedule, copyIndexFrom, copyIndexTo, [
+            ...new Set(route.carriages.sort()),
+          ]),
           this.createSchedules(
             route,
             schedule,
@@ -289,6 +308,7 @@ export class SearchService {
             route.id,
           ),
           route.carriages,
+          this.calcCarriagesOneType(route.carriages),
         ),
       );
     });
@@ -317,17 +337,17 @@ export class SearchService {
     schedule: ISchedule,
     indexFrom: number,
     indexTo: number,
+    uniqueCarriages: string[],
   ): number[] {
-    const arrayPrices: number[] = [0, 0, 0, 0, 0, 0];
+    const arrayPrices: number[] = new Array(uniqueCarriages.length).fill(0);
 
     for (let index = indexFrom; index < indexTo; index += 1) {
-      ArrayTypePrices.forEach((type, indexArrayPrices) => {
+      uniqueCarriages.forEach((type, indexArrayPrices) => {
         arrayPrices[indexArrayPrices] += schedule.segments[index].price[type]
           ? schedule.segments[index].price[type]
           : 0;
       });
     }
-
     return arrayPrices;
   }
 
@@ -343,7 +363,9 @@ export class SearchService {
     prices: number[],
     schedules: IScheduleTrip,
     carriages: string[],
+    countOneCarriage: ICarriageCapacity,
   ): ICardResult {
+    const uniqueCarriages = [...new Set(carriages.sort())];
     const cardStation: ICardResult = {
       stationFrom: {
         id: data.from.stationId,
@@ -368,8 +390,70 @@ export class SearchService {
       prices,
       schedules,
       carriages,
+      countOneCarriage,
+      uniqueCarriages,
+      carriageCapacity: this.carriageCapacity,
+      allClearSeats: this.getAllClearSeats(
+        countOneCarriage,
+        uniqueCarriages,
+        this.carriageCapacity,
+        occupiedSeats,
+        carriages,
+      ),
     };
+    console.log(cardStation);
+
     return cardStation;
+  }
+
+  private getAllClearSeats(
+    countOneCarriage: ICarriageCapacity,
+    uniqueCarriages: string[],
+    carriageCapacity: ICarriageCapacity,
+    occupiedSeats: number[],
+    carriages: string[],
+  ): number[] {
+    const allClearSeats: number[] = [];
+    for (let index = 0; index < uniqueCarriages.length; index += 1) {
+      let allClearSeat =
+        countOneCarriage[uniqueCarriages[index]] *
+        carriageCapacity[uniqueCarriages[index]];
+
+      occupiedSeats.forEach(place => {
+        const dataPlace = this.findCarriageSeat(
+          place,
+          carriages,
+          carriageCapacity,
+        );
+
+        if (dataPlace === uniqueCarriages[index]) {
+          allClearSeat -= 1;
+        }
+      });
+      allClearSeats.push(allClearSeat);
+    }
+    return allClearSeats;
+  }
+
+  private findCarriageSeat(
+    index: number,
+    carriages: string[],
+    carriageCapacity: ICarriageCapacity,
+  ): string | null {
+    let currentIndex = 0;
+
+    for (let i = 0; i < carriages.length; i += 1) {
+      const carriage = carriages[i];
+      const capacity = carriageCapacity[carriage];
+
+      if (currentIndex + capacity > index) {
+        return carriage;
+      }
+
+      currentIndex += capacity;
+    }
+
+    return null;
   }
 
   private getUniqueDates(dates: string[]): string[] {
@@ -400,6 +484,7 @@ export class SearchService {
       .get<ICarriage[]>(`${env.API_URL_CARRIAGE}`)
       .subscribe((data: ICarriage[]) => {
         this.carriages = [...data];
+        this.createObjectAboutCar(this.carriages);
       });
   }
 

@@ -95,7 +95,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     if (!this.isOpenPopup) {
       this.router.navigate(['/trip', card.schedules.rideId]);
       this.tripService.save(card);
-      console.log(card);
     }
   }
 }
