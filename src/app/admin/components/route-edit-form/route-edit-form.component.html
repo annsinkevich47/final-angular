@@ -1,0 +1,64 @@
+<form [formGroup]="stationForm" class="form" (submit)="onSubmit()">
+  @if (availableCarriages.length && availableCarriages.length) {
+    <div class="select">
+      <div class="select-container">
+        <ng-container formArrayName="stations">
+          <div *ngFor="let station of stations.controls; let i = index">
+            <mat-form-field appearance="fill">
+              <mat-label>Station {{ i + 1 }}</mat-label>
+              <mat-select [formControlName]="i">
+                <mat-option
+                  *ngFor="let station of availableStations"
+                  [value]="station.id"
+                  (onSelectionChange)="onStationChange(i, station.id)">
+                  {{ station.city }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </div>
+      <div class="select-container">
+        <ng-container formArrayName="carriages">
+          <div *ngFor="let carriage of carriages.controls; let i = index">
+            <mat-form-field appearance="fill">
+              <mat-label>Carriage {{ i + 1 }}</mat-label>
+              <mat-select
+                [formControlName]="i"
+                (selectionChange)="onCarriageChange(i)">
+                <mat-option
+                  *ngFor="let carriage of availableCarriages"
+                  [value]="carriage.code">
+                  {{ carriage.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div>
+      <mat-error
+        *ngIf="
+          carriages.errors?.['minlength'] &&
+          (carriages.dirty || carriages.touched)
+        "
+        >Carriage selection is required.</mat-error
+      >
+      <mat-error
+        *ngIf="
+          stations.errors?.['minlength'] && (stations.dirty || stations.touched)
+        "
+        >Station selection is required.</mat-error
+      >
+    </div>
+    <div class="button">
+      <button mat-raised-button type="submit">Update</button>
+      <button mat-raised-button type="button" (click)="resetForm()">
+        Reset
+      </button>
+    </div>
+  } @else {
+    <div>Loading...</div>
+  }
+</form>
