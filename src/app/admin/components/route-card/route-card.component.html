@@ -1,14 +1,15 @@
+@if (stations.length) {
 <mat-card class="card" appearance="outlined">
   <mat-card-header>
     <mat-card-title>Route {{ route.id }}</mat-card-title>
     <div class="icons">
-      <div>
+      <div (click)="onUpdate()">
         <mat-icon>edit_square</mat-icon>
         <p>Update</p>
       </div>
       <div>
         <mat-icon>directions_bus</mat-icon>
-        <p>Assign ride</p>
+        <a [routerLink]="'/admin/routes/' + route.id">Assign Ride</a>
       </div>
       <div>
         <mat-icon (click)="openDialog()">delete</mat-icon>
@@ -22,7 +23,8 @@
     </div>
     <div>
       <h6>Carriage Types:</h6>
-      <p>{{ route.carriages.join(' - ') }}</p>
+      <p>{{ getCarriageNames().join(' - ') }}</p>
     </div>
   </mat-card-content>
 </mat-card>
+}

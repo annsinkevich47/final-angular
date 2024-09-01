@@ -20,3 +20,7 @@ export const createRoute = createAction(
   '[Routes] Create Route',
   props<{ path: string[]; carriages: string[] }>(),
 );
+export const updateRoute = createAction(
+  '[Routes] Update Route',
+  props<{ path: string[]; carriages: string[]; id: number | undefined }>()
+);
