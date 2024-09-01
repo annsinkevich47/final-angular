@@ -63,7 +63,9 @@ export class TripService {
     this.isWaiting$.next(true);
     this.arrayOrders.forEach(order => {
       setTimeout(() => {
-        const body = order.object;
+        const copyOrder = order.object;
+        copyOrder.seat += 1;
+        const body = copyOrder;
         console.log(body);
 
         this.http
@@ -87,15 +89,13 @@ export class TripService {
             if (!data) {
               return;
             }
-
+            this.card?.occupiedSeats.push(order.object.seat);
             this.popupBook.open({
               isGood: true,
               msg: 'The seat is booked',
             });
-            // this.card?.occupiedSeats.push(order.object.seat);
-            // this.getRideInformation(order.object.rideId);
+            this.getRideInformation(order.object.rideId);
             this.clearArrayOrder();
-            console.log('GOOG!');
           });
       }, 500);
     });

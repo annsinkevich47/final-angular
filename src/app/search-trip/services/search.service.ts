@@ -44,7 +44,6 @@ export class SearchService {
 
   public setSchedule(requestSearch: IRequestSearch): void {
     const params = this.createParams(requestSearch);
-    console.log(params);
     this.http
       .get<ITrip>(`${env.API_URL_SEARCH}`, {
         params,
@@ -56,7 +55,6 @@ export class SearchService {
         }),
       )
       .subscribe((data: ITrip | null) => {
-        console.log(data);
         if (!data) {
           this.tripCardsData$.next([]);
           this.actualDate$.next('');
@@ -95,7 +93,6 @@ export class SearchService {
             break;
         }
         if (indexPathFrom !== -1 && indexPathTo !== -1) {
-          console.log(indexPathFrom, indexPathTo);
           const copyIndexFrom = indexPathFrom;
           const copyIndexTo = indexPathTo;
 
@@ -267,7 +264,7 @@ export class SearchService {
       const dateDataFrom = getDaydate(timeStart);
       const dateDataTo = getDaydate(timeEnd);
       let occupiedSeats: number[] = [];
-      console.log(schedule.segments[copyIndexFrom].occupiedSeats);
+
       if (schedule.segments[copyIndexFrom].occupiedSeats.length === 0) {
         occupiedSeats = [-1, -1, -1, -1, -1, -1];
       } else {
@@ -304,8 +301,6 @@ export class SearchService {
       .set('fromLongitude', requestSearch.fromLongitude)
       .set('toLatitude', requestSearch.toLatitude)
       .set('toLongitude', requestSearch.toLongitude);
-
-    console.log(requestSearch.time);
 
     if (requestSearch.time) {
       params = new HttpParams()
@@ -396,7 +391,6 @@ export class SearchService {
     this.http
       .get<IStationObj[]>(`${env.API_URL_STATION}`)
       .subscribe((data: IStationObj[]) => {
-        console.log(data);
         this.stations = [...data];
       });
   }
@@ -405,7 +399,6 @@ export class SearchService {
     this.http
       .get<ICarriage[]>(`${env.API_URL_CARRIAGE}`)
       .subscribe((data: ICarriage[]) => {
-        console.log(data);
         this.carriages = [...data];
       });
   }

@@ -49,13 +49,13 @@ export class ResultTripComponent implements OnInit, OnDestroy {
     this.infoAllCarriages = [...this.searchService.carriages];
     this.subscriptionTripDetail = this.tripServise.tripResult$.subscribe(
       data => {
+        this.idActiveCard = 0;
         this.tripResult = data;
         if (this.basicInfo?.carriages) {
           this.createInfoCar(
             this.tripResult?.uniqueCarriages[0],
             this.basicInfo?.carriages,
-            // this.basicInfo?.occupiedSeats,
-            [10, 12, 111],
+            this.basicInfo?.occupiedSeats,
           );
         }
       },
@@ -110,8 +110,7 @@ export class ResultTripComponent implements OnInit, OnDestroy {
       this.createInfoCar(
         carriage,
         this.basicInfo?.carriages,
-        // this.basicInfo?.occupiedSeats,
-        [10, 12, 111],
+        this.basicInfo?.occupiedSeats,
       );
     }
   }
