@@ -1,0 +1,135 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+:host {
+  width: fit-content;
+}
+.car {
+  &__result-wrapper {
+    display: flex;
+    flex-direction: column;
+    color: $color-black;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid $color-gray;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    gap: 10px;
+
+    @include mobile-x {
+      padding: 15px;
+      gap: 15px;
+    }
+
+    @include tablet {
+      padding: 20px;
+      gap: 20px;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+
+    @include mobile-x {
+      flex-direction: row;
+    }
+
+    @include tablet {
+      gap: 10px;
+    }
+  }
+
+  &__carriage-data {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    width: auto;
+  }
+
+  &__update-carriage {
+    background-color: $color-blue;
+    padding: 8px;
+    color: $color-white;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__display {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    row-gap: 45px;
+    width: 100%;
+    overflow-x: auto;
+
+    @include tablet {
+      column-gap: 10px;
+    }
+  }
+
+  &__seats-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  &__right-seats,
+  &__leftSeats {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 5px;
+    margin-bottom: 10px;
+    max-width: 100%;
+  }
+
+  &__seat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $color-blue;
+    border: 1px solid $color-blue;
+    color: $color-white;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin: 2px;
+    cursor: pointer;
+
+    @include laptop {
+      &:hover {
+        background: transparentize($color-blue, 0.3);
+        border: 1px solid $color-blue;
+        color: $color-white;
+      }
+    }
+
+    &--is-active {
+      background: $color-gray;
+      color: $color-black;
+      border: 1px solid $color-black;
+      pointer-events: none;
+    }
+
+    &--is-selected {
+      color: $color-black;
+      background: $color-yellow;
+      border: 1px solid $color-black;
+
+      &:hover {
+        background: transparentize($color-yellow, 0.6);
+        border: 1px solid $color-black;
+        color: $color-black;
+      }
+    }
+  }
+}

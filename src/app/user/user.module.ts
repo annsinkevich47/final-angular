@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { PopupBookComponent } from '../search-trip/components/popup-book/popup-book.component';
 import { PopupStationsComponent } from '../search-trip/components/popup-stations/popup-stations.component';
 import { FilterComponent } from '../search-trip/components/search/filter/filter.component';
 import { ResultComponent } from '../search-trip/components/search/result/result.component';
@@ -32,6 +33,7 @@ import { UserRoutingModule } from './user-routing.module';
     SearchComponent,
     ResultComponent,
     PopupStationsComponent,
+    PopupBookComponent,
     ResultTripComponent,
     BasicInfoComponent,
     CarComponent,

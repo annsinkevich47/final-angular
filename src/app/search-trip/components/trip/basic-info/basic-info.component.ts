@@ -25,6 +25,7 @@ export class BasicInfoComponent implements OnInit {
 
   public backToMain(): void {
     this.location.back();
+    this.tripServise.clearArrayOrder();
   }
 
   public openPopup(scheduleTrip: IScheduleTrip): void {

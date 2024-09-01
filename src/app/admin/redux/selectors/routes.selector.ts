@@ -6,5 +6,5 @@ export const selectRouteState = createFeatureSelector<RouteState>('route');
 
 export const selectAllRoutes = createSelector(
   selectRouteState,
-  (state: RouteState) => state.routes
+  (state: RouteState) => state.routes,
 );

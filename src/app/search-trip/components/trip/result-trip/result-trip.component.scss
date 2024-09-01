@@ -1,0 +1,159 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.result {
+  &__filters {
+    display: flex;
+    justify-content: start;
+    flex-flow: wrap;
+    margin-bottom: 10px;
+
+    @include tablet {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    @include tablet {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__cars-wrap {
+    width: 100%;
+
+    @include tablet {
+      width: 70%;
+    }
+  }
+
+  &__pay-wrap {
+    position: sticky;
+    bottom: 5px;
+    width: 100%;
+    height: fit-content;
+    border-radius: 20px;
+    background: $color-white;
+    border: 1px solid $color-gray;
+    padding: 10px;
+    margin-top: 20px;
+
+    @include tablet {
+      bottom: 0;
+      top: 10px;
+      width: 28%;
+      margin-top: 0;
+    }
+  }
+
+  &__btn-pay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 10px;
+    background: $color-blue;
+    border: 1px solid $color-blue;
+    color: $color-white;
+    margin-left: auto;
+
+    @include laptop {
+      &:hover {
+        background: transparentize($color-blue, 0.3);
+      }
+    }
+
+    &--is-no-active {
+      background: transparentize($color-blue, 0.3);
+      pointer-events: none;
+    }
+  }
+
+  &__tickets {
+    max-height: 100px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 5px 0;
+    border-bottom: 1px solid $color-gray;
+    margin-bottom: 10px;
+    overflow-y: auto;
+
+    @include tablet {
+      max-height: 100%;
+      font-size: 16px;
+    }
+  }
+
+  &__ticket-wrap {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: wrap;
+    padding: 3px 0;
+  }
+
+  &__car-wrap {
+    &:not(:first-child) {
+      margin-top: 10px;
+
+      @include tablet {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  &__filter {
+    &-part {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom: 2px solid $color-blue;
+      padding: 2px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+
+      @include tablet {
+        margin-right: 20px;
+        padding: 5px;
+      }
+
+      @include laptop {
+        &:hover {
+          background: $color-blue;
+          color: $color-white;
+        }
+      }
+    }
+
+    &-sites,
+    &-class {
+      font-weight: 600;
+      font-size: 12px;
+
+      @include tablet {
+        font-size: 14px;
+      }
+    }
+
+    &-price {
+      font-size: 12px;
+
+      @include tablet {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.is-active {
+  background: $color-blue;
+  color: $color-white;
+  pointer-events: none;
+}

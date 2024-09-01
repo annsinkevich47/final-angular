@@ -53,6 +53,12 @@
     border: 1px solid $color-blue;
     color: $color-white;
     margin-left: auto;
+
+    @include laptop {
+      &:hover {
+        background: transparentize($color-blue, 0.3);
+      }
+    }
   }
 
   &__stations {

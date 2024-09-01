@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import {
   ConnectedStations,
   Station,
@@ -18,7 +19,7 @@ import { RoutesService } from '../../services/route.service';
   templateUrl: './route-form.component.html',
   styleUrl: './route-form.component.scss',
 })
-export class RouteFormComponent {
+export class RouteFormComponent implements OnInit {
   private stations$: Observable<Station[]>;
   private carriages$!: Observable<CarriageType[]>;
   public stationForm: FormGroup;
@@ -30,7 +31,7 @@ export class RouteFormComponent {
   constructor(
     private store: Store,
     private fb: FormBuilder,
-    private routeSerivce: RoutesService
+    private routeSerivce: RoutesService,
   ) {
     this.stationForm = this.fb.group({
       stations: this.fb.array([], [Validators.minLength(2)]),
@@ -60,7 +61,7 @@ export class RouteFormComponent {
         createRoute({
           path: this.stations.value,
           carriages: this.carriages.value,
-        })
+        }),
       );
     } else {
       this.carriages.markAsTouched();
@@ -97,7 +98,7 @@ export class RouteFormComponent {
     if (index === this.stations.length - 1) {
       this.addStation();
       const selectedStation = this.availableStations.filter(
-        station => station.id === id
+        station => station.id === id,
       );
       this.selectedStationsList = [
         ...this.selectedStationsList,
@@ -109,8 +110,9 @@ export class RouteFormComponent {
         ...this.selectedStationsList,
       ].filter(
         // filter duplicates
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         (item, index, self) =>
-          index === self.findIndex(station => station.id === item.id)
+          index === self.findIndex(station => station.id === item.id),
       );
     }
   }
@@ -124,7 +126,7 @@ export class RouteFormComponent {
   getStationsFromId(connectedTo: ConnectedStations[], stations: Station[]) {
     return connectedTo
       .map(connection => {
-        const station = stations.find(station => station.id === connection.id);
+        const station = stations.find(item => item.id === connection.id);
         if (station) {
           return station;
         }

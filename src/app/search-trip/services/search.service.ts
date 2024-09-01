@@ -7,6 +7,7 @@ import { getDaydate, getTimeFromDateString } from '../consts/consts';
 import {
   ArrayTypePrices,
   ICardResult,
+  ICarriage,
   ICity,
   IRequestSearch,
   IRoute,
@@ -25,9 +26,11 @@ export class SearchService {
   public dateFilter$ = new Subject<string[]>();
   public actualDate$ = new Subject<string>();
   public stations: IStationObj[] = [];
+  public carriages: ICarriage[] = [];
 
   constructor(private http: HttpClient) {
     this.getStations();
+    this.getCarriages();
   }
 
   public getCities(address: string): Observable<ICity[]> {
@@ -41,7 +44,6 @@ export class SearchService {
 
   public setSchedule(requestSearch: IRequestSearch): void {
     const params = this.createParams(requestSearch);
-    console.log(params);
     this.http
       .get<ITrip>(`${env.API_URL_SEARCH}`, {
         params,
@@ -53,7 +55,6 @@ export class SearchService {
         }),
       )
       .subscribe((data: ITrip | null) => {
-        console.log(data);
         if (!data) {
           this.tripCardsData$.next([]);
           this.actualDate$.next('');
@@ -92,7 +93,6 @@ export class SearchService {
             break;
         }
         if (indexPathFrom !== -1 && indexPathTo !== -1) {
-          console.log(indexPathFrom, indexPathTo);
           const copyIndexFrom = indexPathFrom;
           const copyIndexTo = indexPathTo;
 
@@ -240,7 +240,11 @@ export class SearchService {
       });
     });
 
-    scheduleTrips = { rideId: schedule.rideId, scheduleStation, routeId };
+    scheduleTrips = {
+      rideId: schedule.rideId ? schedule.rideId : -1,
+      scheduleStation,
+      routeId,
+    };
     return scheduleTrips;
   }
 
@@ -260,6 +264,7 @@ export class SearchService {
       const dateDataFrom = getDaydate(timeStart);
       const dateDataTo = getDaydate(timeEnd);
       let occupiedSeats: number[] = [];
+
       if (schedule.segments[copyIndexFrom].occupiedSeats.length === 0) {
         occupiedSeats = [-1, -1, -1, -1, -1, -1];
       } else {
@@ -283,6 +288,7 @@ export class SearchService {
             copyIndexTo,
             route.id,
           ),
+          route.carriages,
         ),
       );
     });
@@ -290,20 +296,20 @@ export class SearchService {
   }
 
   private createParams(requestSearch: IRequestSearch): HttpParams {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('fromLatitude', requestSearch.fromLatitude)
       .set('fromLongitude', requestSearch.fromLongitude)
       .set('toLatitude', requestSearch.toLatitude)
       .set('toLongitude', requestSearch.toLongitude);
 
-    // if (requestSearch.time) {
-    //   params = new HttpParams()
-    //     .set('fromLatitude', requestSearch.fromLatitude)
-    //     .set('fromLongitude', requestSearch.fromLongitude)
-    //     .set('toLatitude', requestSearch.toLatitude)
-    //     .set('toLongitude', requestSearch.toLongitude)
-    //     .set('time', requestSearch.time);
-    // }
+    if (requestSearch.time) {
+      params = new HttpParams()
+        .set('fromLatitude', requestSearch.fromLatitude)
+        .set('fromLongitude', requestSearch.fromLongitude)
+        .set('toLatitude', requestSearch.toLatitude)
+        .set('toLongitude', requestSearch.toLongitude)
+        .set('time', requestSearch.time);
+    }
     return params;
   }
 
@@ -336,6 +342,7 @@ export class SearchService {
     occupiedSeats: number[],
     prices: number[],
     schedules: IScheduleTrip,
+    carriages: string[],
   ): ICardResult {
     const cardStation: ICardResult = {
       stationFrom: {
@@ -360,6 +367,7 @@ export class SearchService {
       occupiedSeats,
       prices,
       schedules,
+      carriages,
     };
     return cardStation;
   }
@@ -383,8 +391,15 @@ export class SearchService {
     this.http
       .get<IStationObj[]>(`${env.API_URL_STATION}`)
       .subscribe((data: IStationObj[]) => {
-        console.log(data);
         this.stations = [...data];
+      });
+  }
+
+  private getCarriages(): void {
+    this.http
+      .get<ICarriage[]>(`${env.API_URL_CARRIAGE}`)
+      .subscribe((data: ICarriage[]) => {
+        this.carriages = [...data];
       });
   }
 

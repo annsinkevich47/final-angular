@@ -46,5 +46,5 @@ export const deleteStationFailure = createAction(
 );
 export const deleteStationInUse = createAction(
   '[Station] Delete Station In Use',
-  props<{ stationId: number }>()
+  props<{ stationId: number }>(),
 );

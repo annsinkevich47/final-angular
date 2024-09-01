@@ -18,7 +18,7 @@ export function noDefaultSelectionsValidator(): ValidatorFn {
   return (formArray: AbstractControl): ValidationErrors | null => {
     const formArrayControl = formArray as FormArray;
     const hasDefaultSelection = formArrayControl.controls.some(
-      control => control.value === ''
+      control => control.value === '',
     );
     return hasDefaultSelection ? { defaultSelection: true } : null;
   };

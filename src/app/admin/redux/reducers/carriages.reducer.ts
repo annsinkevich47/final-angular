@@ -54,7 +54,8 @@ export const carriageReducer = createReducer(
   on(
     CarriageActions.clearCarriageError,
     (state): CarriageState => ({
-    ...state,
-    error: null,
-  })),
+      ...state,
+      error: null,
+    }),
+  ),
 );

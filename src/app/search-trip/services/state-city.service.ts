@@ -12,15 +12,15 @@ export class StateCityService {
     this.state = { cityFrom: '', cityTo: '' };
   }
 
-  public setState(state: IStateCities) {
+  public setState(state: IStateCities): void {
     this.state = state;
   }
 
-  public getCityFrom() {
+  public getCityFrom(): string {
     return this.state.cityFrom;
   }
 
-  public getCityTo() {
+  public getCityTo(): string {
     return this.state.cityTo;
   }
 
@@ -28,7 +28,7 @@ export class StateCityService {
     return !!(!this.state.cityFrom || !this.state.cityTo);
   }
 
-  public getState() {
+  public getState(): IStateCities {
     return this.state;
   }
 }

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import { RouteType } from '../../../shared/models/routes-response.model';
 import { Station } from '../../../shared/models/stations-response.model';
 import { loadRoutes } from '../../redux/actions/routes.actions';
 import { loadStations } from '../../redux/actions/stations.actions';
 import { selectAllRoutes } from '../../redux/selectors/routes.selector';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
-import { RoutesService } from '../../services/route.service';
 
 @Component({
   selector: 'app-routes-page',

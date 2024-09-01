@@ -8,9 +8,8 @@ describe('RouteCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RouteCardComponent]
-    })
-    .compileComponents();
+      declarations: [RouteCardComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RouteCardComponent);
     component = fixture.componentInstance;

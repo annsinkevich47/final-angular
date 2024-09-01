@@ -3,4 +3,6 @@ export const env = {
   API_KEY_CITIES: '113TwW5tXJm+KerYAFmzqw==D9tBleuXxzjTqaxN',
   API_URL_SEARCH: '/api/search',
   API_URL_STATION: '/api/station',
+  API_URL_CARRIAGE: '/api/carriage',
+  API_URL_ORDER: '/api/order',
 };

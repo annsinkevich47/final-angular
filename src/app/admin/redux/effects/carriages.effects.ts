@@ -39,7 +39,7 @@ export class CarriageEffects {
           catchError(error => {
             const errorMessage = error.message || 'An error occurred';
             return of(
-              CarriageActions.createCarriageFailure({ error: errorMessage })
+              CarriageActions.createCarriageFailure({ error: errorMessage }),
             );
           }),
         ),

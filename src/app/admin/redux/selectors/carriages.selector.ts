@@ -11,5 +11,5 @@ export const selectAllCarriages = createSelector(
 );
 export const selectCarriageError = createSelector(
   selectCarriageState,
-  (state: CarriageState) => state.error
+  (state: CarriageState) => state.error,
 );

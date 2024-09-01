@@ -199,10 +199,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     //   time: timestamp,
     // };
     const requestSearch: IRequestSearch = {
-      fromLatitude: -14.629666627535528,
-      fromLongitude: -27.4683663943201,
-      toLatitude: 8.682780278358095,
-      toLongitude: -5.177550642642302,
+      fromLatitude: 43.7840359693642,
+      fromLongitude: 79.56373546072763,
+      toLatitude: 19.469123277681717,
+      toLongitude: 124.83177248617699,
       time: timestamp,
     };
 
