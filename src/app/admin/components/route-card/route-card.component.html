@@ -1,30 +1,30 @@
 @if (stations.length) {
-  <mat-card class="card" appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>Route {{ route.id }}</mat-card-title>
-      <div class="icons">
-        <div (click)="onUpdate()">
-          <mat-icon>edit_square</mat-icon>
-          <p>Update</p>
-        </div>
-        <div>
-          <mat-icon>directions_bus</mat-icon>
-          <a routerLink="/admin/ride">Assign Ride</a>
-        </div>
-        <div>
-          <mat-icon (click)="openDialog()">delete</mat-icon>
-        </div>
-      </div>
-    </mat-card-header>
-    <mat-card-content>
-      <div>
-        <h6>Cities</h6>
-        <p>{{ getPathNames().join(' - ') }}</p>
+<mat-card class="card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Route {{ route.id }}</mat-card-title>
+    <div class="icons">
+      <div (click)="onUpdate()">
+        <mat-icon>edit_square</mat-icon>
+        <p>Update</p>
       </div>
       <div>
-        <h6>Carriage Types:</h6>
-        <p>{{ getCarriageNames().join(' - ') }}</p>
+        <mat-icon>directions_bus</mat-icon>
+        <a [routerLink]="'/admin/ride/' + route.id">Assign Ride</a>
       </div>
-    </mat-card-content>
-  </mat-card>
+      <div>
+        <mat-icon (click)="openDialog()">delete</mat-icon>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <h6>Cities</h6>
+      <p>{{ getPathNames().join(' - ') }}</p>
+    </div>
+    <div>
+      <h6>Carriage Types:</h6>
+      <p>{{ getCarriageNames().join(' - ') }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>
 }
