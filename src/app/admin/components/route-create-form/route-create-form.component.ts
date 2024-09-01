@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import { Station } from '../../../shared/models/stations-response.model';
 import CarriageType from '../../models/carriage';
 import { loadCarriages } from '../../redux/actions/carriages.actions';
 import { createRoute } from '../../redux/actions/routes.actions';
+import { setFormType } from '../../redux/actions/routes-form.actions';
 import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
 import { RouteFormComponent } from '../route-form/route-form.component';
-import { setFormType } from '../../redux/actions/routes-form.actions';
 
 @Component({
   selector: 'app-route-create-form',

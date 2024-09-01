@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
+
 import {
   ConnectedStations,
   Station,
@@ -54,8 +55,8 @@ export abstract class RouteFormComponent {
         ...this.selectedStationsList,
       ].filter(
         // filter duplicates
-        (item, index, self) =>
-          index === self.findIndex(station => station.id === item.id)
+        (item, i, self) =>
+          i === self.findIndex(station => station.id === item.id)
       );
     }
   }
@@ -72,7 +73,7 @@ export abstract class RouteFormComponent {
   ) {
     return connectedTo
       .map(connection => {
-        const station = stations.find(station => station.id === connection.id);
+        const station = stations.find(item => item.id === connection.id);
         if (station) {
           return station;
         }

@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import { RouteType } from '../../../shared/models/routes-response.model';
 import { Station } from '../../../shared/models/stations-response.model';
 import CarriageType from '../../models/carriage';
 import { loadCarriages } from '../../redux/actions/carriages.actions';
-import { setFormType } from '../../redux/actions/routes-form.actions';
 import { loadRoutes } from '../../redux/actions/routes.actions';
+import { setFormType } from '../../redux/actions/routes-form.actions';
 import { loadStations } from '../../redux/actions/stations.actions';
 import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
-import { selectRouteFormType } from '../../redux/selectors/routes-form.selector';
 import { selectAllRoutes } from '../../redux/selectors/routes.selector';
+import { selectRouteFormType } from '../../redux/selectors/routes-form.selector';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
 
 @Component({

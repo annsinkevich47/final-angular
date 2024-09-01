@@ -8,9 +8,8 @@ describe('DeleteRouteModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeleteRouteModalComponent]
-    })
-    .compileComponents();
+      declarations: [DeleteRouteModalComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DeleteRouteModalComponent);
     component = fixture.componentInstance;

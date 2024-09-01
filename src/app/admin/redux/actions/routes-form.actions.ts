@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+
 import { RouteType } from '../../../shared/models/routes-response.model';
 
 export const setFormType = createAction(

@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import { RouteType } from '../../../shared/models/routes-response.model';
 import { Station } from '../../../shared/models/stations-response.model';
 import CarriageType from '../../models/carriage';
 import { loadCarriages } from '../../redux/actions/carriages.actions';
-import { setFormType } from '../../redux/actions/routes-form.actions';
 import { updateRoute } from '../../redux/actions/routes.actions';
+import { setFormType } from '../../redux/actions/routes-form.actions';
 import { selectAllCarriages } from '../../redux/selectors/carriages.selector';
 import { selectRouteFromState } from '../../redux/selectors/routes-form.selector';
 import { selectAllStations } from '../../redux/selectors/stations.selector';
@@ -18,7 +19,10 @@ import { RouteFormComponent } from '../route-form/route-form.component';
   templateUrl: './route-edit-form.component.html',
   styleUrl: './route-edit-form.component.scss',
 })
-export class RouteEditFormComponent extends RouteFormComponent {
+export class RouteEditFormComponent
+  extends RouteFormComponent
+  implements OnInit
+{
   private stations$: Observable<Station[]>;
   private carriages$!: Observable<CarriageType[]>;
   public formState: RouteType | null;
