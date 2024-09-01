@@ -9,7 +9,6 @@ import {
   setFormState,
   setFormType,
 } from '../../redux/actions/routes-form.actions';
-import { selectRouteFromState } from '../../redux/selectors/routes-form.selector';
 
 @Component({
   selector: 'app-route-card',

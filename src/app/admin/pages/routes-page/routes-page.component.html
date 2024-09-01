@@ -7,10 +7,12 @@
   } @else {
   <button mat-raised-button (click)="createCard()">Create</button>
   }
-  @if (routes) {
+  @if (routes.length) {
 
   @for (route of routes.slice().reverse(); track $index) {
   <app-route-card [route]="route" [stations]="stations" [carriages]="carriages"></app-route-card>
   }
+  } @else {
+  <div>Loading...</div>
   }
 </div>
