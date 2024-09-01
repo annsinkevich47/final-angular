@@ -1,4 +1,4 @@
-@import "../../../../styles/_variables.scss";
+@import '../../../../styles/_variables.scss';
 
 .modal-backdrop {
   position: fixed;
@@ -65,5 +65,4 @@
   &__close {
     background-color: $color-gray;
   }
-
 }
