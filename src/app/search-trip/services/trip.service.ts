@@ -21,6 +21,7 @@ export class TripService {
   public isWaiting$ = new Subject<boolean>();
   public arrayOrders: IOrderView[] = [];
   public arrayOrders$ = new Subject<IOrderView[]>();
+  public card$ = new Subject<ICardResult>();
 
   constructor(
     private http: HttpClient,
@@ -29,6 +30,7 @@ export class TripService {
 
   public save(card: ICardResult): void {
     this.card = card;
+    this.card$.next(card);
   }
 
   private createTripResult(tripDetail: ITripDetail): void {
@@ -50,12 +52,9 @@ export class TripService {
       )
       .subscribe((data: ITripDetail | null) => {
         if (!data) {
-          // this.tripCardsData$.next([]);
-          // this.actualDate$.next('');
           return;
         }
         this.createTripResult(data);
-        // this.getInfoFromApi(data);
       });
   }
 
@@ -90,6 +89,10 @@ export class TripService {
               return;
             }
             this.card?.occupiedSeats.push(order.object.seat);
+            const copyCard = this.card;
+            if (copyCard) {
+              this.card$.next(copyCard);
+            }
             this.popupBook.open({
               isGood: true,
               msg: 'The seat is booked',
