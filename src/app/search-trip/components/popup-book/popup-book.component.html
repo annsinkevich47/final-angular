@@ -1,0 +1,15 @@
+<div class="popup">
+  <div
+    [ngClass]="{ 'is-open': isOpen }"
+    class="popup__backdrop"
+    (click)="closePopup()"></div>
+  <div class="popup__content" [ngClass]="{ 'is-open': isOpen }">
+    <h2
+      class="popup__title"
+      [ngClass]="{ 'popup__title--error': !bookMsg?.isGood }">
+      {{ bookMsg?.isGood ? 'Success' : 'Error' }}
+    </h2>
+    <p class="popup__desc">{{ bookMsg?.msg }}</p>
+    <button (click)="closePopup()" class="popup__close">Close</button>
+  </div>
+</div>

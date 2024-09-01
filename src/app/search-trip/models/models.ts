@@ -174,3 +174,8 @@ export interface IOrderView {
   seatCar: number;
   car: number;
 }
+
+export interface IBookMsg {
+  isGood: boolean;
+  msg: string;
+}

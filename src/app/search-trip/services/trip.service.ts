@@ -9,6 +9,7 @@ import {
   ITripDetail,
   ITripResult,
 } from '../models/models';
+import { PopupBookService } from './popup-book.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,10 @@ export class TripService {
   public arrayOrders: IOrderView[] = [];
   public arrayOrders$ = new Subject<IOrderView[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private popupBook: PopupBookService,
+  ) {}
 
   public save(card: ICardResult): void {
     this.card = card;
@@ -59,20 +63,37 @@ export class TripService {
     this.isWaiting$.next(true);
     this.arrayOrders.forEach(order => {
       setTimeout(() => {
-        const body = order;
+        const body = order.object;
+        console.log(body);
+
         this.http
           .post(`${env.API_URL_ORDER}`, body)
           .pipe(
             catchError(error => {
               console.error('Error executing the request:', error);
+              let msgError = error.error.message;
+              if (error.status === 401) {
+                msgError += `. Please, login!`;
+              }
+              this.popupBook.open({
+                isGood: false,
+                msg: msgError,
+              });
               return of(null);
             }),
           )
           .subscribe((data: unknown) => {
+            this.isWaiting$.next(false);
             if (!data) {
               return;
             }
-            this.isWaiting$.next(false);
+
+            this.popupBook.open({
+              isGood: true,
+              msg: 'The seat is booked',
+            });
+            // this.card?.occupiedSeats.push(order.object.seat);
+            // this.getRideInformation(order.object.rideId);
             this.clearArrayOrder();
             console.log('GOOG!');
           });

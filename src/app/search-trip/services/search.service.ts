@@ -267,6 +267,7 @@ export class SearchService {
       const dateDataFrom = getDaydate(timeStart);
       const dateDataTo = getDaydate(timeEnd);
       let occupiedSeats: number[] = [];
+      console.log(schedule.segments[copyIndexFrom].occupiedSeats);
       if (schedule.segments[copyIndexFrom].occupiedSeats.length === 0) {
         occupiedSeats = [-1, -1, -1, -1, -1, -1];
       } else {
@@ -298,20 +299,22 @@ export class SearchService {
   }
 
   private createParams(requestSearch: IRequestSearch): HttpParams {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('fromLatitude', requestSearch.fromLatitude)
       .set('fromLongitude', requestSearch.fromLongitude)
       .set('toLatitude', requestSearch.toLatitude)
       .set('toLongitude', requestSearch.toLongitude);
 
-    // if (requestSearch.time) {
-    //   params = new HttpParams()
-    //     .set('fromLatitude', requestSearch.fromLatitude)
-    //     .set('fromLongitude', requestSearch.fromLongitude)
-    //     .set('toLatitude', requestSearch.toLatitude)
-    //     .set('toLongitude', requestSearch.toLongitude)
-    //     .set('time', requestSearch.time);
-    // }
+    console.log(requestSearch.time);
+
+    if (requestSearch.time) {
+      params = new HttpParams()
+        .set('fromLatitude', requestSearch.fromLatitude)
+        .set('fromLongitude', requestSearch.fromLongitude)
+        .set('toLatitude', requestSearch.toLatitude)
+        .set('toLongitude', requestSearch.toLongitude)
+        .set('time', requestSearch.time);
+    }
     return params;
   }
 
