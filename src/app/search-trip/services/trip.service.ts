@@ -31,7 +31,7 @@ export class TripService {
     this.card = card;
   }
 
-  private createTripResult(tripDetail: ITripDetail) {
+  private createTripResult(tripDetail: ITripDetail): void {
     const tripResult: ITripResult = {
       uniqueCarriages: [...new Set(tripDetail.carriages.sort())],
     };
@@ -59,7 +59,7 @@ export class TripService {
       });
   }
 
-  public bookSeats() {
+  public bookSeats(): void {
     this.isWaiting$.next(true);
     this.arrayOrders.forEach(order => {
       setTimeout(() => {

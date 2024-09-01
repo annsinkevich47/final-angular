@@ -27,7 +27,7 @@ export class CarComponent implements OnInit {
 
   constructor(private tripServise: TripService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.occupiedSeats = [];
 
     this.createObjectAboutCar(this.car.infoAll);
@@ -53,7 +53,7 @@ export class CarComponent implements OnInit {
     });
   }
 
-  private createObjectAboutCar(carriages: ICarriage[]) {
+  private createObjectAboutCar(carriages: ICarriage[]): void {
     carriages.forEach(carriage => {
       const capacity =
         carriage.rows * (carriage.leftSeats + carriage.rightSeats);
@@ -105,7 +105,10 @@ export class CarComponent implements OnInit {
     }
   }
 
-  private findCarriageSeat(index: number) {
+  private findCarriageSeat(index: number): {
+    seatNumber: number;
+    carriageIndex: number;
+  } | null {
     let currentIndex = 0;
 
     for (let i = 0; i < this.car.carriages.length; i += 1) {

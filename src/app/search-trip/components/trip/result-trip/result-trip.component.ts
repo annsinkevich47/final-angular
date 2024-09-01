@@ -73,7 +73,7 @@ export class ResultTripComponent implements OnInit, OnDestroy {
     nameCarriage: string,
     carriages: string[],
     occupiedSeats: number[] = [],
-  ) {
+  ): void {
     const numbersCar: number[] = [];
     carriages.forEach((carriage, index) => {
       if (carriage === nameCarriage) {
