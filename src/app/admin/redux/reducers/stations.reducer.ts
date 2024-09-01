@@ -44,6 +44,13 @@ export const stationReducer = createReducer(
     }),
   ),
   on(
+    StationActions.deleteStationInUse,
+    (state, { stationId }): StationState => ({
+      ...state,
+      error: stationId,
+    }),
+  ),
+  on(
     StationActions.deleteStationSuccess,
     (state, { stationId }): StationState => ({
       ...state,
@@ -55,13 +62,7 @@ export const stationReducer = createReducer(
             connect => connect.id !== stationId,
           ),
         })),
-    }),
-  ),
-  on(
-    StationActions.deleteStationFailure,
-    (state, { error }): StationState => ({
-      ...state,
-      error,
+      error: null,
     }),
   ),
 );

@@ -24,6 +24,7 @@ export class PopupStationsComponent implements OnInit, OnDestroy {
     this.subscriptionScheduleTrip = this.popupService.scheduleTrip$.subscribe(
       array => {
         this.scheduleTrip = array;
+        console.log(this.scheduleTrip);
       },
     );
   }

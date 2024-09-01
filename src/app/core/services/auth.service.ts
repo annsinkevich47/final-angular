@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import {
   IProfileResponse,
   Role,
-} from '../../shared/models/profile-response.module';
+} from '../../shared/models/profile-response.model';
 
 @Injectable({
   providedIn: 'root',

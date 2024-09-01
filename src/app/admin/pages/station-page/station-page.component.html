@@ -105,8 +105,8 @@
       <div class="stations__deleteWrapper">
         <div
           class="stations__errorMessage"
-          *ngIf="errorStationId === station.id">
-          Cannot delete station. Part of an active ride.
+          *ngIf="(errorStationId$ | async) === station.id">
+          Cannot delete station. Station is already used
         </div>
         <button
           class="stations__delete"

@@ -12,9 +12,14 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    width: 100%;
   }
   &__formWrapper {
     height: 70px;
+  }
+  &__coordinates {
+    display: flex;
+    flex-wrap: wrap;
   }
   &__connectedWrapper {
     height: fit-content;
@@ -57,9 +62,11 @@
     border: 1px solid $color-gray;
     border-radius: 2%;
     padding: 20px;
+    width: 100%;
   }
   &__name {
     font-weight: 600;
+    width: fit-content;
   }
   &__coordinates {
     display: flex;
@@ -86,11 +93,12 @@
 
   &__errorMessage {
     color: $color-red;
-    font-size: 0.875rem;
+    font-size: 12px;
     margin-right: 10px;
     position: absolute;
     right: 100%;
-    white-space: nowrap;
+    word-wrap: break-word;
+    width: 250px;
   }
   &__delete {
     padding: 5px;
@@ -114,7 +122,24 @@
 
 @media screen and (max-width: 768px) {
   .stations {
-    margin: 0 20px;
-    width: calc(100% - 40px);
+    &__selectConnect {
+      padding: 5px;
+      width: 80%;
+    }
+    &__errorMessage {
+      font-size: 10px;
+      width: 20vw;
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .stations {
+    &__coordinates {
+      gap: 5px;
+      margin-top: 5px;
+    }
+  }
+  input {
+    font-size: 12px;
   }
 }

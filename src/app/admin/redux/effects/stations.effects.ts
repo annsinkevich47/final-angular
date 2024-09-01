@@ -32,9 +32,16 @@ export class StationEffects {
               stationId: action.stationId,
             }),
           ),
-          catchError(error =>
-            of(StationActions.deleteStationFailure({ error })),
-          ),
+          catchError(error => {
+            if (error.error.reason === 'recordInUse') {
+              return of(
+                StationActions.deleteStationInUse({
+                  stationId: action.stationId,
+                }),
+              );
+            }
+            return of(StationActions.deleteStationFailure({ error }));
+          }),
         ),
       ),
     );
