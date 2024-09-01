@@ -93,7 +93,9 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   public openTrip(card: ICardResult): void {
     if (!this.isOpenPopup) {
-      this.router.navigate(['/trip', card.schedules.rideId]);
+      this.router.navigate(['/trip', card.schedules.rideId], {
+        queryParams: { from: card.stationFrom.id, to: card.stationTo.id },
+      });
       this.tripService.save(card);
     }
   }
