@@ -22,5 +22,5 @@ export const createRoute = createAction(
 );
 export const updateRoute = createAction(
   '[Routes] Update Route',
-  props<{ path: string[]; carriages: string[]; id: number | undefined }>()
+  props<{ path: string[]; carriages: string[]; id: number | undefined }>(),
 );

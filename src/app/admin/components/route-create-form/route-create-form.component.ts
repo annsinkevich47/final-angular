@@ -26,7 +26,7 @@ export class RouteCreateFormComponent
 
   constructor(
     private store: Store,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
     super();
     this.stationForm = this.fb.group({
@@ -68,7 +68,7 @@ export class RouteCreateFormComponent
         createRoute({
           path: this.stations.value,
           carriages: this.carriages.value,
-        })
+        }),
       );
       this.resetForm();
       this.store.dispatch(setFormType({ formType: null }));

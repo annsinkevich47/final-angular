@@ -7,10 +7,10 @@ export const selectRouteFormStore =
 
 export const selectRouteFromState = createSelector(
   selectRouteFormStore,
-  state => state.formState
+  state => state.formState,
 );
 
 export const selectRouteFormType = createSelector(
   selectRouteFormStore,
-  state => state.formType
+  state => state.formType,
 );
