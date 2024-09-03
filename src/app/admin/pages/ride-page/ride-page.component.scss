@@ -1,0 +1,9 @@
+@import '../../../../styles/variables';
+
+.container {
+  margin: 15px;
+  button {
+    background-color: $color-blue;
+    color: $color-white;
+  }
+}

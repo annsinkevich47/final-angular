@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../core/guards/auth.guard';
 import { CarriagesPageComponent } from './pages/carriages-page/carriages-page.component';
+import { RidePageComponent } from './pages/ride-page/ride-page.component';
 import { RoutesPageComponent } from './pages/routes-page/routes-page.component';
 import { StationPageComponent } from './pages/station-page/station-page.component';
 
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: 'routes',
     canActivate: [AuthGuard],
     component: RoutesPageComponent,
+  },
+  {
+    path: 'routes/:id',
+    canActivate: [AuthGuard],
+    component: RidePageComponent,
   },
 ];
 

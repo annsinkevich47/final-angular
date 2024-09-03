@@ -19,6 +19,7 @@ import { AdminComponent } from './pages/admin.component';
 import { CarriagesPageComponent } from './pages/carriages-page/carriages-page.component';
 import { RoutesPageComponent } from './pages/routes-page/routes-page.component';
 import { StationPageComponent } from './pages/station-page/station-page.component';
+import { RidePageComponent } from './pages/ride-page/ride-page.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { StationPageComponent } from './pages/station-page/station-page.componen
     RouteCardComponent,
     RouteCreateFormComponent,
     RouteEditFormComponent,
+    RidePageComponent,
   ],
   imports: [
     CommonModule,
