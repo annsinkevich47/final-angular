@@ -1,3 +1,9 @@
+@import '../../../../styles/variables';
+
+form {
+  margin: 15px 0;
+}
+
 .select {
   display: flex;
   flex-direction: row;
@@ -19,5 +25,6 @@ mat-error {
   margin-left: 150px;
   button {
     margin-right: 10px;
+    border: 1px solid $color-blue;
   }
 }
