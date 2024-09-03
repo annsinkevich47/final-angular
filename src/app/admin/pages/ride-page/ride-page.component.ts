@@ -7,13 +7,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './ride-page.component.scss',
 })
 export class RidePageComponent {
+  public routeId: number;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) {
+    this.routeId = this.route.snapshot.params['id'];
+  }
 
   gotoRoutes() {
     this.router.navigateByUrl('/admin/routes');
-    console.log(this.route.snapshot.params['id']);
   }
 }
