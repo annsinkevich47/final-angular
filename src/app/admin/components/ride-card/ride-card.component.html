@@ -1,0 +1,41 @@
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Ride {{ride.rideId}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="stations">
+      @for (path of getPathNames(); track $index) {
+      <div>{{path}}</div>
+      }
+    </div>
+    <div class="time">
+      @for (item of time; track $index; let first = $first, last = $last) {
+      @if (first) {
+      <div>
+        <div>Departure: {{item[0] | date:"YYYY-MM-dd hh:mm a"}}</div>
+      </div>
+      } @else if(last) {
+      <div>
+        <div>Arrival: {{item[0] | date:"YYYY-MM-dd hh:mm a"}}</div>
+      </div>
+      } @else {
+
+      <div>
+        <div>Arrival: {{item[0] | date:"YYYY-MM-dd hh:mm a"}}</div>
+        <div>Departure: {{item[1] | date:"YYYY-MM-dd hh:mm a"}}</div>
+      </div>
+      }
+      }
+    </div>
+    <div class="carriages">
+      @for (item of ride.segments; track $index) {
+      <div>
+        Price:
+        <div *ngFor="let price of item.price | keyvalue">
+          <div>{{ price.key }} - ${{ price.value }}</div>
+        </div>
+      </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

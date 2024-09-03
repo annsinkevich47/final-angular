@@ -6,4 +6,8 @@
 
     <h4>Route {{ routeId }}</h4>
   </div>
+  @for (rideItem of ride.schedule; track $index) {
+  <app-ride-card [ride]="rideItem" [stations]="stations" [path]="ride.path"
+    [segments]="rideItem.segments"></app-ride-card>
+  }
 </div>
