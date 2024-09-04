@@ -3,17 +3,26 @@
     Price:
     <div *ngFor="let controlName of formControls">
       <div class="list">
-        <label [for]="controlName">{{ controlName }}</label> -
-        $<span *ngIf="!isEditing">{{ form.get(controlName)?.value }}</span>
-        <input *ngIf="isEditing" [id]="controlName" [formControlName]="controlName" type="number" />
+        <label [for]="controlName">{{ controlName }}</label> - $<span
+          *ngIf="!isEditing"
+          >{{ form.get(controlName)?.value }}</span
+        >
+        <input
+          *ngIf="isEditing"
+          [id]="controlName"
+          [formControlName]="controlName"
+          type="number" />
       </div>
     </div>
   </div>
-  <div *ngIf="error" class="error"><span>{{error}}</span></div>
+  <div *ngIf="error" class="error">
+    <span>{{ error }}</span>
+  </div>
   <div>
-
     <!-- Buttons to toggle between edit and view modes -->
-    <button *ngIf="!isEditing" (click)="startEditing()"><mat-icon>edit_square</mat-icon></button>
+    <button *ngIf="!isEditing" (click)="startEditing()">
+      <mat-icon>edit_square</mat-icon>
+    </button>
     <div *ngIf="isEditing">
       <button (click)="saveText()"><mat-icon>save</mat-icon></button>
       <button (click)="cancelEditing()"><mat-icon>close</mat-icon></button>

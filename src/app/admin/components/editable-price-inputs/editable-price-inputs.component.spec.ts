@@ -8,9 +8,8 @@ describe('EditablePriceInputsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EditablePriceInputsComponent]
-    })
-    .compileComponents();
+      declarations: [EditablePriceInputsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EditablePriceInputsComponent);
     component = fixture.componentInstance;
