@@ -90,7 +90,7 @@ export class ResultTripComponent implements OnInit, OnDestroy {
       }
     });
     const [info] = this.infoAllCarriages.filter(
-      carriage => carriage.name === nameCarriage,
+      carriage => carriage.code === nameCarriage,
     );
     this.infoCars = {
       name: nameCarriage,

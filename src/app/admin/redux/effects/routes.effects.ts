@@ -36,7 +36,9 @@ export class RouteEffects {
         return this.routeService.updateRoute(path, carriages, id).pipe(
           map(() => RouteActions.loadRoutes()),
           catchError(error => of(RouteActions.loadRoutesFailure({ error }))),
+          catchError(error => of(RouteActions.loadRoutesFailure({ error }))),
         );
+      }),
       }),
     );
   });

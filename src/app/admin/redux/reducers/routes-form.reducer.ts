@@ -20,13 +20,13 @@ export const routeFormReducer = createReducer(
     (state, { formType }): RouteFormState => ({
       ...state,
       formType,
-    })
+    }),
   ),
   on(
     RouteFormActions.setFormState,
     (state, { formState }): RouteFormState => ({
       ...state,
       formState,
-    })
-  )
+    }),
+  ),
 );
