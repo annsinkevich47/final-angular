@@ -25,7 +25,6 @@ export class RideEffects {
         this.rideService.updateRides(routeId, rideId, segments).pipe(
           map(() => RideActions.loadRides({ id: routeId })),
           catchError(error => {
-            console.log(error);
             return of(RideActions.loadRidesFailure({ error }));
           }),
         ),

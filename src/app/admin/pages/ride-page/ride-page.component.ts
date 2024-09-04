@@ -29,7 +29,6 @@ export class RidePageComponent implements OnInit {
     this.store.dispatch(loadRides({ id: this.routeId }));
     this.store.select(selectAllRides).subscribe(data => {
       this.ride = data;
-      console.log(this.ride);
     });
     this.store.dispatch(loadStations());
     this.store.select(selectAllStations).subscribe(data => {

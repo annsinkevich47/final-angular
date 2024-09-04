@@ -50,17 +50,17 @@ export class EditableInputComponent implements OnInit {
     const rideIndex = this.ride.schedule.findIndex(
       item => item.rideId === this.rideId,
     );
-    const copy = [
+    const copyOfTime = [
       ...this.ride.schedule[rideIndex].segments[this.segmentIndex].time,
     ];
-    const cloneArray: RideType = JSON.parse(JSON.stringify(this.ride));
+    const deepCopyOfRide: RideType = JSON.parse(JSON.stringify(this.ride));
     if (this.inputTitle == 'Departure') {
-      copy[1] = formattedDate.toISOString();
+      copyOfTime[1] = formattedDate.toISOString();
     } else if ((this.inputTitle = 'Arrival')) {
-      copy[0] = formattedDate.toISOString();
+      copyOfTime[0] = formattedDate.toISOString();
     }
-    cloneArray.schedule[rideIndex].segments[this.segmentIndex].time = copy;
-    console.log(cloneArray);
+    deepCopyOfRide.schedule[rideIndex].segments[this.segmentIndex].time =
+      copyOfTime;
     this.store.select(selectRideErrors).subscribe((error: any) => {
       this.error = error?.error?.message;
     });
@@ -68,7 +68,7 @@ export class EditableInputComponent implements OnInit {
       updateRide({
         rideId: this.rideId,
         routeId: this.routeId,
-        segments: cloneArray.schedule[rideIndex].segments,
+        segments: deepCopyOfRide.schedule[rideIndex].segments,
       }),
     );
   }
