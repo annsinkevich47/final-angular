@@ -1,6 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { DeleteRideModalComponent } from '../../../shared/components/delete-ride-modal/delete-ride-modal.component';
 import { Station } from '../../../shared/models/stations-response.model';
 import { RideType, Schedule, Segment } from '../../models/ride';
+import { deleteRide } from '../../redux/actions/ride.actions';
 
 @Component({
   selector: 'app-ride-card',
@@ -13,10 +17,12 @@ export class RideCardComponent implements OnInit {
   @Input() ride: RideType;
   @Input() path: number[];
   @Input() segments: Segment[];
+  @Input() routeId: number;
 
+  readonly dialog = inject(MatDialog);
   time: string[][];
 
-  constructor() {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.getRideSegments(this.segments);
@@ -40,5 +46,14 @@ export class RideCardComponent implements OnInit {
     });
     this.time.push([this.time[0][0]]);
     this.time[0] = [this.time[0][1]];
+  }
+  public openDialog() {
+    this.dialog.open(DeleteRideModalComponent, {
+      width: '250px',
+      data: {
+        routeId: this.routeId,
+        rideId: this.rideItem.rideId,
+      },
+    });
   }
 }

@@ -14,6 +14,10 @@ export const loadRidesFailure = createAction(
   props<{ error: unknown }>(),
 );
 export const updateRide = createAction(
-  '[Rides] Load Ride',
+  '[Rides] Update Ride',
   props<{ segments: Segment[]; rideId: number; routeId: number }>(),
+);
+export const deleteRide = createAction(
+  '[Rides] Delete Ride',
+  props<{ rideId: number; routeId: number }>(),
 );

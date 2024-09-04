@@ -24,4 +24,7 @@ export class RideService {
       segments,
     });
   }
+  public deleteRide(routeId: number, rideId: number): Observable<object> {
+    return this.http.delete(`${this.baseUrl}/${routeId}/ride/${rideId}`);
+  }
 }

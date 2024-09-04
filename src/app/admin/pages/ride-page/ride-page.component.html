@@ -15,6 +15,6 @@
 
   @for (rideItem of ride.schedule; track $index) {
   <app-ride-card [rideItem]="rideItem" [ride]="ride" [stations]="stations" [path]="ride.path"
-    [segments]="rideItem.segments"></app-ride-card>
+    [segments]="rideItem.segments" [routeId]="routeId"></app-ride-card>
   }
 </div>

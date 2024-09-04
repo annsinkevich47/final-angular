@@ -34,6 +34,11 @@ mat-card-content {
 mat-card-header {
   padding-bottom: 5px;
   border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  div {
+    cursor: pointer;
+  }
 }
 
 mat-card {
