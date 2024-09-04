@@ -8,6 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ToastrModule } from 'ngx-toastr';
 
 import { CarriageEffects } from './admin/redux/effects/carriages.effects';
+import { RideEffects } from './admin/redux/effects/ride.effects';
 import { RouteEffects } from './admin/redux/effects/routes.effects';
 import { StationEffects } from './admin/redux/effects/stations.effects';
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +33,7 @@ import { metaReducers, reducers } from './redux/reducers';
       CarriageEffects,
       StationEffects,
       RouteEffects,
+      RideEffects,
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],

@@ -12,9 +12,10 @@ import { RouterModule } from '@angular/router';
 
 import { DeleteRouteModalComponent } from './components/delete-route-modal/delete-route-modal.component';
 import { HeaderComponent } from './components/header/header.component';
+import { DeleteRideModalComponent } from './components/delete-ride-modal/delete-ride-modal.component';
 
 @NgModule({
-  declarations: [HeaderComponent, DeleteRouteModalComponent],
+  declarations: [HeaderComponent, DeleteRouteModalComponent, DeleteRideModalComponent],
   imports: [
     CommonModule,
     RouterModule,

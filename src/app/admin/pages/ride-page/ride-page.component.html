@@ -1,0 +1,20 @@
+<div class="container">
+
+
+  <div class="title">
+    <button mat-raised-button (click)="gotoRoutes()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <h4>Route {{ routeId }}</h4>
+  </div>
+
+  <div>
+    <button class="create-button" mat-raised-button>Create Ride</button>
+  </div>
+
+  @for (rideItem of ride.schedule; track $index) {
+  <app-ride-card [rideItem]="rideItem" [ride]="ride" [stations]="stations" [path]="ride.path"
+    [segments]="rideItem.segments" [routeId]="routeId"></app-ride-card>
+  }
+</div>

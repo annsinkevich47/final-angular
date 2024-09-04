@@ -1,0 +1,32 @@
+@import '../../../../styles/variables';
+
+div {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+}
+
+.list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  input {
+    margin-left: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid $color-gray;
+  }
+}
+button {
+  background-color: transparent;
+  mat-icon {
+    color: $color-blue;
+  }
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
