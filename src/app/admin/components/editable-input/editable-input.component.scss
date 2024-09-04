@@ -1,6 +1,11 @@
 @import '../../../../styles/variables';
 
 form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -18,4 +23,9 @@ button {
   mat-icon {
     color: $color-blue;
   }
+}
+
+.error {
+  color: $color-red;
+  font-weight: 700;
 }

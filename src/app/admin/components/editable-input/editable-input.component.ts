@@ -5,7 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { RideType } from '../../models/ride';
 import { loadRidesSuccess, updateRide } from '../../redux/actions/ride.actions';
-import { selectAllRides } from '../../redux/selectors/ride.selector';
+import {
+  selectAllRides,
+  selectRideErrors,
+} from '../../redux/selectors/ride.selector';
 
 @Component({
   selector: 'app-editable-input',
@@ -20,6 +23,7 @@ export class EditableInputComponent implements OnInit {
   @Input() inputTitle: string;
   @Input() segmentIndex: number;
   routeId: number;
+  error: unknown;
   isEditing = false;
   form: FormGroup = new FormGroup({});
 
@@ -57,6 +61,9 @@ export class EditableInputComponent implements OnInit {
     }
     cloneArray.schedule[rideIndex].segments[this.segmentIndex].time = copy;
     console.log(cloneArray);
+    this.store.select(selectRideErrors).subscribe((error: any) => {
+      this.error = error?.error?.message;
+    });
     this.store.dispatch(
       updateRide({
         rideId: this.rideId,

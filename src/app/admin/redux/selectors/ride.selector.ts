@@ -8,3 +8,7 @@ export const selectAllRides = createSelector(
   selectRideState,
   (state: RideState) => state,
 );
+export const selectRideErrors = createSelector(
+  selectRideState,
+  (state: RideState) => state.error,
+);

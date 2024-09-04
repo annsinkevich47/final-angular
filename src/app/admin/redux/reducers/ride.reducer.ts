@@ -22,6 +22,14 @@ export const rideReducer = createReducer(
     (state, { ride }): RideState => ({
       ...state,
       ...ride,
+      error: null,
+    }),
+  ),
+  on(
+    RideActions.loadRidesFailure,
+    (state, { error }): RideState => ({
+      ...state,
+      error,
     }),
   ),
 );
