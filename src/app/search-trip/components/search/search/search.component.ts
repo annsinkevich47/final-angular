@@ -43,6 +43,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.subscriptionFrom = this.setSubscriptionCityFind('cityFrom');
+    this.subscriptionTo = this.setSubscriptionCityFind('cityTo', false);
+
     this.currentDateTime = this.getActualTime();
     this.minCurrentDateTime = this.getMinDateTime();
     this.searchForm.get('datetime')?.patchValue(this.currentDateTime);
@@ -50,11 +53,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.searchForm.get('cityTo')?.patchValue(this.stateSearch.getCityTo());
 
     if (!this.stateSearch.isEmpty()) {
-      this.search();
+      setTimeout(() => {
+        this.search();
+      }, 2000);
     }
-
-    this.subscriptionFrom = this.setSubscriptionCityFind('cityFrom');
-    this.subscriptionTo = this.setSubscriptionCityFind('cityTo', false);
   }
 
   private setSubscriptionCityFind(
@@ -70,15 +72,19 @@ export class SearchComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(query => {
-        this.searchService.getCities(query).subscribe((cities: ICity[]) => {
-          // this.searchService.saveCities(cities);
-          if (isFrom) {
-            this.citiesFrom = [...cities];
-          } else {
-            this.citiesTo = [...cities];
-          }
-        });
+        this.fintSities(query, isFrom);
       });
+  }
+
+  private fintSities(query: string, isFrom: boolean = true): void {
+    this.searchService.getCities(query).subscribe((cities: ICity[]) => {
+      // this.searchService.saveCities(cities);
+      if (isFrom) {
+        this.citiesFrom = [...cities];
+      } else {
+        this.citiesTo = [...cities];
+      }
+    });
   }
 
   public ngOnDestroy(): void {
