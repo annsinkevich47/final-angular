@@ -1,7 +1,7 @@
 <mat-card appearance="outlined">
   <mat-card-header>
     <mat-card-title>Ride {{rideItem.rideId}}</mat-card-title>
-    <div><mat-icon (click)="openDialog()">delete</mat-icon></div>
+    <button><mat-icon (click)="openDialog()">delete</mat-icon></button>
   </mat-card-header>
   <mat-card-content>
     <div class="stations">
@@ -34,12 +34,9 @@
     </div>
     <div class="carriages">
       @for (item of rideItem.segments; track $index) {
-      <div>
-        Price:
-        <div *ngFor="let price of item.price | keyvalue">
-          <div>{{ price.key }} - ${{ price.value }}</div>
-        </div>
-      </div>
+      <app-editable-price-inputs [segment]="item" [segmentIndex]="$index" [rideId]="rideItem.rideId"
+        [ride]="ride"></app-editable-price-inputs>
+
       }
     </div>
   </mat-card-content>

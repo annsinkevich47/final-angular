@@ -26,6 +26,7 @@ import { CarriagesPageComponent } from './pages/carriages-page/carriages-page.co
 import { RidePageComponent } from './pages/ride-page/ride-page.component';
 import { RoutesPageComponent } from './pages/routes-page/routes-page.component';
 import { StationPageComponent } from './pages/station-page/station-page.component';
+import { EditablePriceInputsComponent } from './components/editable-price-inputs/editable-price-inputs.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { StationPageComponent } from './pages/station-page/station-page.componen
     RidePageComponent,
     RideCardComponent,
     EditableInputComponent,
+    EditablePriceInputsComponent,
   ],
   imports: [
     KeyValuePipe,
