@@ -1,0 +1,21 @@
+@import '../../../../styles/variables';
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+button {
+  background-color: transparent;
+  mat-icon {
+    color: $color-blue;
+  }
+}

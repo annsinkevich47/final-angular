@@ -7,11 +7,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from '@angular-material-components/datetime-picker';
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
 import { CarriageItemComponent } from './components/carriage-item/carriage-item.component';
+import { EditableInputComponent } from './components/editable-input/editable-input.component';
 import { RideCardComponent } from './components/ride-card/ride-card.component';
 import { RouteCardComponent } from './components/route-card/route-card.component';
 import { RouteCreateFormComponent } from './components/route-create-form/route-create-form.component';
@@ -35,6 +40,7 @@ import { StationPageComponent } from './pages/station-page/station-page.componen
     RouteEditFormComponent,
     RidePageComponent,
     RideCardComponent,
+    EditableInputComponent,
   ],
   imports: [
     KeyValuePipe,
@@ -49,6 +55,9 @@ import { StationPageComponent } from './pages/station-page/station-page.componen
     MatSelectModule,
     MatInputModule,
     FormsModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
   ],
 })
 export class AdminModule {}

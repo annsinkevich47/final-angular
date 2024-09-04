@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { RideState } from '../reducers/ride.reducer';
+import { RideType, Segment } from '../../models/ride';
 
 export const loadRides = createAction(
   '[Rides] Load Rides',
@@ -7,9 +7,13 @@ export const loadRides = createAction(
 );
 export const loadRidesSuccess = createAction(
   '[Rides] Load Rides Success',
-  props<{ ride: RideState[] }>(),
+  props<{ ride: RideType }>(),
 );
 export const loadRidesFailure = createAction(
   '[Rides] Load Rides Failure',
   props<{ error: unknown }>(),
+);
+export const updateRide = createAction(
+  '[Rides] Load Ride',
+  props<{ segments: Segment[]; rideId: number; routeId: number }>(),
 );

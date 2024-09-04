@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Station } from '../../../shared/models/stations-response.model';
 import { RideType, Schedule, Segment } from '../../models/ride';
 
@@ -15,7 +9,8 @@ import { RideType, Schedule, Segment } from '../../models/ride';
 })
 export class RideCardComponent implements OnInit {
   @Input() stations: Station[];
-  @Input() ride: Schedule;
+  @Input() rideItem: Schedule;
+  @Input() ride: RideType;
   @Input() path: number[];
   @Input() segments: Segment[];
 

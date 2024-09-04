@@ -1,6 +1,6 @@
 <mat-card class="example-card" appearance="outlined">
   <mat-card-header>
-    <mat-card-title>Ride {{ride.rideId}}</mat-card-title>
+    <mat-card-title>Ride {{rideItem.rideId}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="stations">
@@ -12,7 +12,8 @@
       @for (item of time; track $index; let first = $first, last = $last) {
       @if (first) {
       <div>
-        <div>Departure: {{item[0] | date:"YYYY-MM-dd hh:mm a"}}</div>
+        <app-editable-input [ride]="ride" [rideId]="rideItem.rideId" [segmentIndex]="$index" [initialValue]="item[0]"
+          inputTitle="Departure"></app-editable-input>
       </div>
       } @else if(last) {
       <div>
@@ -28,7 +29,7 @@
       }
     </div>
     <div class="carriages">
-      @for (item of ride.segments; track $index) {
+      @for (item of rideItem.segments; track $index) {
       <div>
         Price:
         <div *ngFor="let price of item.price | keyvalue">

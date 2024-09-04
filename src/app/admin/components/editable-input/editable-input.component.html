@@ -1,0 +1,25 @@
+<form [formGroup]="form">
+  <div class="input">
+    {{inputTitle}}:
+    <mat-form-field *ngIf="isEditing" appearance="fill">
+      <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" formControlName="inputValue"
+        [value]="initialValue">
+      <ngx-mat-datepicker-toggle matSuffix [for]="picker"></ngx-mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #picker>
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+    <div *ngIf="!isEditing">
+      <span>{{ initialValue | date:'YYYY-MM-dd hh:mm a' }}</span>
+    </div>
+  </div>
+
+  <div>
+    <div *ngIf="!isEditing">
+      <button (click)="startEditing()"><mat-icon>edit_square</mat-icon></button>
+    </div>
+    <div *ngIf="isEditing">
+      <button (click)="saveText()"><mat-icon>save</mat-icon></button>
+      <button (click)="cancelEditing()"><mat-icon>close</mat-icon></button>
+    </div>
+  </div>
+</form>
