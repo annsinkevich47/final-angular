@@ -37,12 +37,25 @@ export class RideCardComponent implements OnInit {
       .filter(item => item !== null) as string[];
   }
 
-  public getRideSegments(segments: Segment[]) {
+  public getRideSegments(segments: Segment[]): void {
     this.time = segments.map(({ time }) => {
       return time;
     });
-    this.time.push([this.time[0][0]]);
-    this.time[0] = [this.time[0][1]];
+    if (this.time.length > 1) {
+      const transformedArray = [];
+      for (let i = 0; i < this.time.length; i++) {
+        if (i === 0) {
+          transformedArray.push([this.time[i][0]]);
+          transformedArray.push([this.time[i][1], this.time[i + 1][0]]);
+        } else if (i === this.time.length - 1) {
+          transformedArray.push([this.time[i - 1][1], this.time[i][0]]);
+          transformedArray.push([this.time[i][1]]);
+        } else {
+          transformedArray.push([this.time[i][1], this.time[i + 1][0]]);
+        }
+      }
+      this.time = transformedArray;
+    }
   }
   public openDialog() {
     this.dialog.open(DeleteRideModalComponent, {
