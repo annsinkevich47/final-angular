@@ -48,13 +48,13 @@ export class RideCardComponent implements OnInit {
           transformedArray.push([this.time[i][0]]);
           transformedArray.push([this.time[i][1], this.time[i + 1][0]]);
         } else if (i === this.time.length - 1) {
-          transformedArray.push([this.time[i - 1][1], this.time[i][0]]);
           transformedArray.push([this.time[i][1]]);
         } else {
           transformedArray.push([this.time[i][1], this.time[i + 1][0]]);
         }
       }
       this.time = transformedArray;
+      console.log(this.time);
     }
   }
   public openDialog() {
