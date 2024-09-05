@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import { Station } from '../../../shared/models/stations-response.model';
 import { loadRides } from '../../redux/actions/ride.actions';
 import { loadStations } from '../../redux/actions/stations.actions';
@@ -15,8 +17,8 @@ import { selectAllStations } from '../../redux/selectors/stations.selector';
 })
 export class RidePageComponent implements OnInit {
   public routeId: number;
-  public stations: Station[];
-  public ride: RideState;
+  public stations$: Observable<Station[]>;
+  public ride$: Observable<RideState>;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -27,13 +29,9 @@ export class RidePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadRides({ id: this.routeId }));
-    this.store.select(selectAllRides).subscribe(data => {
-      this.ride = data;
-    });
+    this.ride$ = this.store.select(selectAllRides);
     this.store.dispatch(loadStations());
-    this.store.select(selectAllStations).subscribe(data => {
-      this.stations = data;
-    });
+    this.stations$ = this.store.select(selectAllStations);
   }
 
   gotoRoutes() {

@@ -15,8 +15,8 @@
       </div>
     </div>
   </div>
-  <div *ngIf="error" class="error">
-    <span>{{ error }}</span>
+  <div *ngIf="error$ | async as errorMessage" class="error">
+    <span>{{ errorMessage.error.message }}</span>
   </div>
   <div>
     <!-- Buttons to toggle between edit and view modes -->

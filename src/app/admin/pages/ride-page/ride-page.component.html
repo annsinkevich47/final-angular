@@ -11,13 +11,15 @@
     <button class="create-button" mat-raised-button>Create Ride</button>
   </div>
 
-  @for (rideItem of ride.schedule; track $index) {
-    <app-ride-card
-      [rideItem]="rideItem"
-      [ride]="ride"
-      [stations]="stations"
-      [path]="ride.path"
-      [segments]="rideItem.segments"
-      [routeId]="routeId"></app-ride-card>
-  }
+  <div *ngIf="ride$ | async as ride">
+    @for (rideItem of ride.schedule; track $index) {
+      <app-ride-card
+        [rideItem]="rideItem"
+        [ride]="ride"
+        [stations]="stations$ | async"
+        [path]="ride.path"
+        [segments]="rideItem.segments"
+        [routeId]="routeId"></app-ride-card>
+    }
+  </div>
 </div>

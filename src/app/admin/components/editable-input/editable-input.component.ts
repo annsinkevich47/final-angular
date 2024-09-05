@@ -3,12 +3,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import { RideType } from '../../models/ride';
-import { loadRidesSuccess, updateRide } from '../../redux/actions/ride.actions';
-import {
-  selectAllRides,
-  selectRideErrors,
-} from '../../redux/selectors/ride.selector';
+import { updateRide } from '../../redux/actions/ride.actions';
+import { selectRideErrors } from '../../redux/selectors/ride.selector';
 
 @Component({
   selector: 'app-editable-input',
@@ -23,7 +22,7 @@ export class EditableInputComponent implements OnInit {
   @Input() inputTitle: string;
   @Input() segmentIndex: number;
   routeId: number;
-  error: unknown;
+  error$: Observable<any>;
   isEditing = false;
   form: FormGroup = new FormGroup({});
 
@@ -34,16 +33,15 @@ export class EditableInputComponent implements OnInit {
   ) {
     this.routeId = this.route.snapshot.params['id'];
   }
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.form.addControl('inputValue', this.fb.control(this.initialValue));
   }
 
-  startEditing() {
+  public startEditing(): void {
     this.isEditing = true;
   }
 
-  saveText() {
+  public saveText(): void {
     this.initialValue = this.form.get('inputValue')?.value; // Update text value from the form control
     this.isEditing = false;
     const formattedDate = new Date(this.initialValue);
@@ -54,16 +52,14 @@ export class EditableInputComponent implements OnInit {
       ...this.ride.schedule[rideIndex].segments[this.segmentIndex].time,
     ];
     const deepCopyOfRide: RideType = JSON.parse(JSON.stringify(this.ride));
-    if (this.inputTitle == 'Departure') {
+    if (this.inputTitle === 'Departure') {
       copyOfTime[1] = formattedDate.toISOString();
-    } else if ((this.inputTitle = 'Arrival')) {
+    } else if (this.inputTitle === 'Arrival') {
       copyOfTime[0] = formattedDate.toISOString();
     }
     deepCopyOfRide.schedule[rideIndex].segments[this.segmentIndex].time =
       copyOfTime;
-    this.store.select(selectRideErrors).subscribe((error: any) => {
-      this.error = error?.error?.message;
-    });
+    this.error$ = this.store.select(selectRideErrors);
     this.store.dispatch(
       updateRide({
         rideId: this.rideId,
@@ -73,7 +69,7 @@ export class EditableInputComponent implements OnInit {
     );
   }
 
-  cancelEditing() {
+  public cancelEditing(): void {
     this.isEditing = false;
     this.form.get('inputValue')?.setValue(this.initialValue); // Reset to the original value on cancel
   }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { Segment } from '../models/ride';
 import { RideState } from '../redux/reducers/ride.reducer';
 
