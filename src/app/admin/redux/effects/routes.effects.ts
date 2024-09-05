@@ -39,7 +39,6 @@ export class RouteEffects {
           catchError(error => of(RouteActions.loadRoutesFailure({ error }))),
         );
       }),
-      }),
     );
   });
   createRoute$ = createEffect(() => {

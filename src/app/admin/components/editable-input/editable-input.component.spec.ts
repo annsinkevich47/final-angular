@@ -8,9 +8,8 @@ describe('EditableInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EditableInputComponent]
-    })
-    .compileComponents();
+      declarations: [EditableInputComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EditableInputComponent);
     component = fixture.componentInstance;

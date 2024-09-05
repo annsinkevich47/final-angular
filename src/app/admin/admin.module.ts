@@ -12,11 +12,13 @@ import {
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
+
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminNavigationComponent } from './components/admin-navigation/admin-navigation.component';
 import { CarriageItemComponent } from './components/carriage-item/carriage-item.component';
 import { EditableInputComponent } from './components/editable-input/editable-input.component';
+import { EditablePriceInputsComponent } from './components/editable-price-inputs/editable-price-inputs.component';
 import { RideCardComponent } from './components/ride-card/ride-card.component';
 import { RouteCardComponent } from './components/route-card/route-card.component';
 import { RouteCreateFormComponent } from './components/route-create-form/route-create-form.component';
@@ -26,7 +28,6 @@ import { CarriagesPageComponent } from './pages/carriages-page/carriages-page.co
 import { RidePageComponent } from './pages/ride-page/ride-page.component';
 import { RoutesPageComponent } from './pages/routes-page/routes-page.component';
 import { StationPageComponent } from './pages/station-page/station-page.component';
-import { EditablePriceInputsComponent } from './components/editable-price-inputs/editable-price-inputs.component';
 
 @NgModule({
   declarations: [
