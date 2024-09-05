@@ -1,10 +1,9 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
+
 import { DeleteRideModalComponent } from '../../../shared/components/delete-ride-modal/delete-ride-modal.component';
 import { Station } from '../../../shared/models/stations-response.model';
 import { RideType, Schedule, Segment } from '../../models/ride';
-import { deleteRide } from '../../redux/actions/ride.actions';
 
 @Component({
   selector: 'app-ride-card',
@@ -12,7 +11,7 @@ import { deleteRide } from '../../redux/actions/ride.actions';
   styleUrl: './ride-card.component.scss',
 })
 export class RideCardComponent implements OnInit {
-  @Input() stations: Station[];
+  @Input() stations: Station[] | null;
   @Input() rideItem: Schedule;
   @Input() ride: RideType;
   @Input() path: number[];
@@ -21,8 +20,6 @@ export class RideCardComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
   time: string[][];
-
-  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.getRideSegments(this.segments);
@@ -40,12 +37,25 @@ export class RideCardComponent implements OnInit {
       .filter(item => item !== null) as string[];
   }
 
-  public getRideSegments(segments: Segment[]) {
+  public getRideSegments(segments: Segment[]): void {
     this.time = segments.map(({ time }) => {
       return time;
     });
-    this.time.push([this.time[0][0]]);
-    this.time[0] = [this.time[0][1]];
+    if (this.time.length > 1) {
+      const transformedArray = [];
+      for (let i = 0; i < this.time.length; i++) {
+        if (i === 0) {
+          transformedArray.push([this.time[i][0]]);
+          transformedArray.push([this.time[i][1], this.time[i + 1][0]]);
+        } else if (i === this.time.length - 1) {
+          transformedArray.push([this.time[i][1]]);
+        } else {
+          transformedArray.push([this.time[i][1], this.time[i + 1][0]]);
+        }
+      }
+      this.time = transformedArray;
+      console.log(this.time);
+    }
   }
   public openDialog() {
     this.dialog.open(DeleteRideModalComponent, {

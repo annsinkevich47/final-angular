@@ -1,7 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import cloneDeep from 'lodash/cloneDeep';
+import { Observable } from 'rxjs';
 import { RideType, Segment } from '../../models/ride';
 import { updateRide } from '../../redux/actions/ride.actions';
 import { selectRideErrors } from '../../redux/selectors/ride.selector';
@@ -11,14 +19,14 @@ import { selectRideErrors } from '../../redux/selectors/ride.selector';
   templateUrl: './editable-price-inputs.component.html',
   styleUrl: './editable-price-inputs.component.scss',
 })
-export class EditablePriceInputsComponent implements OnInit {
+export class EditablePriceInputsComponent implements OnInit, OnChanges {
   @Input() ride: RideType;
   @Input() rideId: number;
   @Input() segmentIndex: number;
   @Input() segment: Segment;
   copySegment: Segment;
   routeId: number;
-  error: unknown;
+  error$: Observable<any>;
   isEditing = false;
   form: FormGroup = new FormGroup({});
 
@@ -32,20 +40,25 @@ export class EditablePriceInputsComponent implements OnInit {
   get formControls() {
     return Object.keys(this.form.controls);
   }
-  ngOnInit(): void {
-    this.copySegment = JSON.parse(JSON.stringify(this.segment));
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['segment']) {
+      this.copySegment = cloneDeep(this.segment);
+    }
+  }
+
+  public ngOnInit(): void {
     const keys = Object.keys(this.copySegment.price).sort((a, b) => {
       return a.localeCompare(b);
     });
-    for (let key of keys) {
+    for (const key of keys) {
       this.form.addControl(key, this.fb.control(this.copySegment.price[key]));
     }
   }
-  startEditing() {
+  public startEditing(): void {
     this.isEditing = true;
   }
 
-  saveText() {
+  public saveText(): void {
     Object.keys(this.form.controls).forEach(key => {
       this.copySegment.price[key] = this.form.get(key)?.value;
     });
@@ -53,12 +66,10 @@ export class EditablePriceInputsComponent implements OnInit {
     const rideIndex = this.ride.schedule.findIndex(
       item => item.rideId === this.rideId,
     );
-    const deepCopyOfRide: RideType = JSON.parse(JSON.stringify(this.ride));
+    const deepCopyOfRide: RideType = cloneDeep(this.ride);
     deepCopyOfRide.schedule[rideIndex].segments[this.segmentIndex] =
       this.copySegment;
-    this.store.select(selectRideErrors).subscribe((error: any) => {
-      this.error = error?.error?.message;
-    });
+    this.error$ = this.store.select(selectRideErrors);
     this.store.dispatch(
       updateRide({
         rideId: this.rideId,
@@ -68,8 +79,7 @@ export class EditablePriceInputsComponent implements OnInit {
     );
   }
 
-  cancelEditing() {
-    // Revert to the original values and switch back to view mode
+  public cancelEditing(): void {
     Object.keys(this.form.controls).forEach(key => {
       this.form.get(key)?.setValue(this.copySegment.price[key]);
     });

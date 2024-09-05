@@ -1,12 +1,12 @@
 <mat-card appearance="outlined">
   <mat-card-header>
-    <mat-card-title>Ride {{rideItem.rideId}}</mat-card-title>
+    <mat-card-title>Ride {{ rideItem.rideId }}</mat-card-title>
     <button><mat-icon (click)="openDialog()">delete</mat-icon></button>
   </mat-card-header>
   <mat-card-content>
     <div class="stations">
       @for (path of getPathNames(); track $index) {
-      <div>{{path}}</div>
+      <div>{{ path }}</div>
       }
     </div>
     <div class="time">
@@ -16,13 +16,12 @@
         <app-editable-input [ride]="ride" [rideId]="rideItem.rideId" [segmentIndex]="$index" [initialValue]="item[0]"
           inputTitle="Departure"></app-editable-input>
       </div>
-      } @else if(last) {
+      } @else if (last) {
       <div>
         <app-editable-input [ride]="ride" [rideId]="rideItem.rideId" [segmentIndex]="$index" [initialValue]="item[0]"
           inputTitle="Arrival"></app-editable-input>
       </div>
       } @else {
-
       <div>
         <app-editable-input [ride]="ride" [rideId]="rideItem.rideId" [segmentIndex]="$index" [initialValue]="item[0]"
           inputTitle="Arrival"></app-editable-input>
@@ -36,7 +35,6 @@
       @for (item of rideItem.segments; track $index) {
       <app-editable-price-inputs [segment]="item" [segmentIndex]="$index" [rideId]="rideItem.rideId"
         [ride]="ride"></app-editable-price-inputs>
-
       }
     </div>
   </mat-card-content>

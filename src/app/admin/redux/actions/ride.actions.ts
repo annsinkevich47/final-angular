@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+
 import { RideType, Segment } from '../../models/ride';
 
 export const loadRides = createAction(

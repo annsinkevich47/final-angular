@@ -14,8 +14,3 @@ export interface RideType {
   carriages: string[];
   schedule: Schedule[];
 }
-
-export enum timeType {
-  DepartureFromPrevStation = 0,
-  ArrivalAtNextStation = 1,
-}
