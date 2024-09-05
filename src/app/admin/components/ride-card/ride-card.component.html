@@ -6,35 +6,54 @@
   <mat-card-content>
     <div class="stations">
       @for (path of getPathNames(); track $index) {
-      <div>{{ path }}</div>
+        <div>{{ path }}</div>
       }
     </div>
     <div class="time">
       @for (item of time; track $index; let first = $first, last = $last) {
-      @if (first) {
-      <div>
-        <app-editable-input [ride]="ride" [rideId]="rideItem.rideId" [segmentIndex]="$index" [initialValue]="item[0]"
-          inputTitle="Departure"></app-editable-input>
-      </div>
-      } @else if (last) {
-      <div>
-        <app-editable-input [ride]="ride" [rideId]="rideItem.rideId" [segmentIndex]="$index" [initialValue]="item[0]"
-          inputTitle="Arrival"></app-editable-input>
-      </div>
-      } @else {
-      <div>
-        <app-editable-input [ride]="ride" [rideId]="rideItem.rideId" [segmentIndex]="$index" [initialValue]="item[0]"
-          inputTitle="Arrival"></app-editable-input>
-        <app-editable-input [ride]="ride" [rideId]="rideItem.rideId" [segmentIndex]="$index" [initialValue]="item[1]"
-          inputTitle="Departure"></app-editable-input>
-      </div>
-      }
+        @if (first) {
+          <div>
+            <app-editable-input
+              [ride]="ride"
+              [rideId]="rideItem.rideId"
+              [segmentIndex]="$index"
+              [initialValue]="item[0]"
+              inputTitle="Departure"></app-editable-input>
+          </div>
+        } @else if (last) {
+          <div>
+            <app-editable-input
+              [ride]="ride"
+              [rideId]="rideItem.rideId"
+              [segmentIndex]="$index"
+              [initialValue]="item[0]"
+              inputTitle="Arrival"></app-editable-input>
+          </div>
+        } @else {
+          <div>
+            <app-editable-input
+              [ride]="ride"
+              [rideId]="rideItem.rideId"
+              [segmentIndex]="$index"
+              [initialValue]="item[0]"
+              inputTitle="Arrival"></app-editable-input>
+            <app-editable-input
+              [ride]="ride"
+              [rideId]="rideItem.rideId"
+              [segmentIndex]="$index"
+              [initialValue]="item[1]"
+              inputTitle="Departure"></app-editable-input>
+          </div>
+        }
       }
     </div>
     <div class="carriages">
       @for (item of rideItem.segments; track $index) {
-      <app-editable-price-inputs [segment]="item" [segmentIndex]="$index" [rideId]="rideItem.rideId"
-        [ride]="ride"></app-editable-price-inputs>
+        <app-editable-price-inputs
+          [segment]="item"
+          [segmentIndex]="$index"
+          [rideId]="rideItem.rideId"
+          [ride]="ride"></app-editable-price-inputs>
       }
     </div>
   </mat-card-content>

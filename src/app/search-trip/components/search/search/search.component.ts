@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { debounceTime, filter, Subscription } from 'rxjs';
 
-import { ICity, IRequestSearch } from '../../../models/models';
+import { ICity, IRequestSearch, IStationObj } from '../../../models/models';
 import { SearchService } from '../../../services/search.service';
 import { StateCityService } from '../../../services/state-city.service';
 
@@ -33,6 +33,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   private subscriptionFrom: Subscription | undefined;
   private subscriptionTo: Subscription | undefined;
 
+  public allStatuions: IStationObj[] = [];
   public citiesFrom: ICity[] = [];
   public citiesTo: ICity[] = [];
   private numberError: number = 999;
@@ -72,19 +73,44 @@ export class SearchComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(query => {
-        this.fintSities(query, isFrom);
+        this.findSities(query, isFrom);
       });
   }
 
-  private fintSities(query: string, isFrom: boolean = true): void {
-    this.searchService.getCities(query).subscribe((cities: ICity[]) => {
-      // this.searchService.saveCities(cities);
-      if (isFrom) {
-        this.citiesFrom = [...cities];
-      } else {
-        this.citiesTo = [...cities];
-      }
+  private findSities(query: string, isFrom: boolean = true): void {
+    const copyAllStationd = [...this.searchService.stations];
+    console.log(copyAllStationd);
+
+    const filterStations = copyAllStationd.filter(st =>
+      st.city.includes(query),
+    );
+    console.log(filterStations);
+
+    const citties: ICity[] = [];
+
+    filterStations.forEach(element => {
+      citties.push({
+        country: 'unknown',
+        is_capital: false,
+        latitude: element.latitude,
+        longitude: element.longitude,
+        name: element.city,
+        population: 0,
+      });
     });
+    if (isFrom) {
+      this.citiesFrom = [...citties];
+    } else {
+      this.citiesTo = [...citties];
+    }
+    // this.searchService.getCities(query).subscribe((cities: ICity[]) => {
+    //   // this.searchService.saveCities(cities);
+    //   if (isFrom) {
+    //     this.citiesFrom = [...cities];
+    //   } else {
+    //     this.citiesTo = [...cities];
+    //   }
+    // });
   }
 
   public ngOnDestroy(): void {

@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import cloneDeep from 'lodash/cloneDeep';
 import { Observable } from 'rxjs';
+
 import { RideType, Segment } from '../../models/ride';
 import { updateRide } from '../../redux/actions/ride.actions';
 import { selectRideErrors } from '../../redux/selectors/ride.selector';

@@ -10,6 +10,7 @@
   <div>
     <button class="create-button" mat-raised-button>Create Ride</button>
   </div>
+
   <div *ngIf="ride$ | async as ride">
     @for (rideItem of ride.schedule; track $index) {
       <app-ride-card
