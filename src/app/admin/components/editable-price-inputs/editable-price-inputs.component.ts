@@ -40,13 +40,13 @@ export class EditablePriceInputsComponent implements OnInit, OnChanges {
   get formControls() {
     return Object.keys(this.form.controls);
   }
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes['segment']) {
       this.copySegment = cloneDeep(this.segment);
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const keys = Object.keys(this.copySegment.price).sort((a, b) => {
       return a.localeCompare(b);
     });
@@ -54,11 +54,11 @@ export class EditablePriceInputsComponent implements OnInit, OnChanges {
       this.form.addControl(key, this.fb.control(this.copySegment.price[key]));
     }
   }
-  startEditing() {
+  public startEditing(): void {
     this.isEditing = true;
   }
 
-  saveText() {
+  public saveText(): void {
     Object.keys(this.form.controls).forEach(key => {
       this.copySegment.price[key] = this.form.get(key)?.value;
     });
@@ -79,7 +79,7 @@ export class EditablePriceInputsComponent implements OnInit, OnChanges {
     );
   }
 
-  cancelEditing() {
+  public cancelEditing(): void {
     Object.keys(this.form.controls).forEach(key => {
       this.form.get(key)?.setValue(this.copySegment.price[key]);
     });

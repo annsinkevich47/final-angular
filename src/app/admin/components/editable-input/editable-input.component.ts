@@ -33,16 +33,15 @@ export class EditableInputComponent implements OnInit {
   ) {
     this.routeId = this.route.snapshot.params['id'];
   }
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.form.addControl('inputValue', this.fb.control(this.initialValue));
   }
 
-  startEditing() {
+  public startEditing(): void {
     this.isEditing = true;
   }
 
-  saveText() {
+  public saveText(): void {
     this.initialValue = this.form.get('inputValue')?.value; // Update text value from the form control
     this.isEditing = false;
     const formattedDate = new Date(this.initialValue);
@@ -70,7 +69,7 @@ export class EditableInputComponent implements OnInit {
     );
   }
 
-  cancelEditing() {
+  public cancelEditing(): void {
     this.isEditing = false;
     this.form.get('inputValue')?.setValue(this.initialValue); // Reset to the original value on cancel
   }

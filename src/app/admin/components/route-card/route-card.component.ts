@@ -24,7 +24,7 @@ export class RouteCardComponent {
 
   constructor(public store: Store) {}
 
-  public getCarriageNames() {
+  public getCarriageNames(): string[] {
     return this.route.carriages
       .map(code => {
         const carriage = this.carriages.find(item => item.code === code);
@@ -36,7 +36,7 @@ export class RouteCardComponent {
       .filter(item => item !== null) as string[];
   }
 
-  public getPathNames() {
+  public getPathNames(): string[] {
     return this.route.path
       .map(id => {
         const station = this.stations?.find(item => item.id === id);
