@@ -1,9 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import cloneDeep from 'lodash/cloneDeep';
 import { Observable } from 'rxjs';
-
 import { RideType, Segment } from '../../models/ride';
 import { updateRide } from '../../redux/actions/ride.actions';
 import { selectRideErrors } from '../../redux/selectors/ride.selector';
@@ -13,7 +19,7 @@ import { selectRideErrors } from '../../redux/selectors/ride.selector';
   templateUrl: './editable-price-inputs.component.html',
   styleUrl: './editable-price-inputs.component.scss',
 })
-export class EditablePriceInputsComponent implements OnInit {
+export class EditablePriceInputsComponent implements OnInit, OnChanges {
   @Input() ride: RideType;
   @Input() rideId: number;
   @Input() segmentIndex: number;
@@ -34,8 +40,13 @@ export class EditablePriceInputsComponent implements OnInit {
   get formControls() {
     return Object.keys(this.form.controls);
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['segment']) {
+      this.copySegment = cloneDeep(this.segment);
+    }
+  }
+
   ngOnInit(): void {
-    this.copySegment = JSON.parse(JSON.stringify(this.segment));
     const keys = Object.keys(this.copySegment.price).sort((a, b) => {
       return a.localeCompare(b);
     });
@@ -55,7 +66,7 @@ export class EditablePriceInputsComponent implements OnInit {
     const rideIndex = this.ride.schedule.findIndex(
       item => item.rideId === this.rideId,
     );
-    const deepCopyOfRide: RideType = JSON.parse(JSON.stringify(this.ride));
+    const deepCopyOfRide: RideType = cloneDeep(this.ride);
     deepCopyOfRide.schedule[rideIndex].segments[this.segmentIndex] =
       this.copySegment;
     this.error$ = this.store.select(selectRideErrors);
