@@ -6,7 +6,7 @@
       formControlName="cityFrom"
       class="search__input"
       type="text"
-      placeholder="From" />
+      placeholder="Enter 'city'" />
     <datalist id="optionsCityFrom">
       <option *ngFor="let city of citiesFrom" [value]="city.name">
         country: {{ city.country }}
@@ -32,7 +32,7 @@
       formControlName="cityTo"
       class="search__input"
       type="text"
-      placeholder="To" />
+      placeholder="Enter 'city'" />
     <datalist id="optionsCityTo">
       <option *ngFor="let city of citiesTo" [value]="city.name">
         country: {{ city.country }}
